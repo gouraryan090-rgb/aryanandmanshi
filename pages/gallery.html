@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Our Gallery ❤️</title>
+
+    <link rel="stylesheet" href="../style.css">
+
+</head>
+
+<body>
+
+<div class="background"></div>
+
+<div class="hearts"></div>
+
+<section class="gallery-page">
+
+    <!-- Heading -->
+
+    <div class="gallery-header reveal">
+
+        <h1>📸 Our Gallery ❤️</h1>
+
+        <p>
+            Every picture has a story,
+            every video has a memory,
+            and every memory has you. ❤️
+        </p>
+
+    </div>
+
+    <!-- Counter -->
+
+    <div class="gallery-counter">
+
+        <div class="counter-card">
+
+            <h2 id="photoCount">16</h2>
+
+            <span>Photos 📸</span>
+
+        </div>
+
+        <div class="counter-card">
+
+            <h2 id="videoCount">10</h2>
+
+            <span>Videos 🎥</span>
+
+        </div>
+
+        <div class="counter-card">
+
+            <h2>∞</h2>
+
+            <span>Memories ❤️</span>
+
+        </div>
+
+    </div>
+
+    <!-- Photos -->
+
+    <h2 class="section-title">📷 Photos</h2>
+
+    <div id="photoGallery" class="gallery-grid"></div>
+
+    <!-- Videos -->
+
+    <h2 class="section-title">🎥 Videos</h2>
+
+    <div id="videoGallery" class="gallery-grid"></div>
+
+</section>
+
+<!-- Lightbox -->
+
+<div id="lightbox" class="lightbox">
+
+    <span id="closeBtn">&times;</span>
+
+    <span id="prevBtn">&#10094;</span>
+
+    <span id="nextBtn">&#10095;</span>
+
+    <img id="lightboxImg">
+
+    <video id="lightboxVideo" controls></video>
+
+</div>
+
+<div class="back-home">
+
+    <a href="../index.html" class="back-btn">
+
+        ⬅ Back Home
+
+    </a>
+
+</div>
+<script src="../auth.js"></script>
+<script src="../gallery.js"></script>
+
+<button onclick="uploadWidget.open()" class="upload-test-btn">
+    📤 Test Upload
+</button>
+
+</body>
+
+</html>

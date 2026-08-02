@@ -1,0 +1,2126 @@
+/* ==========================================================
+                OUR LITTLE WORLD ❤️
+                STYLE.CSS - PART 1
+========================================================== */
+
+/* Google Fonts */
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@600;700&display=swap');
+
+/* Reset */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+
+    font-family:'Poppins',sans-serif;
+
+    background:#0f172a;
+
+    color:#fff;
+
+    overflow-x:hidden;
+
+    min-height:100vh;
+
+}
+
+/* ==========================================================
+                    Animated Background
+========================================================== */
+
+.background{
+
+    position:fixed;
+
+    inset:0;
+
+    z-index:-3;
+
+    background:
+    radial-gradient(circle at top,#ff4d9425,transparent 35%),
+    radial-gradient(circle at bottom,#6d5dfc22,transparent 40%),
+    linear-gradient(135deg,#0f172a,#121c35,#0b1222);
+
+}
+
+/* ==========================================================
+                        Floating Hearts
+========================================================== */
+
+.hearts{
+
+    position:fixed;
+
+    inset:0;
+
+    overflow:hidden;
+
+    pointer-events:none;
+
+    z-index:-2;
+
+}
+
+.heart{
+
+    position:absolute;
+
+    color:rgba(255,255,255,.12);
+
+    animation:floatHeart linear forwards;
+
+}
+
+@keyframes floatHeart{
+
+    from{
+
+        transform:translateY(0);
+
+        opacity:0;
+
+    }
+
+    20%{
+
+        opacity:1;
+
+    }
+
+    to{
+
+        transform:translateY(-120vh) rotate(360deg);
+
+        opacity:0;
+
+    }
+
+}
+
+/* ==========================================================
+                        Home Screen
+========================================================== */
+
+.home{
+
+    width:100%;
+
+    height:100vh;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    padding:25px;
+
+}
+
+/* ==========================================================
+                        Glass Card
+========================================================== */
+
+.glass{
+
+    width:100%;
+
+    max-width:700px;
+
+    padding:60px 40px;
+
+    text-align:center;
+
+    border-radius:30px;
+
+    background:rgba(255,255,255,.08);
+
+    backdrop-filter:blur(18px);
+
+    border:1px solid rgba(255,255,255,.15);
+
+    box-shadow:0 25px 60px rgba(0,0,0,.35);
+
+    animation:fadeUp 1s ease;
+
+}
+
+@keyframes fadeUp{
+
+    from{
+
+        opacity:0;
+
+        transform:translateY(40px);
+
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:translateY(0);
+
+    }
+
+}
+
+/* ==========================================================
+                        Heart
+========================================================== */
+
+.glass .heart{
+
+    font-size:65px;
+
+    position:relative;
+
+    animation:heartbeat 1.8s infinite;
+
+    margin-bottom:20px;
+
+}
+
+@keyframes heartbeat{
+
+    0%{
+
+        transform:scale(1);
+
+    }
+
+    50%{
+
+        transform:scale(1.18);
+
+    }
+
+    100%{
+
+        transform:scale(1);
+
+    }
+
+}
+
+/* ==========================================================
+                        Headings
+========================================================== */
+
+.glass h1{
+
+    font-family:'Playfair Display',serif;
+
+    font-size:3.2rem;
+
+    margin-bottom:10px;
+
+}
+
+.glass h2{
+
+    color:#ff7ab8;
+
+    font-size:1.4rem;
+
+    font-weight:500;
+
+    margin-bottom:25px;
+
+}
+
+.glass p{
+
+    color:#d8d8d8;
+
+    font-size:1.08rem;
+
+    line-height:1.9;
+
+    margin-bottom:35px;
+
+}
+
+/* ==========================================================
+                        Button
+========================================================== */
+
+#enterBtn{
+
+    border:none;
+
+    outline:none;
+
+    padding:16px 42px;
+
+    border-radius:60px;
+
+    cursor:pointer;
+
+    background:linear-gradient(135deg,#ff4d94,#ff77aa);
+
+    color:white;
+
+    font-size:17px;
+
+    font-weight:600;
+
+    transition:.35s;
+
+}
+
+#enterBtn:hover{
+
+    transform:translateY(-4px);
+
+    box-shadow:0 15px 35px rgba(255,77,148,.45);
+
+}
+
+/* ==========================================================
+                        Dashboard
+========================================================== */
+
+.dashboard{
+
+    display:none;
+
+    min-height:100vh;
+
+    padding:60px 25px;
+
+}
+
+.dashboard.show{
+
+    display:block;
+
+    animation:fadeUp .8s ease;
+
+}
+
+/* ==========================================================
+                    DASHBOARD TITLE
+========================================================== */
+
+.dashboard h1{
+
+    text-align:center;
+
+    font-family:'Playfair Display',serif;
+
+    font-size:3rem;
+
+    margin-bottom:45px;
+
+    color:#ffffff;
+
+}
+
+/* ==========================================================
+                        CARD GRID
+========================================================== */
+
+.cards{
+
+    width:100%;
+
+    max-width:1200px;
+
+    margin:auto;
+
+    display:grid;
+
+    grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+
+    gap:28px;
+
+}
+
+/* ==========================================================
+                        CARD
+========================================================== */
+
+.card{
+
+    text-decoration:none;
+
+    color:white;
+
+    background:rgba(255,255,255,.08);
+
+    backdrop-filter:blur(18px);
+
+    border:1px solid rgba(255,255,255,.12);
+
+    border-radius:25px;
+
+    padding:35px 28px;
+
+    transition:.4s;
+
+    position:relative;
+
+    overflow:hidden;
+
+    box-shadow:0 12px 35px rgba(0,0,0,.25);
+
+}
+
+/* Top Glow Line */
+
+.card::before{
+
+    content:"";
+
+    position:absolute;
+
+    top:0;
+
+    left:0;
+
+    width:100%;
+
+    height:4px;
+
+    background:linear-gradient(90deg,#ff4d94,#ff8abf);
+
+    transform:scaleX(0);
+
+    transition:.4s;
+
+}
+
+/* Hover */
+
+.card:hover{
+
+    transform:translateY(-10px);
+
+    border-color:#ff4d94;
+
+    box-shadow:0 18px 45px rgba(255,77,148,.28);
+
+}
+
+.card:hover::before{
+
+    transform:scaleX(1);
+
+}
+
+/* ==========================================================
+                        ICON
+========================================================== */
+
+.card span{
+
+    font-size:3rem;
+
+    display:block;
+
+    margin-bottom:18px;
+
+}
+
+/* ==========================================================
+                        HEADING
+========================================================== */
+
+.card h3{
+
+    font-size:1.45rem;
+
+    margin-bottom:12px;
+
+    font-weight:600;
+
+}
+
+/* ==========================================================
+                        SUBTITLE
+========================================================== */
+
+.card p{
+
+    color:#d4d4d4;
+
+    line-height:1.8;
+
+    font-size:.97rem;
+
+}
+
+/* ==========================================================
+                    CLICK EFFECT
+========================================================== */
+
+.card:active{
+
+    transform:scale(.97);
+
+}
+
+/* ==========================================================
+                        FOOTER
+========================================================== */
+
+footer{
+
+    text-align:center;
+
+    margin-top:55px;
+
+    color:#bbbbbb;
+
+    font-size:.95rem;
+
+    opacity:.9;
+
+}
+
+/* ==========================================================
+                    RESPONSIVE
+========================================================== */
+
+@media (max-width:1000px){
+
+    .cards{
+
+        grid-template-columns:repeat(2,1fr);
+
+    }
+
+}
+
+@media (max-width:768px){
+
+    .glass{
+
+        padding:45px 25px;
+
+    }
+
+    .glass h1{
+
+        font-size:2.4rem;
+
+    }
+
+    .glass h2{
+
+        font-size:1.2rem;
+
+    }
+
+    .glass p{
+
+        font-size:1rem;
+
+    }
+
+    .dashboard h1{
+
+        font-size:2.4rem;
+
+    }
+
+    .cards{
+
+        grid-template-columns:1fr;
+
+    }
+
+}
+
+@media (max-width:480px){
+
+    .glass{
+
+        padding:35px 20px;
+
+    }
+
+    .glass h1{
+
+        font-size:2rem;
+
+    }
+
+    .glass .heart{
+
+        font-size:52px;
+
+    }
+
+    #enterBtn{
+
+        width:100%;
+
+        padding:15px;
+
+        font-size:16px;
+
+    }
+
+}
+
+/* ==========================================================
+                    SCROLLBAR
+========================================================== */
+
+::-webkit-scrollbar{
+
+    width:8px;
+
+}
+
+::-webkit-scrollbar-track{
+
+    background:#111827;
+
+}
+
+::-webkit-scrollbar-thumb{
+
+    background:#ff4d94;
+
+    border-radius:50px;
+
+}
+
+::-webkit-scrollbar-thumb:hover{
+
+    background:#ff6cab;
+
+}
+
+/* ==========================================================
+                    TEXT SELECTION
+========================================================== */
+
+::selection{
+
+    background:#ff4d94;
+
+    color:white;
+
+}
+
+/* ==========================================================
+                    SMOOTH CARD ANIMATION
+========================================================== */
+
+.card{
+
+    animation:cardFade .8s ease;
+
+}
+
+@keyframes cardFade{
+
+    from{
+
+        opacity:0;
+
+        transform:translateY(30px);
+
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:translateY(0);
+
+    }
+
+}
+
+/* ==========================================================
+                    FLOATING HEARTS
+========================================================== */
+
+.floating-heart{
+
+    position:fixed;
+
+    bottom:-50px;
+
+    font-size:22px;
+
+    color:rgba(255,77,148,.35);
+
+    pointer-events:none;
+
+    animation:heartFloat linear forwards;
+
+    z-index:-1;
+
+}
+
+@keyframes heartFloat{
+
+    from{
+
+        transform:translateY(0) scale(.8);
+
+        opacity:0;
+
+    }
+
+    20%{
+
+        opacity:1;
+
+    }
+
+    to{
+
+        transform:translateY(-120vh) rotate(360deg) scale(1.4);
+
+        opacity:0;
+
+    }
+
+}
+
+/* ==========================================================
+                    FADE TRANSITIONS
+========================================================== */
+
+.home{
+
+    transition:.7s;
+
+}
+
+.dashboard{
+
+    transition:.7s;
+
+}
+
+/* ==========================================================
+                    FOOTER
+========================================================== */
+
+footer{
+
+    padding:25px 0;
+
+    letter-spacing:1px;
+
+}
+
+/* ==========================================================
+                    SMALL GLOW
+========================================================== */
+
+.glass{
+
+    position:relative;
+
+}
+
+.glass::after{
+
+    content:"";
+
+    position:absolute;
+
+    inset:0;
+
+    border-radius:30px;
+
+    box-shadow:0 0 60px rgba(255,77,148,.08);
+
+    pointer-events:none;
+
+}
+
+/* ==========================================================
+                    PREMIUM GLOW EFFECTS
+========================================================== */
+
+.glass:hover{
+
+    transform:translateY(-6px);
+
+    transition:.4s;
+
+}
+
+.glass:hover{
+
+    box-shadow:
+    0 25px 60px rgba(0,0,0,.45),
+    0 0 40px rgba(255,77,148,.18);
+
+}
+
+/* ==========================================================
+                    CARD SHINE EFFECT
+========================================================== */
+
+.card{
+
+    position:relative;
+
+}
+
+.card::after{
+
+    content:"";
+
+    position:absolute;
+
+    top:-120%;
+
+    left:-60%;
+
+    width:60%;
+
+    height:250%;
+
+    background:linear-gradient(
+
+        rgba(255,255,255,0),
+
+        rgba(255,255,255,.18),
+
+        rgba(255,255,255,0)
+
+    );
+
+    transform:rotate(25deg);
+
+    transition:.7s;
+
+}
+
+.card:hover::after{
+
+    left:130%;
+
+}
+
+/* ==========================================================
+                    BUTTON RIPPLE
+========================================================== */
+
+#enterBtn{
+
+    position:relative;
+
+    overflow:hidden;
+
+}
+
+#enterBtn::before{
+
+    content:"";
+
+    position:absolute;
+
+    width:0;
+
+    height:0;
+
+    border-radius:50%;
+
+    background:rgba(255,255,255,.25);
+
+    top:50%;
+
+    left:50%;
+
+    transform:translate(-50%,-50%);
+
+    transition:.6s;
+
+}
+
+#enterBtn:hover::before{
+
+    width:320px;
+
+    height:320px;
+
+}
+
+/* ==========================================================
+                    PAGE FADE
+========================================================== */
+
+.fade-out{
+
+    animation:fadeOut .8s forwards;
+
+}
+
+.fade-in{
+
+    animation:fadeIn .8s forwards;
+
+}
+
+@keyframes fadeOut{
+
+    from{
+
+        opacity:1;
+
+    }
+
+    to{
+
+        opacity:0;
+
+    }
+
+}
+
+@keyframes fadeIn{
+
+    from{
+
+        opacity:0;
+
+    }
+
+    to{
+
+        opacity:1;
+
+    }
+
+}
+
+/* ==========================================================
+                    GLASS BORDER GLOW
+========================================================== */
+
+.glass{
+
+    border:1px solid rgba(255,255,255,.12);
+
+}
+
+.glass::before{
+
+    content:"";
+
+    position:absolute;
+
+    inset:0;
+
+    border-radius:30px;
+
+    padding:1px;
+
+    background:linear-gradient(
+        135deg,
+        rgba(255,255,255,.15),
+        rgba(255,77,148,.18)
+    );
+
+    -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+
+    -webkit-mask-composite:xor;
+
+    mask-composite:exclude;
+
+    pointer-events:none;
+
+}
+
+/* ==========================================================
+                    CARD ICON ANIMATION
+========================================================== */
+
+.card span{
+
+    transition:.4s;
+
+}
+
+.card:hover span{
+
+    transform:scale(1.25) rotate(8deg);
+
+}
+
+/* ==========================================================
+                    TITLE GLOW
+========================================================== */
+
+.glass h1,
+.dashboard h1{
+
+    text-shadow:
+    0 0 12px rgba(255,255,255,.08),
+    0 0 25px rgba(255,77,148,.18);
+
+}
+
+/* ==========================================================
+                    FOOTER
+========================================================== */
+
+footer{
+
+    opacity:.75;
+
+    transition:.3s;
+
+}
+
+footer:hover{
+
+    opacity:1;
+
+}
+
+/* ==========================================================
+                    LOADING CLASS
+========================================================== */
+
+.loading{
+
+    cursor:wait;
+
+}
+
+/* ==========================================================
+                    ABOUT ARYAN PAGE
+========================================================== */
+
+.about-page{
+
+    width:100%;
+
+    min-height:100vh;
+
+    padding:60px 20px;
+
+    display:flex;
+
+    flex-direction:column;
+
+    align-items:center;
+
+}
+
+/* Profile Card */
+
+.profile-card{
+
+    width:100%;
+
+    max-width:850px;
+
+    text-align:center;
+
+    background:rgba(255,255,255,.08);
+
+    backdrop-filter:blur(20px);
+
+    border:1px solid rgba(255,255,255,.12);
+
+    border-radius:30px;
+
+    padding:40px 30px;
+
+    margin-bottom:35px;
+
+    box-shadow:0 20px 45px rgba(0,0,0,.35);
+
+}
+
+/* Profile Image */
+
+.profile-img{
+
+    width:220px;
+
+    height:220px;
+
+    object-fit:cover;
+
+    border-radius:50%;
+
+    border:6px solid #ff4d94;
+
+    box-shadow:0 0 35px rgba(255,77,148,.45);
+
+    transition:.4s;
+
+}
+
+.profile-img:hover{
+
+    transform:scale(1.05);
+
+    box-shadow:0 0 55px rgba(255,77,148,.65);
+
+}
+
+/* Name */
+
+.profile-card h1{
+
+    margin-top:25px;
+
+    font-size:2.6rem;
+
+    font-family:'Playfair Display',serif;
+
+}
+
+/* Tagline */
+
+.tagline{
+
+    margin-top:15px;
+
+    color:#d8d8d8;
+
+    line-height:1.8;
+
+    max-width:650px;
+
+    margin-inline:auto;
+
+}
+
+/* Grid */
+
+.info-grid{
+
+    width:100%;
+
+    max-width:1100px;
+
+    display:grid;
+
+    grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
+
+    gap:25px;
+
+}
+
+/* Cards */
+
+.info-card{
+
+    background:rgba(255,255,255,.08);
+
+    backdrop-filter:blur(18px);
+
+    border:1px solid rgba(255,255,255,.12);
+
+    border-radius:25px;
+
+    padding:28px;
+
+    transition:.35s;
+
+    box-shadow:0 15px 35px rgba(0,0,0,.25);
+
+}
+
+.info-card:hover{
+
+    transform:translateY(-8px);
+
+    border-color:#ff4d94;
+
+    box-shadow:0 18px 40px rgba(255,77,148,.25);
+
+}
+
+/* Card Heading */
+
+.info-card h2{
+
+    color:#ff7ab8;
+
+    margin-bottom:18px;
+
+    font-size:1.4rem;
+
+}
+
+/* Text */
+
+.info-card p{
+
+    line-height:2;
+
+    color:#ececec;
+
+}
+
+/* List */
+
+.info-card ul{
+
+    list-style:none;
+
+}
+
+.info-card ul li{
+
+    margin:12px 0;
+
+    font-size:1rem;
+
+}
+
+/* Back Button */
+
+.back-btn{
+
+    margin-top:45px;
+
+    display:inline-block;
+
+    text-decoration:none;
+
+    background:linear-gradient(135deg,#ff4d94,#ff77aa);
+
+    color:white;
+
+    padding:15px 40px;
+
+    border-radius:50px;
+
+    font-weight:600;
+
+    transition:.35s;
+
+}
+
+.back-btn:hover{
+
+    transform:translateY(-4px);
+
+    box-shadow:0 15px 35px rgba(255,77,148,.4);
+
+}
+
+/* Mobile */
+
+@media(max-width:768px){
+
+    .profile-img{
+
+        width:170px;
+
+        height:170px;
+
+    }
+
+    .profile-card h1{
+
+        font-size:2rem;
+
+    }
+
+    .info-grid{
+
+        grid-template-columns:1fr;
+
+    }
+
+    .info-card{
+
+        padding:22px;
+
+    }
+
+}
+
+/* ==========================================================
+                    GALLERY PAGE
+========================================================== */
+
+.gallery-page{
+
+    width:100%;
+
+    min-height:100vh;
+
+    padding:60px 20px;
+
+}
+
+.gallery-header{
+
+    max-width:900px;
+
+    margin:auto;
+
+    text-align:center;
+
+    margin-bottom:50px;
+
+}
+
+.gallery-header h1{
+
+    font-size:3rem;
+
+    font-family:'Playfair Display',serif;
+
+    margin-bottom:15px;
+
+}
+
+.gallery-header p{
+
+    color:#d7d7d7;
+
+    line-height:1.8;
+
+    font-size:1.05rem;
+
+}
+
+/* ================= COUNTERS ================= */
+
+.gallery-counter{
+
+    display:flex;
+
+    justify-content:center;
+
+    flex-wrap:wrap;
+
+    gap:20px;
+
+    margin-bottom:60px;
+
+}
+
+.counter-card{
+
+    width:180px;
+
+    padding:25px;
+
+    text-align:center;
+
+    border-radius:22px;
+
+    background:rgba(255,255,255,.08);
+
+    backdrop-filter:blur(18px);
+
+    border:1px solid rgba(255,255,255,.12);
+
+    transition:.35s;
+
+}
+
+.counter-card:hover{
+
+    transform:translateY(-6px);
+
+    border-color:#ff4d94;
+
+    box-shadow:0 12px 30px rgba(255,77,148,.25);
+
+}
+
+.counter-card h2{
+
+    font-size:2.4rem;
+
+    color:#ff7ab8;
+
+    margin-bottom:8px;
+
+}
+
+.counter-card span{
+
+    color:#ececec;
+
+}
+
+/* ================= SECTION TITLE ================= */
+
+.section-title{
+
+    font-size:2rem;
+
+    text-align:center;
+
+    margin:50px 0 30px;
+
+    color:white;
+
+}
+
+/* ================= GRID ================= */
+
+.gallery-grid{
+
+    max-width:1200px;
+
+    margin:auto;
+
+    display:grid;
+
+    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+
+    gap:22px;
+
+}
+
+/* ================= ITEMS ================= */
+
+.gallery-item{
+
+    width:100%;
+
+    aspect-ratio:1/1;
+
+    object-fit:cover;
+
+    border-radius:22px;
+
+    cursor:pointer;
+
+    transition:.4s;
+
+    border:2px solid transparent;
+
+    background:#111;
+
+}
+
+.gallery-item:hover{
+
+    transform:scale(1.04);
+
+    border-color:#ff4d94;
+
+    box-shadow:0 15px 35px rgba(255,77,148,.30);
+
+}
+
+/* ================= LIGHTBOX ================= */
+
+.lightbox{
+
+    position:fixed;
+
+    inset:0;
+
+    display:none;
+
+    justify-content:center;
+
+    align-items:center;
+
+    background:rgba(0,0,0,.92);
+
+    backdrop-filter:blur(12px);
+
+    z-index:9999;
+
+}
+
+.lightbox img,
+
+.lightbox video{
+
+    max-width:90%;
+
+    max-height:85vh;
+
+    border-radius:18px;
+
+    box-shadow:0 0 40px rgba(255,255,255,.15);
+
+}
+
+/* ================= CLOSE ================= */
+
+#closeBtn{
+
+    position:absolute;
+
+    top:25px;
+
+    right:35px;
+
+    color:white;
+
+    font-size:45px;
+
+    cursor:pointer;
+
+    transition:.3s;
+
+}
+
+#closeBtn:hover{
+
+    color:#ff4d94;
+
+}
+
+/* ================= ARROWS ================= */
+
+#prevBtn,
+
+#nextBtn{
+
+    position:absolute;
+
+    top:50%;
+
+    transform:translateY(-50%);
+
+    color:white;
+
+    font-size:55px;
+
+    cursor:pointer;
+
+    user-select:none;
+
+    transition:.3s;
+
+    padding:15px;
+
+}
+
+#prevBtn{
+
+    left:25px;
+
+}
+
+#nextBtn{
+
+    right:25px;
+
+}
+
+#prevBtn:hover,
+
+#nextBtn:hover{
+
+    color:#ff4d94;
+
+}
+
+/* ================= BACK BUTTON ================= */
+
+.back-home{
+
+    text-align:center;
+
+    margin:55px 0;
+
+}
+
+/* ================= MOBILE ================= */
+
+@media(max-width:768px){
+
+    .gallery-header h1{
+
+        font-size:2.3rem;
+
+    }
+
+    .gallery-grid{
+
+        grid-template-columns:1fr;
+
+    }
+
+    .counter-card{
+
+        width:150px;
+
+    }
+
+    #prevBtn,
+
+    #nextBtn{
+
+        font-size:38px;
+
+    }
+
+}
+/* ==========================================
+            HOW THEY MET IMAGE
+========================================== */
+
+.story-image{
+
+    width:220px;
+
+    height:220px;
+
+    object-fit:cover;
+
+    object-position:center;
+
+    border-radius:50%;
+
+    display:block;
+
+    margin:0 auto 25px;
+
+    border:5px solid #ff4d94;
+
+    box-shadow:0 0 30px rgba(255,77,148,.35);
+
+    transition:.4s ease;
+
+}
+
+.story-image:hover{
+
+    transform:scale(1.05);
+
+    box-shadow:0 0 45px rgba(255,77,148,.55);
+
+}
+
+/* ==========================================
+        SCROLL REVEAL ANIMATION
+========================================== */
+
+.reveal{
+
+    opacity:0;
+
+    transform:translateY(50px);
+
+    transition:all .8s ease;
+
+}
+
+.reveal.active{
+
+    opacity:1;
+
+    transform:translateY(0);
+
+}
+
+/* ==========================================
+            PASSWORD PAGE
+========================================== */
+
+.password-container{
+
+    width:100%;
+
+    min-height:100vh;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    padding:20px;
+
+}
+
+.password-card{
+
+    width:420px;
+
+    max-width:95%;
+
+    padding:45px 35px;
+
+    border-radius:28px;
+
+    text-align:center;
+
+    background:rgba(255,255,255,.08);
+
+    backdrop-filter:blur(20px);
+
+    border:1px solid rgba(255,255,255,.15);
+
+    box-shadow:0 20px 60px rgba(0,0,0,.35);
+
+    animation:fadeUp .8s ease;
+
+}
+
+.password-card h1{
+
+    font-size:2.2rem;
+
+    margin-bottom:15px;
+
+}
+
+.password-card p{
+
+    color:#dddddd;
+
+    margin-bottom:28px;
+
+    line-height:1.7;
+
+}
+
+.password-card input{
+
+    width:100%;
+
+    padding:16px;
+
+    border:none;
+
+    outline:none;
+
+    border-radius:14px;
+
+    background:rgba(255,255,255,.12);
+
+    color:#fff;
+
+    font-size:1rem;
+
+    margin-bottom:20px;
+
+    transition:.3s;
+
+}
+
+.password-card input::placeholder{
+
+    color:#cccccc;
+
+}
+
+.password-card input:focus{
+
+    box-shadow:0 0 18px rgba(255,77,148,.55);
+
+    border:1px solid #ff4d94;
+
+}
+
+.password-card button{
+
+    width:100%;
+
+    padding:16px;
+
+    border:none;
+
+    border-radius:14px;
+
+    background:linear-gradient(135deg,#ff4d94,#ff7ab8);
+
+    color:white;
+
+    font-size:1rem;
+
+    font-weight:600;
+
+    cursor:pointer;
+
+    transition:.3s;
+
+}
+
+.password-card button:hover{
+
+    transform:translateY(-3px);
+
+    box-shadow:0 15px 30px rgba(255,77,148,.35);
+
+}
+
+#error{
+
+    color:#ff7070;
+
+    margin-top:18px;
+
+    font-weight:600;
+
+    min-height:25px;
+
+}
+
+@keyframes fadeUp{
+
+    from{
+
+        opacity:0;
+
+        transform:translateY(40px);
+
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:translateY(0);
+
+    }
+
+}
+
+.lock-icon{
+
+    font-size:70px;
+
+    margin-bottom:15px;
+
+    animation:float 3s ease-in-out infinite;
+
+}
+
+@keyframes float{
+
+    0%,100%{
+
+        transform:translateY(0);
+
+    }
+
+    50%{
+
+        transform:translateY(-10px);
+
+    }
+
+}
+
+/* ===========================
+        PREMIUM LOADER
+=========================== */
+
+#loader{
+    position:fixed;
+    inset:0;
+    width:100%;
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    overflow:hidden;
+    z-index:999999;
+    background:linear-gradient(135deg,#ffdde8,#ffd1dc,#ffe9f2);
+    transition:1s ease;
+}
+
+.loader-bg{
+    position:absolute;
+    width:180%;
+    height:180%;
+    background:
+    radial-gradient(circle,#ffffff70 2px,transparent 2px);
+    background-size:45px 45px;
+    animation:bgMove 25s linear infinite;
+    opacity:.5;
+}
+
+@keyframes bgMove{
+
+    from{
+        transform:translateY(0) rotate(0deg);
+    }
+
+    to{
+        transform:translateY(-200px) rotate(360deg);
+    }
+
+}
+
+.loader-content{
+
+    position:relative;
+
+    width:300px;
+
+    max-width:90%;
+
+    padding:30px;
+
+    border-radius:28px;
+
+    text-align:center;
+
+    backdrop-filter:blur(20px);
+
+    background:rgba(255,255,255,.25);
+
+    border:1px solid rgba(255,255,255,.4);
+
+    box-shadow:
+    0 15px 50px rgba(255,105,180,.25);
+
+}
+
+.loader-icon{
+
+    font-size:58px;
+
+    margin-bottom:18px;
+
+    animation:iconFloat 1.2s infinite ease-in-out;
+
+}
+
+@keyframes iconFloat{
+
+    0%,100%{
+
+        transform:translateY(0) scale(1);
+
+    }
+
+    50%{
+
+        transform:translateY(-15px) scale(1.12);
+
+    }
+
+}
+
+.loader-title{
+
+    font-size:28px;
+
+    color:#ff2d75;
+
+    margin-bottom:18px;
+
+    font-weight:700;
+
+}
+
+.loader-title span{
+
+    animation:pulseHeart .8s infinite;
+
+}
+
+@keyframes pulseHeart{
+
+    0%,100%{
+
+        transform:scale(1);
+
+    }
+
+    50%{
+
+        transform:scale(1.25);
+
+    }
+
+}
+
+.loader-text{
+
+    font-size:16px;
+
+    color:#555;
+
+    margin-bottom:28px;
+
+    min-height:28px;
+
+    transition:.4s;
+
+}
+
+.loader-progress{
+
+    width:100%;
+
+    height:10px;
+
+    border-radius:100px;
+
+    overflow:hidden;
+
+    background:#ffffff80;
+
+}
+
+.loader-bar{
+
+    width:0;
+
+    height:100%;
+
+    border-radius:100px;
+
+    background:linear-gradient(90deg,#ff2d75,#ff9bc3);
+
+    transition:.4s;
+
+}
+
+.loader-hide{
+
+    opacity:0;
+
+    visibility:hidden;
+
+    pointer-events:none;
+
+}
+
+/* ===========================
+      APPLE PAGE TRANSITION
+=========================== */
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+
+    opacity:1;
+
+    transform:scale(1);
+
+    filter:blur(0px);
+
+    transition:
+    opacity .55s ease,
+    transform .55s ease,
+    filter .55s ease;
+
+}
+
+body.page-exit{
+
+    opacity:0;
+
+    transform:scale(.985);
+
+    filter:blur(8px);
+
+}
+
+body.page-enter{
+
+    opacity:0;
+
+    transform:scale(1.015);
+
+    filter:blur(8px);
+
+}
+
+/* ==========================
+      BIRTHDAY BANNER
+========================== */
+
+.birthday-banner{
+    position: sticky;
+    top: 15px;
+    z-index: 999;
+
+    width: fit-content;
+    max-width: 95%;
+
+    margin: 0 auto 25px;
+
+    padding: 12px 22px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    flex-wrap: wrap;
+
+    border-radius: 50px;
+
+    background: rgba(255,255,255,.15);
+    backdrop-filter: blur(18px);
+
+    border: 1px solid rgba(255,255,255,.35);
+
+    box-shadow:
+        0 10px 35px rgba(255,105,180,.18);
+
+    transition: .4s;
+}
+
+.birthday-title{
+
+    color:#ff2d75;
+
+    font-weight:700;
+
+    font-size:15px;
+
+}
+
+.birthday-countdown{
+
+    color:white;
+
+    font-weight:700;
+
+    font-size:15px;
+
+    letter-spacing:1px;
+
+}
+
+.birthday-banner.birthday{
+
+    background:linear-gradient(135deg,#ff5ca8,#ff85c2);
+
+    animation:birthdayGlow 2s infinite alternate;
+
+}
+
+@keyframes birthdayGlow{
+
+    from{
+
+        box-shadow:0 0 15px #ff6fb0;
+
+    }
+
+    to{
+
+        box-shadow:0 0 35px #ff2d75;
+
+    }
+
+}
+/* ==========================================================
+                    END
+========================================================== */

@@ -1026,6 +1026,7 @@ footer:hover{
 /* Profile Card */
 
 .profile-card{
+    position: relative;
 
     width:100%;
 
@@ -2122,6 +2123,53 @@ body.page-enter{
 
 }
 
+
+.gift-icon{
+
+    position:absolute;
+
+    top:25px;
+
+    right:25px;
+
+    width:58px;
+    height:58px;
+
+    border-radius:50%;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    font-size:30px;
+
+    text-decoration:none;
+
+    background:rgba(255,255,255,.18);
+
+    backdrop-filter:blur(15px);
+
+    border:1px solid rgba(255,255,255,.35);
+
+    box-shadow:
+    0 8px 20px rgba(255,45,117,.18);
+
+    transition:.3s;
+
+}
+
+.gift-icon:hover{
+
+    transform:
+    scale(1.12)
+    rotate(-10deg);
+
+    box-shadow:
+    0 12px 30px rgba(255,45,117,.35);
+
+}
 
 /* ==========================================================
                     END

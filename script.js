@@ -31,29 +31,33 @@ const heartsContainer = document.querySelector(".hearts");
             ENTER BUTTON
 ========================================== */
 
-enterBtn.addEventListener("click",()=>{
+if (enterBtn) {
 
-    home.classList.add("fade-out");
+    enterBtn.addEventListener("click",()=>{
 
-    setTimeout(()=>{
+        home.classList.add("fade-out");
 
-        home.style.display="none";
+        setTimeout(()=>{
 
-        dashboard.classList.add("show");
+            home.style.display="none";
 
-        dashboard.classList.add("fade-in");
+            dashboard.classList.add("show");
 
-        window.scrollTo({
+            dashboard.classList.add("fade-in");
 
-            top:0,
+            window.scrollTo({
 
-            behavior:"smooth"
+                top:0,
 
-        });
+                behavior:"smooth"
 
-    },700);
+            });
 
-});
+        },700);
+
+    });
+
+}
 
 /* ==========================================
         FLOATING HEARTS

@@ -112,11 +112,19 @@ videos.forEach((src, index) => {
 
 function openImage() {
 
-    lightbox.style.display = "flex";
-
     lightboxImg.style.display = "block";
-
     lightboxVideo.style.display = "none";
+
+    // Hide image until loaded
+    lightboxImg.style.opacity = "0";
+
+    lightboxImg.onload = () => {
+
+        lightbox.style.display = "flex";
+
+        lightboxImg.style.opacity = "1";
+
+    };
 
     lightboxImg.src = currentItems[currentIndex];
 

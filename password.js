@@ -2,7 +2,11 @@
             PASSWORD PROTECTION
 ========================================== */
 
-const PASSWORD_HASH = "4dc1b28b1b9d731f85dd94c23fce0e35e53ef97bf8f9380f693970c6ceb21712";
+const ARYAN_PASSWORD_HASH =
+"4dc1b28b1b9d731f85dd94c23fce0e35e53ef97bf8f9380f693970c6ceb21712";
+
+const MANSHII_PASSWORD_HASH =
+"57d966e5fdff81a5ada244855f44908e3b37cbffb28acbc277affb7d381e265d";
 
 const passwordInput = document.getElementById("password");
 const unlockBtn = document.getElementById("unlockBtn");
@@ -30,21 +34,29 @@ async function unlockWebsite() {
 
     const enteredHash = await sha256(enteredPassword);
 
-    if (enteredHash === PASSWORD_HASH) {
+   if (enteredHash === ARYAN_PASSWORD_HASH) {
 
-        sessionStorage.setItem("websiteUnlocked", "true");
+    sessionStorage.setItem("websiteUnlocked", "true");
+    sessionStorage.setItem("currentUser", "aryan");
 
-        window.location.href = "index.html";
+    window.location.href = "index.html";
 
-    }
+}
+else if (enteredHash === MANSHII_PASSWORD_HASH) {
 
-    else {
+    sessionStorage.setItem("websiteUnlocked", "true");
+    sessionStorage.setItem("currentUser", "manshi");
 
-        error.innerText = "❌ Incorrect Password";
+    window.location.href = "index.html";
 
-        passwordInput.value = "";
+}
+else {
 
-    }
+    error.innerText = "❌ Incorrect Password";
+
+    passwordInput.value = "";
+
+}
 
 }
 

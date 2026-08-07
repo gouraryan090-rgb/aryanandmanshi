@@ -36,20 +36,28 @@ async function unlockWebsite() {
 
    if (enteredHash === ARYAN_PASSWORD_HASH) {
 
-    sessionStorage.setItem("websiteUnlocked", "true");
-    sessionStorage.setItem("currentUser", "aryan");
+    sessionStorage.setItem("websiteUnlocked","true");
+    sessionStorage.setItem("currentUser","aryan");
 
-    window.location.href = "index.html";
+    // Last logged in user save
+    localStorage.setItem("lastUser","aryan");
+
+    window.location.href="index.html";
 
 }
+
 else if (enteredHash === MANSHII_PASSWORD_HASH) {
 
-    sessionStorage.setItem("websiteUnlocked", "true");
-    sessionStorage.setItem("currentUser", "manshi");
+    sessionStorage.setItem("websiteUnlocked","true");
+    sessionStorage.setItem("currentUser","manshi");
 
-    window.location.href = "index.html";
+    // Last logged in user save
+    localStorage.setItem("lastUser","manshi");
+
+    window.location.href="index.html";
 
 }
+
 else {
 
     error.innerText = "❌ Incorrect Password";

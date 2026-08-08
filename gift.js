@@ -264,15 +264,13 @@ giftBox.addEventListener(
          * Gift feature OFF
          */
 
-        if (!giftFeatureEnabled()) {
+      if (!giftFeatureEnabled()) {
 
-            giftStatus.innerHTML =
-                "🎁 Gift Feature is currently turned off.<br><br>" +
-                "Turn it on from the Admin Panel.";
+    showGiftFeatureError();
 
-            return;
+    return;
 
-        }
+}
 
 
         /* Already opened */
@@ -815,3 +813,82 @@ async function initializeGift() {
 /* Start */
 
 initializeGift();
+
+function showGiftFeatureError() {
+
+    let popup =
+        document.getElementById(
+            "giftFeatureErrorPopup"
+        );
+
+
+    if (!popup) {
+
+        popup =
+            document.createElement("div");
+
+        popup.id =
+            "giftFeatureErrorPopup";
+
+
+        popup.innerHTML = `
+
+            <div class="gift-error-card">
+
+                <div class="gift-error-icon">
+                    🎁
+                </div>
+
+                <div class="gift-error-title">
+                    Gift Unavailable
+                </div>
+
+                <div class="gift-error-text">
+                    The Gift Feature is currently
+                    turned off.
+                    <br><br>
+                    Please ask the admin to turn it
+                    on from the Admin Panel.
+                </div>
+
+                <button
+                    class="gift-error-button"
+                    onclick="closeGiftFeatureError()"
+                >
+                    Okay
+                </button>
+
+            </div>
+
+        `;
+
+
+        document.body.appendChild(
+            popup
+        );
+
+    }
+
+
+    popup.style.display =
+        "flex";
+
+}
+
+
+function closeGiftFeatureError() {
+
+    const popup =
+        document.getElementById(
+            "giftFeatureErrorPopup"
+        );
+
+
+    if (popup) {
+
+        popup.style.display =
+            "none";
+
+    }
+
+}

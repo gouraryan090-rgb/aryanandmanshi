@@ -373,3 +373,80 @@ opacity:.15;
     text-align:center;
 
 }
+
+
+#giftFeatureErrorPopup {
+    position: fixed;
+    inset: 0;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background: rgba(0, 0, 0, 0.62);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    z-index: 99999;
+}
+
+.gift-error-card {
+    width: min(100%, 360px);
+    padding: 30px 24px;
+    text-align: center;
+    border-radius: 26px;
+    background: rgba(255, 255, 255, 0.96);
+    box-shadow: 0 25px 70px rgba(0, 0, 0, 0.3);
+    animation: giftErrorPop 0.25s ease-out;
+}
+
+.gift-error-icon {
+    width: 72px;
+    height: 72px;
+    margin: 0 auto 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: #fff0f3;
+    font-size: 36px;
+}
+
+.gift-error-title {
+    font-size: 23px;
+    font-weight: 700;
+    margin-bottom: 12px;
+    color: #222;
+}
+
+.gift-error-text {
+    font-size: 15px;
+    line-height: 1.55;
+    color: #666;
+}
+
+.gift-error-button {
+    margin-top: 22px;
+    padding: 11px 28px;
+    border: none;
+    border-radius: 14px;
+    background: #222;
+    color: white;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.gift-error-button:active {
+    transform: scale(0.96);
+}
+
+@keyframes giftErrorPop {
+    from {
+        opacity: 0;
+        transform: scale(0.88);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}

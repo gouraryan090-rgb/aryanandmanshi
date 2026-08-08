@@ -1,457 +1,817 @@
 /* ==========================================
-            GIFT PART 1
+              GIFT PART 1
 ========================================== */
 
-// ----------------------------
-// USER
-// ----------------------------
 
-const params = new URLSearchParams(window.location.search);
+/* ----------------------------
+        USER
+---------------------------- */
+
+const params =
+    new URLSearchParams(
+        window.location.search
+    );
+
 
 const currentUser =
-params.get("user") || "aryan";
+    params.get("user") || "aryan";
 
-// ----------------------------
-// ELEMENTS
-// ----------------------------
+
+/* ----------------------------
+        ELEMENTS
+---------------------------- */
 
 const giftTitle =
-document.getElementById("giftTitle");
+    document.getElementById("giftTitle");
 
 const giftUserEmoji =
-document.getElementById("giftUserEmoji");
+    document.getElementById("giftUserEmoji");
 
 const backBtn =
-document.getElementById("backBtn");
+    document.getElementById("backBtn");
 
 const giftBox =
-document.getElementById("giftBox");
+    document.getElementById("giftBox");
 
 const giftStatus =
-document.getElementById("giftStatus");
+    document.getElementById("giftStatus");
 
 const rewardCard =
-document.getElementById("rewardCard");
+    document.getElementById("rewardCard");
 
 const rewardEmoji =
-document.getElementById("rewardEmoji");
+    document.getElementById("rewardEmoji");
 
 const rewardTitle =
-document.getElementById("rewardTitle");
+    document.getElementById("rewardTitle");
 
 const rewardDescription =
-document.getElementById("rewardDescription");
+    document.getElementById("rewardDescription");
 
 const acceptBtn =
-document.getElementById("acceptBtn");
+    document.getElementById("acceptBtn");
 
 const cooldown =
-document.getElementById("cooldown");
+    document.getElementById("cooldown");
 
 const lastGift =
-document.getElementById("lastGift");
+    document.getElementById("lastGift");
 
-// ----------------------------
-// REWARDS
-// ----------------------------
 
-const aryanRewards=[
+/* ----------------------------
+        REWARDS
+---------------------------- */
 
-{
+const aryanRewards = [
 
-emoji:"❤️",
+    {
+        emoji: "❤️",
+        title: "Luvv Uhh ×3",
+        desc:
+            "Manshii has to say 'Luvv Uhh' 3 times to Aryan."
+    },
 
-title:"Luvv Uhh ×3",
+    {
+        emoji: "🎤",
+        title: "Voice Note",
+        desc:
+            "Manshii has to send one cute voice note."
+    },
 
-desc:"Manshii has to say 'Luvv Uhh' 3 times to Aryan."
+    {
+        emoji: "🌷",
+        title: "One Wish",
+        desc:
+            "Manshii has to fulfill one reasonable wish of Aryan."
+    },
 
-},
+    {
+        emoji: "💌",
+        title: "Cute Paragraph",
+        desc:
+            "Manshii has to write a cute paragraph for Aryan."
+    },
 
-{
-
-emoji:"🎤",
-
-title:"Voice Note",
-
-desc:"Manshii has to send one cute voice note."
-
-},
-
-{
-
-emoji:"🌷",
-
-title:"One Wish",
-
-desc:"Manshii has to fulfill one reasonable wish of Aryan."
-
-},
-
-{
-
-emoji:"💌",
-
-title:"Cute Paragraph",
-
-desc:"Manshii has to write a cute paragraph for Aryan."
-
-},
-
-{
-
-emoji:"👑",
-
-title:"Jackpot",
-
-desc:"Aryan gets to choose one reasonable task."
-
-}
+    {
+        emoji: "👑",
+        title: "Jackpot",
+        desc:
+            "Aryan gets to choose one reasonable task."
+    }
 
 ];
 
 
+const manshiRewards = [
 
-const manshiRewards=[
+    {
+        emoji: "📸",
+        title: "Aryan's Picture",
+        desc:
+            "Aryan has to send his picture without emoji."
+    },
 
-{
+    {
+        emoji: "❤️",
+        title: "I Luvv Uhh ×5",
+        desc:
+            "Aryan has to say 'I Luvv Uhh' 5 times in chat."
+    },
 
-emoji:"📸",
+    {
+        emoji: "🌷",
+        title: "One Wish",
+        desc:
+            "Aryan has to fulfill one reasonable wish."
+    },
 
-title:"Aryan's Picture",
+    {
+        emoji: "💌",
+        title: "Cute Paragraph",
+        desc:
+            "Aryan has to write a heartfelt paragraph."
+    },
 
-desc:"Aryan has to send his picture without emoji."
-
-},
-
-{
-
-emoji:"❤️",
-
-title:"I Luvv Uhh ×5",
-
-desc:"Aryan has to say 'I Luvv Uhh' 5 times in chat."
-
-},
-
-{
-
-emoji:"🌷",
-
-title:"One Wish",
-
-desc:"Aryan has to fulfill one reasonable wish."
-
-},
-
-{
-
-emoji:"💌",
-
-title:"Cute Paragraph",
-
-desc:"Aryan has to write a heartfelt paragraph."
-
-},
-
-{
-
-emoji:"👑",
-
-title:"Jackpot",
-
-desc:"Manshii gets to choose one reasonable task."
-
-}
+    {
+        emoji: "👑",
+        title: "Jackpot",
+        desc:
+            "Manshii gets to choose one reasonable task."
+    }
 
 ];
 
-// ----------------------------
-// ACTIVE REWARDS
-// ----------------------------
 
-const rewards=
-currentUser==="aryan"
-? aryanRewards
-: manshiRewards;
+const rewards =
+    currentUser === "aryan"
+        ? aryanRewards
+        : manshiRewards;
 
-// ----------------------------
-// HEADER
-// ----------------------------
 
-if(currentUser==="aryan"){
+/* ----------------------------
+        HEADER
+---------------------------- */
 
-giftTitle.innerHTML=
-"Aryan's Daily Gift";
+if (currentUser === "aryan") {
 
-giftUserEmoji.innerHTML="💙";
+    giftTitle.innerHTML =
+        "Aryan's Daily Gift";
 
-backBtn.setAttribute("href","./aryan.html");
+    giftUserEmoji.innerHTML =
+        "💙";
 
-}else{
+    backBtn.setAttribute(
+        "href",
+        "./aryan.html"
+    );
 
-giftTitle.innerHTML=
-"Manshii's Daily Gift";
+} else {
 
-giftUserEmoji.innerHTML="💗";
+    giftTitle.innerHTML =
+        "Manshii's Daily Gift";
 
-backBtn.setAttribute("href","./manshii.html");
+    giftUserEmoji.innerHTML =
+        "💗";
+
+    backBtn.setAttribute(
+        "href",
+        "./manshii.html"
+    );
 
 }
 
 
-
-// ----------------------------
-// STORAGE
-// ----------------------------
-
-const STORAGE_KEY=
-currentUser==="aryan"
-? "gift_aryan"
-: "gift_manshi";
-
-const COOLDOWN=
-36*60*60*1000;
-
-// ----------------------------
-
-let selectedReward=null;
-
 /* ==========================================
-            GIFT PART 2
+              GIFT SETTINGS
 ========================================== */
 
-// ----------------------------
-// RANDOM REWARD
-// ----------------------------
+const STORAGE_KEY =
+    currentUser === "aryan"
+        ? "gift_aryan"
+        : "gift_manshi";
 
-function getReward(){
 
-    let index =
-    Math.floor(
-        Math.random() * rewards.length
-    );
+const TIMER_FIELD =
+    currentUser === "aryan"
+        ? "aryan_timer_end"
+        : "manshi_timer_end";
 
-   
 
-    return index;
+let giftSettings = null;
 
-}
+let timer = null;
 
-// ----------------------------
-// OPEN GIFT
-// ----------------------------
+let selectedReward = null;
 
-giftBox.addEventListener("click",()=>{
-
-    // Already opened
-    if(selectedReward!==null) return;
-
-    // Cooldown running
-    if(giftBox.dataset.locked==="true") return;
-
-    giftBox.classList.add("shake");
-
-    giftStatus.innerHTML="Opening...";
-
-    setTimeout(()=>{
-
-        giftBox.classList.remove("shake");
-
-        giftBox.classList.add("open");
-
-    },700);
-
-    setTimeout(()=>{
-
-        const rewardIndex =
-        getReward();
-
-        selectedReward =
-        rewards[rewardIndex];
-
-        rewardEmoji.innerHTML =
-        selectedReward.emoji;
-
-        rewardTitle.innerHTML =
-        selectedReward.title;
-
-        rewardDescription.innerHTML =
-        selectedReward.desc;
-
-        rewardCard.style.display =
-        "block";
-
-        giftStatus.innerHTML =
-        "Gift Opened ❤️";
-
-    },1300);
-
-});
 
 /* ==========================================
-            GIFT PART 3
+              LOAD SETTINGS
 ========================================== */
 
-let timer;
+async function loadGiftSettings() {
 
-// ----------------------------
-// LOAD SAVED DATA
-// ----------------------------
+    const { data, error } =
+        await supabaseClient
+            .from("gift_settings")
+            .select("*")
+            .eq("id", 1)
+            .single();
 
-function loadGift(){
 
-    const saved =
-    JSON.parse(
-        localStorage.getItem(STORAGE_KEY)
-    );
+    if (error) {
 
-    if(!saved){
+        console.error(
+            "Gift settings error:",
+            error
+        );
 
-        cooldown.innerHTML="Ready ❤️";
-
-        lastGift.innerHTML="No gift claimed yet.";
-
-        giftBox.dataset.locked="false";
-
-        return;
+        return false;
 
     }
 
-    lastGift.innerHTML=`
 
-        <strong>
+    giftSettings = data;
 
-        ${saved.emoji}
-        ${saved.title}
 
-        </strong>
-
-        <br><br>
-
-        Claimed on
-
-        ${new Date(saved.time).toLocaleString()}
-
-    `;
-
-    startCooldown(saved.time);
+    return true;
 
 }
 
-loadGift();
 
-// ----------------------------
-// COOLDOWN
-// ----------------------------
+/* ==========================================
+              GIFT FEATURE CHECK
+========================================== */
 
-function startCooldown(time){
+function giftFeatureEnabled() {
 
-    clearInterval(timer);
+    return (
+        giftSettings &&
+        giftSettings.feature_enabled === true
+    );
 
-    giftBox.dataset.locked="true";
+}
 
-    function update(){
 
-        const left =
-        COOLDOWN -
-        (Date.now()-time);
+/* ==========================================
+              OPEN GIFT
+========================================== */
 
-        if(left<=0){
+giftBox.addEventListener(
+    "click",
+    async () => {
 
-            clearInterval(timer);
+        /*
+         * Gift feature OFF
+         */
 
-            cooldown.innerHTML="Ready ❤️";
+        if (!giftFeatureEnabled()) {
 
-            giftStatus.innerHTML="Gift Available";
-
-            giftBox.dataset.locked="false";
-
-            selectedReward=null;
-
-            rewardCard.style.display="none";
-
-            giftBox.classList.remove("open");
+            giftStatus.innerHTML =
+                "🎁 Gift Feature is currently turned off.<br><br>" +
+                "Turn it on from the Admin Panel.";
 
             return;
 
         }
 
-        const hrs =
-        Math.floor(left/3600000);
 
-        const mins =
-        Math.floor(
-            (left%3600000)/60000
+        /* Already opened */
+
+        if (
+            selectedReward !== null
+        ) {
+
+            return;
+
+        }
+
+
+        /* Cooldown */
+
+        if (
+            giftBox.dataset.locked === "true"
+        ) {
+
+            return;
+
+        }
+
+
+        giftBox.classList.add(
+            "shake"
         );
 
-        const secs =
-        Math.floor(
-            (left%60000)/1000
-        );
 
-        cooldown.innerHTML=
+        giftStatus.innerHTML =
+            "Opening...";
 
-        `${hrs}h ${mins}m ${secs}s`;
 
-        giftStatus.innerHTML="Next Gift";
+        setTimeout(() => {
+
+            giftBox.classList.remove(
+                "shake"
+            );
+
+            giftBox.classList.add(
+                "open"
+            );
+
+        }, 700);
+
+
+        setTimeout(() => {
+
+            const rewardIndex =
+                getReward();
+
+
+            selectedReward =
+                rewards[rewardIndex];
+
+
+            rewardEmoji.innerHTML =
+                selectedReward.emoji;
+
+
+            rewardTitle.innerHTML =
+                selectedReward.title;
+
+
+            rewardDescription.innerHTML =
+                selectedReward.desc;
+
+
+            rewardCard.style.display =
+                "block";
+
+
+            giftStatus.innerHTML =
+                "Gift Opened ❤️";
+
+
+        }, 1300);
 
     }
+);
 
-    update();
 
-    timer=
-    setInterval(update,1000);
+/* ==========================================
+              RANDOM REWARD
+========================================== */
+
+function getReward() {
+
+    const index =
+        Math.floor(
+            Math.random() *
+            rewards.length
+        );
+
+
+    return index;
 
 }
 
-// ----------------------------
-// ACCEPT
-// ----------------------------
 
-acceptBtn.addEventListener("click",()=>{
+/* ==========================================
+              LOAD SAVED REWARD
+========================================== */
 
-    if(!selectedReward) return;
+function loadSavedGift() {
 
-    const data={
+    const saved =
+        JSON.parse(
+            localStorage.getItem(
+                STORAGE_KEY
+            )
+        );
 
-        emoji:selectedReward.emoji,
 
-        title:selectedReward.title,
+    if (!saved) {
 
-        desc:selectedReward.desc,
+        lastGift.innerHTML =
+            "No gift claimed yet.";
 
-        time:Date.now()
+        return;
 
-    };
+    }
 
-    localStorage.setItem(
 
-        STORAGE_KEY,
-
-        JSON.stringify(data)
-
-    );
-
-    lastGift.innerHTML=`
+    lastGift.innerHTML = `
 
         <strong>
-
-        ${selectedReward.emoji}
-
-        ${selectedReward.title}
-
+            ${saved.emoji}
+            ${saved.title}
         </strong>
 
         <br><br>
 
         Claimed on
-
-        ${new Date().toLocaleString()}
+        ${new Date(
+            saved.time
+        ).toLocaleString()}
 
     `;
 
-    rewardCard.style.display="none";
+}
 
-    startCooldown(data.time);
 
-});
+/* ==========================================
+              START COOLDOWN
+========================================== */
+
+function startCooldown(
+    timerEnd
+) {
+
+    clearInterval(timer);
+
+
+    giftBox.dataset.locked =
+        "true";
+
+
+    function update() {
+
+        const now =
+            Date.now();
+
+
+        const left =
+            timerEnd - now;
+
+
+        if (left <= 0) {
+
+            clearInterval(timer);
+
+
+            cooldown.innerHTML =
+                "Ready ❤️";
+
+
+            giftStatus.innerHTML =
+                "Gift Available";
+
+
+            giftBox.dataset.locked =
+                "false";
+
+
+            selectedReward =
+                null;
+
+
+            rewardCard.style.display =
+                "none";
+
+
+            giftBox.classList.remove(
+                "open"
+            );
+
+
+            return;
+
+        }
+
+
+        const totalSeconds =
+            Math.floor(
+                left / 1000
+            );
+
+
+        const hrs =
+            Math.floor(
+                totalSeconds / 3600
+            );
+
+
+        const mins =
+            Math.floor(
+                (totalSeconds % 3600) /
+                60
+            );
+
+
+        const secs =
+            totalSeconds % 60;
+
+
+        cooldown.innerHTML =
+            `${hrs}h ${mins}m ${secs}s`;
+
+
+        giftStatus.innerHTML =
+            "Next Gift";
+
+    }
+
+
+    update();
+
+
+    timer =
+        setInterval(
+            update,
+            1000
+        );
+
+}
+
+
+/* ==========================================
+              LOAD DATABASE TIMER
+========================================== */
+
+async function loadDatabaseTimer() {
+
+    if (!giftSettings) {
+
+        return;
+
+    }
+
+
+    const timerEnd =
+        giftSettings[TIMER_FIELD];
+
+
+    if (!timerEnd) {
+
+        cooldown.innerHTML =
+            "Ready ❤️";
+
+        giftStatus.innerHTML =
+            "Gift Available";
+
+        giftBox.dataset.locked =
+            "false";
+
+        return;
+
+    }
+
+
+    const endTime =
+        new Date(
+            timerEnd
+        ).getTime();
+
+
+    if (
+        endTime <= Date.now()
+    ) {
+
+        cooldown.innerHTML =
+            "Ready ❤️";
+
+        giftStatus.innerHTML =
+            "Gift Available";
+
+        giftBox.dataset.locked =
+            "false";
+
+        return;
+
+    }
+
+
+    startCooldown(
+        endTime
+    );
+
+}
+
+
+/* ==========================================
+              ACCEPT / CLAIM GIFT
+========================================== */
+
+acceptBtn.addEventListener(
+    "click",
+    async () => {
+
+        if (!selectedReward) {
+
+            return;
+
+        }
+
+
+        /*
+         * Double-check feature
+         */
+
+        const settingsLoaded =
+            await loadGiftSettings();
+
+
+        if (
+            !settingsLoaded ||
+            !giftFeatureEnabled()
+        ) {
+
+            rewardCard.style.display =
+                "none";
+
+
+            giftStatus.innerHTML =
+                "🎁 Gift Feature is currently turned off.<br><br>" +
+                "Turn it on from the Admin Panel.";
+
+            return;
+
+        }
+
+
+        /*
+         * New 36-hour timer
+         */
+
+        const timerEnd =
+            new Date(
+                Date.now() +
+                36 * 60 * 60 * 1000
+            );
+
+
+        const timerEndISO =
+            timerEnd.toISOString();
+
+
+        /*
+         * Save timer to Supabase
+         */
+
+        const {
+            data,
+            error
+        } =
+            await supabaseClient
+                .from("gift_settings")
+                .update({
+
+                    [TIMER_FIELD]:
+                        timerEndISO,
+
+                    updated_at:
+                        new Date().toISOString()
+
+                })
+                .eq("id", 1)
+                .select()
+                .single();
+
+
+        if (error) {
+
+            console.error(
+                "Gift timer save error:",
+                error
+            );
+
+
+            alert(
+                "Could not save gift timer. Please try again."
+            );
+
+
+            return;
+
+        }
+
+
+        giftSettings =
+            data;
+
+
+        /*
+         * Save reward locally
+         * for the existing reward history.
+         */
+
+        const giftData = {
+
+            emoji:
+                selectedReward.emoji,
+
+            title:
+                selectedReward.title,
+
+            desc:
+                selectedReward.desc,
+
+            time:
+                Date.now()
+
+        };
+
+
+        localStorage.setItem(
+
+            STORAGE_KEY,
+
+            JSON.stringify(
+                giftData
+            )
+
+        );
+
+
+        lastGift.innerHTML = `
+
+            <strong>
+                ${selectedReward.emoji}
+                ${selectedReward.title}
+            </strong>
+
+            <br><br>
+
+            Claimed on
+            ${new Date().toLocaleString()}
+
+        `;
+
+
+        rewardCard.style.display =
+            "none";
+
+
+        /*
+         * Start timer using
+         * Supabase timer.
+         */
+
+        startCooldown(
+            timerEnd.getTime()
+        );
+
+    }
+);
+
+
+/* ==========================================
+              INITIALIZE
+========================================== */
+
+async function initializeGift() {
+
+    /*
+     * Load Supabase settings first.
+     */
+
+    const loaded =
+        await loadGiftSettings();
+
+
+    if (!loaded) {
+
+        giftStatus.innerHTML =
+            "Unable to load gift settings.";
+
+        return;
+
+    }
+
+
+    /*
+     * Feature OFF
+     */
+
+    if (
+        !giftFeatureEnabled()
+    ) {
+
+        cooldown.innerHTML =
+            "Unavailable";
+
+        giftStatus.innerHTML =
+            "Gift Feature is currently turned off.";
+
+        giftBox.dataset.locked =
+            "true";
+
+    }
+
+
+    /*
+     * Existing reward history
+     */
+
+    loadSavedGift();
+
+
+    /*
+     * Database timer
+     */
+
+    await loadDatabaseTimer();
+
+}
+
+
+/* Start */
+
+initializeGift();

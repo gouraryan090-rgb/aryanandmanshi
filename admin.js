@@ -314,15 +314,6 @@ function checkAdminPassword() {
 let giftSettings = null;
 
 
-/* Open Gift Manager */
-
-/* ==========================================
-          GIFT MANAGER
-========================================== */
-
-let giftSettings = null;
-
-
 /* ==========================================
           OPEN GIFT MANAGER
 ========================================== */
@@ -332,10 +323,14 @@ async function openGiftManager() {
     const modal =
         document.getElementById("giftManagerModal");
 
+    if (!modal) {
+        console.error("Gift Manager modal not found.");
+        return;
+    }
+
     modal.style.display = "flex";
 
     await loadGiftSettings();
-
 }
 
 
@@ -348,13 +343,14 @@ function closeGiftManager() {
     const modal =
         document.getElementById("giftManagerModal");
 
-    modal.style.display = "none";
-
+    if (modal) {
+        modal.style.display = "none";
+    }
 }
 
 
 /* ==========================================
-          LOAD SETTINGS FROM SUPABASE
+          LOAD SETTINGS
 ========================================== */
 
 async function loadGiftSettings() {
@@ -375,14 +371,11 @@ async function loadGiftSettings() {
         );
 
         return false;
-
     }
 
 
     giftSettings = data;
 
-
-    /* Feature toggle */
 
     const toggle =
         document.getElementById(
@@ -394,11 +387,8 @@ async function loadGiftSettings() {
 
         toggle.checked =
             data.feature_enabled === true;
-
     }
 
-
-    /* Timers */
 
     updateGiftTimerDisplay(
         "manshi",
@@ -413,7 +403,6 @@ async function loadGiftSettings() {
 
 
     return true;
-
 }
 
 
@@ -433,9 +422,7 @@ function updateGiftTimerDisplay(
 
 
     if (!element) {
-
         return;
-
     }
 
 
@@ -445,7 +432,6 @@ function updateGiftTimerDisplay(
             "Not set";
 
         return;
-
     }
 
 
@@ -467,29 +453,33 @@ function updateGiftTimerDisplay(
             "Expired";
 
         return;
-
     }
 
 
-    const totalMinutes =
+    const totalSeconds =
         Math.floor(
-            difference / 60000
+            difference / 1000
         );
 
 
     const hours =
         Math.floor(
-            totalMinutes / 60
+            totalSeconds / 3600
         );
 
 
     const minutes =
-        totalMinutes % 60;
+        Math.floor(
+            (totalSeconds % 3600) / 60
+        );
+
+
+    const seconds =
+        totalSeconds % 60;
 
 
     element.textContent =
-        `${hours}h ${minutes}m`;
-
+        `${hours}h ${minutes}m ${seconds}s`;
 }
 
 
@@ -503,6 +493,11 @@ async function toggleGiftFeature() {
         document.getElementById(
             "giftFeatureToggle"
         );
+
+
+    if (!toggle) {
+        return;
+    }
 
 
     const enabled =
@@ -537,27 +532,25 @@ async function toggleGiftFeature() {
         );
 
 
-        /* Restore previous state */
+        /* Restore old state */
 
         toggle.checked =
             !enabled;
 
 
         alert(
-            "Gift Feature update failed.\n\n" +
+            "Failed to update Gift Feature.\n\n" +
             error.message
         );
 
 
         toggle.disabled = false;
 
-
         return;
-
     }
 
 
-    /* Keep local state updated */
+    /* Save returned DB state */
 
     giftSettings =
         data;
@@ -568,13 +561,6 @@ async function toggleGiftFeature() {
 
 
     toggle.disabled = false;
-
-
-    console.log(
-        "Gift Feature saved:",
-        data.feature_enabled
-    );
-
 }
 
 
@@ -587,8 +573,6 @@ async function changeGiftTimer(
     minutes
 ) {
 
-    /* Make sure settings are loaded */
-
     if (!giftSettings) {
 
         const loaded =
@@ -596,11 +580,8 @@ async function changeGiftTimer(
 
 
         if (!loaded) {
-
             return;
-
         }
-
     }
 
 
@@ -610,28 +591,20 @@ async function changeGiftTimer(
             : "aryan_timer_end";
 
 
-    let currentEnd =
-        giftSettings[field];
-
-
     let newEnd;
 
 
-    if (currentEnd) {
+    if (giftSettings[field]) {
 
         newEnd =
-            new Date(currentEnd);
+            new Date(
+                giftSettings[field]
+            );
 
     } else {
 
-        /*
-         * If no timer exists,
-         * start from current time.
-         */
-
         newEnd =
             new Date();
-
     }
 
 
@@ -671,29 +644,23 @@ async function changeGiftTimer(
 
 
         alert(
-            "Timer update failed.\n\n" +
+            "Failed to update timer.\n\n" +
             error.message
         );
 
 
         return;
-
     }
 
-
-    /* Update local settings */
 
     giftSettings =
         data;
 
 
-    /* Update UI */
-
     updateGiftTimerDisplay(
         user,
         data[field]
     );
-
 }
 
 
@@ -712,9 +679,7 @@ async function resetGiftTimer(
 
 
     if (!confirmed) {
-
         return;
-
     }
 
 
@@ -729,7 +694,8 @@ async function resetGiftTimer(
             .from("gift_settings")
             .update({
 
-                [field]: null,
+                [field]:
+                    null,
 
                 updated_at:
                     new Date().toISOString()
@@ -749,27 +715,21 @@ async function resetGiftTimer(
 
 
         alert(
-            "Timer reset failed.\n\n" +
+            "Failed to reset timer.\n\n" +
             error.message
         );
 
 
         return;
-
     }
 
-
-    /* Update local settings */
 
     giftSettings =
         data;
 
 
-    /* Update UI */
-
     updateGiftTimerDisplay(
         user,
         null
     );
-
 }

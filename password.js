@@ -6,7 +6,7 @@ const ARYAN_PASSWORD_HASH =
 "4dc1b28b1b9d731f85dd94c23fce0e35e53ef97bf8f9380f693970c6ceb21712";
 
 const MANSHII_PASSWORD_HASH =
-"57d966e5fdff81a5ada244855f44908e3b37cbffb28acbc277affb7d381e265d";
+"f22d21fe6cd1966e8ed9c96250f36a40560187b03dd8157c5c6f1b7a802deaab";
 
 const passwordInput = document.getElementById("password");
 const unlockBtn = document.getElementById("unlockBtn");

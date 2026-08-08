@@ -113,6 +113,30 @@
 
             </a>
 
+            <a href="#" class="admin-card" onclick="openGiftManager(); return false;">
+
+    <div class="admin-card-icon">
+        🎁
+    </div>
+
+    <div class="admin-card-content">
+
+        <h2>
+            Gift Manager
+        </h2>
+
+        <p>
+            Control gift access and timers
+        </p>
+
+    </div>
+
+    <div class="admin-arrow">
+        →
+    </div>
+
+</a>
+
 
         </main>
 
@@ -167,6 +191,165 @@
  
 </script>
 
+<div
+    id="giftManagerModal"
+    class="gift-manager-overlay"
+    style="display:none;">
+
+    <div class="gift-manager-modal">
+
+        <button
+            class="gift-manager-close"
+            onclick="closeGiftManager()">
+
+            ×
+
+        </button>
+
+
+        <div class="gift-manager-icon">
+            🎁
+        </div>
+
+        <h2>Gift Manager</h2>
+
+        <p class="gift-manager-subtitle">
+            Manage your gift features and timers
+        </p>
+
+
+        <!-- FEATURE TOGGLE -->
+
+        <div class="gift-setting-box">
+
+            <div>
+
+                <h3>Gift Feature</h3>
+
+                <p>
+                    Enable or disable gift access
+                </p>
+
+            </div>
+
+
+            <label class="gift-switch">
+
+                <input
+                    type="checkbox"
+                    id="giftFeatureToggle"
+                    onchange="toggleGiftFeature()">
+
+                <span class="gift-slider"></span>
+
+            </label>
+
+        </div>
+
+
+        <!-- MANSHI TIMER -->
+
+        <div class="gift-timer-box">
+
+            <div class="gift-timer-title">
+                💗 Manshi's Gift
+            </div>
+
+            <div
+                id="manshiTimerDisplay"
+                class="gift-timer-display">
+
+                Loading...
+
+            </div>
+
+
+            <div class="gift-timer-controls">
+
+                <button onclick="changeGiftTimer('manshi', -60)">
+                    −1h
+                </button>
+
+                <button onclick="changeGiftTimer('manshi', 60)">
+                    +1h
+                </button>
+
+                <button onclick="changeGiftTimer('manshi', -10)">
+                    −10m
+                </button>
+
+                <button onclick="changeGiftTimer('manshi', 10)">
+                    +10m
+                </button>
+
+            </div>
+
+
+            <button
+                class="gift-reset-btn"
+                onclick="resetGiftTimer('manshi')">
+
+                Reset Timer
+
+            </button>
+
+        </div>
+
+
+        <!-- ARYAN TIMER -->
+
+        <div class="gift-timer-box">
+
+            <div class="gift-timer-title">
+                💙 Aryan's Gift
+            </div>
+
+            <div
+                id="aryanTimerDisplay"
+                class="gift-timer-display">
+
+                Loading...
+
+            </div>
+
+
+            <div class="gift-timer-controls">
+
+                <button onclick="changeGiftTimer('aryan', -60)">
+                    −1h
+                </button>
+
+                <button onclick="changeGiftTimer('aryan', 60)">
+                    +1h
+                </button>
+
+                <button onclick="changeGiftTimer('aryan', -10)">
+                    −10m
+                </button>
+
+                <button onclick="changeGiftTimer('aryan', 10)">
+                    +10m
+                </button>
+
+            </div>
+
+
+            <button
+                class="gift-reset-btn"
+                onclick="resetGiftTimer('aryan')">
+
+                Reset Timer
+
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script src="../supabase.js"></script>
 <script src="../admin.js"></script>
 
 </body>

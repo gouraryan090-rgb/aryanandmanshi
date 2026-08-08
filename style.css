@@ -2221,6 +2221,363 @@ body.page-enter{
     box-shadow:0 0 25px rgba(255,122,184,.35);
 
 }
+
+/* ==========================================
+          ADMIN LOGIN MODAL
+========================================== */
+
+.admin-login-overlay {
+
+    position: fixed;
+
+    inset: 0;
+
+    z-index: 99999;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    padding: 20px;
+
+    background:
+        rgba(5, 3, 8, 0.72);
+
+    backdrop-filter: blur(12px);
+
+    -webkit-backdrop-filter: blur(12px);
+
+    animation:
+        adminOverlayIn 0.25s ease;
+
+}
+
+
+.admin-login-modal {
+
+    position: relative;
+
+    width: min(420px, 100%);
+
+    padding: 38px 30px 30px;
+
+    text-align: center;
+
+    border-radius: 26px;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255,255,255,0.10),
+            rgba(255,255,255,0.045)
+        );
+
+    border:
+        1px solid rgba(255,255,255,0.14);
+
+    box-shadow:
+        0 25px 80px rgba(0,0,0,0.55),
+        0 0 35px rgba(255,120,190,0.10);
+
+    backdrop-filter: blur(25px);
+
+    -webkit-backdrop-filter: blur(25px);
+
+    animation:
+        adminModalIn 0.3s ease;
+
+}
+
+
+.admin-login-icon {
+
+    width: 64px;
+
+    height: 64px;
+
+    margin: 0 auto 18px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border-radius: 20px;
+
+    background:
+        rgba(255,170,215,0.10);
+
+    border:
+        1px solid rgba(255,170,215,0.18);
+
+    font-size: 28px;
+
+    box-shadow:
+        0 0 25px rgba(255,130,190,0.12);
+
+}
+
+
+.admin-login-modal h2 {
+
+    margin: 0;
+
+    font-family:
+        'Playfair Display',
+        serif;
+
+    font-size: 2rem;
+
+    color: #fff;
+
+}
+
+
+.admin-login-modal p {
+
+    margin: 8px 0 25px;
+
+    color: #cfc6d0;
+
+    font-size: 0.88rem;
+
+}
+
+
+.admin-login-close {
+
+    position: absolute;
+
+    top: 14px;
+
+    right: 16px;
+
+    width: 34px;
+
+    height: 34px;
+
+    border: none;
+
+    border-radius: 50%;
+
+    background:
+        rgba(255,255,255,0.06);
+
+    color: #ddd;
+
+    font-size: 23px;
+
+    cursor: pointer;
+
+    transition: 0.25s;
+
+}
+
+
+.admin-login-close:hover {
+
+    background:
+        rgba(255,120,180,0.15);
+
+    color: #ffafd7;
+
+    transform: rotate(90deg);
+
+}
+
+
+.admin-password-wrapper {
+
+    position: relative;
+
+    width: 100%;
+
+}
+
+
+.admin-password-wrapper input {
+
+    width: 100%;
+
+    box-sizing: border-box;
+
+    padding: 15px 48px 15px 17px;
+
+    border-radius: 14px;
+
+    border:
+        1px solid rgba(255,255,255,0.12);
+
+    outline: none;
+
+    background:
+        rgba(0,0,0,0.20);
+
+    color: #fff;
+
+    font-family: 'Poppins', sans-serif;
+
+    font-size: 0.9rem;
+
+    transition: 0.25s;
+
+}
+
+
+.admin-password-wrapper input::placeholder {
+
+    color: #8e8790;
+
+}
+
+
+.admin-password-wrapper input:focus {
+
+    border-color:
+        rgba(255,170,215,0.45);
+
+    box-shadow:
+        0 0 20px rgba(255,130,190,0.10);
+
+}
+
+
+.admin-password-toggle {
+
+    position: absolute;
+
+    top: 50%;
+
+    right: 12px;
+
+    transform: translateY(-50%);
+
+    border: none;
+
+    background: transparent;
+
+    color: #aaa;
+
+    cursor: pointer;
+
+    font-size: 17px;
+
+}
+
+
+.admin-login-error {
+
+    min-height: 22px;
+
+    margin-top: 10px;
+
+    color: #ff8eaa;
+
+    font-size: 0.78rem;
+
+}
+
+
+.admin-unlock-btn {
+
+    width: 100%;
+
+    margin-top: 8px;
+
+    padding: 14px;
+
+    border: none;
+
+    border-radius: 14px;
+
+    cursor: pointer;
+
+    color: #fff;
+
+    font-family: 'Poppins', sans-serif;
+
+    font-weight: 600;
+
+    background:
+        linear-gradient(
+            135deg,
+            #c66a9d,
+            #8c5078
+        );
+
+    box-shadow:
+        0 8px 25px rgba(190,90,145,0.22);
+
+    transition: 0.25s;
+
+}
+
+
+.admin-unlock-btn:hover {
+
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 12px 30px rgba(190,90,145,0.32);
+
+}
+
+
+.admin-unlock-btn:disabled {
+
+    opacity: 0.65;
+
+    cursor: not-allowed;
+
+    transform: none;
+
+}
+
+
+@keyframes adminOverlayIn {
+
+    from {
+
+        opacity: 0;
+
+    }
+
+    to {
+
+        opacity: 1;
+
+    }
+
+}
+
+
+@keyframes adminModalIn {
+
+    from {
+
+        opacity: 0;
+
+        transform:
+            translateY(15px)
+            scale(0.96);
+
+    }
+
+    to {
+
+        opacity: 1;
+
+        transform:
+            translateY(0)
+            scale(1);
+
+    }
+
+}
+
 /* ==========================================================
                     END
 ========================================================== */

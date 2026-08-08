@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Admin Panel ❤️</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect"
+          href="https://fonts.googleapis.com">
+
+    <link rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Poppins:wght@400;500;600&display=swap"
+          rel="stylesheet">
+
+    <link rel="stylesheet"
+          href="../admin.css">
+
+</head>
+
+
+<body>
+
+    <div class="admin-page">
+
+
+        <!-- Header -->
+
+        <header class="admin-header">
+
+            <div class="admin-symbol">
+                ⚙️
+            </div>
+
+            <h1>
+                Admin Panel
+            </h1>
+
+            <p>
+                Welcome back, Aryan ❤️
+            </p>
+
+        </header>
+
+
+
+        <!-- Admin Options -->
+
+        <main class="admin-options">
+
+
+            <!-- Login Activities -->
+
+            <a href="login-activities.html"
+               class="admin-card">
+
+                <div class="admin-card-icon">
+                    📊
+                </div>
+
+                <div class="admin-card-content">
+
+                    <h2>
+                        Login Activities
+                    </h2>
+
+                    <p>
+                        View website login history
+                    </p>
+
+                </div>
+
+                <div class="admin-arrow">
+                    →
+                </div>
+
+            </a>
+
+
+
+            <!-- Feature Options -->
+
+            <a href="#"
+               class="admin-card">
+
+                <div class="admin-card-icon">
+                    ⚙️
+                </div>
+
+                <div class="admin-card-content">
+
+                    <h2>
+                        Feature Options
+                    </h2>
+
+                    <p>
+                        Manage website features
+                    </p>
+
+                </div>
+
+                <div class="admin-arrow">
+                    →
+                </div>
+
+            </a>
+
+
+        </main>
+
+
+
+        <!-- Footer -->
+
+        <footer class="admin-footer">
+
+            <p>
+                Our Little World ❤️
+            </p>
+
+            <span>
+                Admin access only
+            </span>
+
+        </footer>
+
+
+    </div>
+
+
+
+    <!-- Admin Protection -->
+
+    <script>
+
+        const currentUser =
+            sessionStorage.getItem("currentUser");
+
+
+        if (currentUser !== "aryan") {
+
+            window.location.replace("../index.html");
+
+        }
+
+    </script>
+
+<script>
+
+    if (
+        sessionStorage.getItem("adminAuthenticated")
+        !== "true"
+    ) {
+
+        window.location.replace("../index.html");
+
+    }
+
+ 
+</script>
+
+<script src="../admin.js"></script>
+
+</body>
+
+</html>

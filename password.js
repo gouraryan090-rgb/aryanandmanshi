@@ -28,6 +28,20 @@ async function sha256(text) {
 
 }
 
+async function saveLoginActivity(user) {
+
+    const { error } = await supabaseClient
+        .from("login_activities")
+        .insert({
+            user_name: user
+        });
+
+    if (error) {
+        console.error("Login activity save failed:", error);
+    }
+
+}
+
 async function unlockWebsite() {
 
     const enteredPassword = passwordInput.value.trim();
@@ -36,29 +50,25 @@ async function unlockWebsite() {
 
    if (enteredHash === ARYAN_PASSWORD_HASH) {
 
-    sessionStorage.setItem("websiteUnlocked","true");
-    sessionStorage.setItem("currentUser","aryan");
+    sessionStorage.setItem("websiteUnlocked", "true");
+    sessionStorage.setItem("currentUser", "aryan");
 
-    // Last logged in user save
-    localStorage.setItem("lastUser","aryan");
+    await saveLoginActivity("aryan");
 
-    window.location.href="index.html";
+    window.location.href = "index.html";
 
 }
 
 else if (enteredHash === MANSHII_PASSWORD_HASH) {
 
-    sessionStorage.setItem("websiteUnlocked","true");
-    sessionStorage.setItem("currentUser","manshi");
+    sessionStorage.setItem("websiteUnlocked", "true");
+    sessionStorage.setItem("currentUser", "manshi");
 
-    // Last logged in user save
-    localStorage.setItem("lastUser","manshi");
+    await saveLoginActivity("manshi");
 
-    window.location.href="index.html";
+    window.location.href = "index.html";
 
 }
-
-else {
 
     error.innerText = "❌ Incorrect Password";
 
@@ -66,7 +76,7 @@ else {
 
 }
 
-}
+
 
 unlockBtn.addEventListener("click", unlockWebsite);
 

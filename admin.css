@@ -1,0 +1,457 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    min-height: 100vh;
+
+    background:
+        radial-gradient(
+            circle at top left,
+            rgba(80, 40, 100, 0.25),
+            transparent 40%
+        ),
+        radial-gradient(
+            circle at bottom right,
+            rgba(255, 80, 150, 0.12),
+            transparent 40%
+        ),
+        #09070d;
+
+    color: #ffffff;
+
+    font-family: 'Poppins', sans-serif;
+}
+
+
+/* ==========================================
+              ADMIN PAGE
+========================================== */
+
+.admin-page {
+
+    min-height: 100vh;
+
+    width: 100%;
+
+    padding: 70px 25px 40px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+}
+
+
+/* ==========================================
+              HEADER
+========================================== */
+
+.admin-header {
+
+    text-align: center;
+
+    margin-bottom: 50px;
+
+}
+
+.admin-symbol {
+
+    font-size: 55px;
+
+    margin-bottom: 15px;
+
+    filter:
+        drop-shadow(
+            0 0 18px rgba(255, 120, 190, 0.45)
+        );
+
+}
+
+.admin-header h1 {
+
+    font-family: 'Playfair Display', serif;
+
+    font-size: 3rem;
+
+    margin-bottom: 10px;
+
+    background:
+        linear-gradient(
+            90deg,
+            #ffffff,
+            #ffb6dc
+        );
+
+    -webkit-background-clip: text;
+
+    -webkit-text-fill-color: transparent;
+
+}
+
+.admin-header p {
+
+    color: #cfc5d2;
+
+    font-size: 1rem;
+
+}
+
+
+/* ==========================================
+              OPTIONS
+========================================== */
+
+.admin-options {
+
+    width: 100%;
+
+    max-width: 700px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 20px;
+
+}
+
+
+/* ==========================================
+              ADMIN CARD
+========================================== */
+
+.admin-card {
+
+    position: relative;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 20px;
+
+    width: 100%;
+
+    padding: 25px;
+
+    border-radius: 22px;
+
+    text-decoration: none;
+
+    color: white;
+
+    background:
+        rgba(255, 255, 255, 0.055);
+
+    border:
+        1px solid rgba(255, 255, 255, 0.12);
+
+    backdrop-filter: blur(18px);
+
+    -webkit-backdrop-filter: blur(18px);
+
+    box-shadow:
+        0 10px 35px rgba(0, 0, 0, 0.3);
+
+    transition:
+        transform 0.3s ease,
+        background 0.3s ease,
+        box-shadow 0.3s ease;
+
+}
+
+
+/* Hover */
+
+.admin-card:hover {
+
+    transform: translateY(-4px);
+
+    background:
+        rgba(255, 255, 255, 0.09);
+
+    box-shadow:
+        0 15px 40px rgba(255, 100, 180, 0.12);
+
+}
+
+
+/* ==========================================
+              CARD ICON
+========================================== */
+
+.admin-card-icon {
+
+    width: 60px;
+
+    height: 60px;
+
+    flex-shrink: 0;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border-radius: 18px;
+
+    font-size: 30px;
+
+    background:
+        rgba(255, 255, 255, 0.07);
+
+    border:
+        1px solid rgba(255, 255, 255, 0.1);
+
+}
+
+
+/* ==========================================
+              CARD CONTENT
+========================================== */
+
+.admin-card-content {
+
+    flex: 1;
+
+}
+
+.admin-card-content h2 {
+
+    font-size: 1.2rem;
+
+    margin-bottom: 5px;
+
+}
+
+.admin-card-content p {
+
+    font-size: 0.9rem;
+
+    color: #aaa0ad;
+
+}
+
+
+/* ==========================================
+              ARROW
+========================================== */
+
+.admin-arrow {
+
+    font-size: 25px;
+
+    color: #e9a8ca;
+
+    transition: transform 0.3s ease;
+
+}
+
+.admin-card:hover .admin-arrow {
+
+    transform: translateX(5px);
+
+}
+
+
+/* ==========================================
+              FOOTER
+========================================== */
+
+.admin-footer {
+
+    text-align: center;
+
+    margin-top: auto;
+
+    padding-top: 60px;
+
+    color: #8f8792;
+
+    font-size: 0.85rem;
+
+}
+
+.admin-footer p {
+
+    color: #bda7b7;
+
+    margin-bottom: 5px;
+
+}
+
+
+/* ==========================================
+              MOBILE
+========================================== */
+
+@media (max-width: 600px) {
+
+    .admin-page {
+
+        padding:
+            50px 18px 30px;
+
+    }
+
+    .admin-header h1 {
+
+        font-size: 2.3rem;
+
+    }
+
+    .admin-card {
+
+        padding: 20px;
+
+    }
+
+}
+
+/* ==========================================
+          LOGIN ACTIVITIES
+========================================== */
+
+.activity-container {
+
+    width: 100%;
+    max-width: 800px;
+
+}
+
+.activity-table {
+
+    width: 100%;
+
+    overflow: hidden;
+
+    border-radius: 22px;
+
+    background: rgba(255, 255, 255, 0.055);
+
+    border: 1px solid rgba(255, 255, 255, 0.12);
+
+    backdrop-filter: blur(18px);
+
+    -webkit-backdrop-filter: blur(18px);
+
+    box-shadow:
+        0 10px 35px rgba(0, 0, 0, 0.3);
+
+}
+
+
+.activity-row {
+
+    display: grid;
+
+    grid-template-columns:
+        1fr 1.3fr 1fr;
+
+    align-items: center;
+
+    min-height: 65px;
+
+    padding: 0 25px;
+
+    border-bottom:
+        1px solid rgba(255, 255, 255, 0.07);
+
+    color: #ddd5df;
+
+    font-size: 0.92rem;
+
+}
+
+
+.activity-row:last-child {
+
+    border-bottom: none;
+
+}
+
+
+.activity-header {
+
+    min-height: 55px;
+
+    background:
+        rgba(255, 255, 255, 0.06);
+
+    color: #e9a8ca;
+
+    font-weight: 600;
+
+    font-size: 0.85rem;
+
+    text-transform: uppercase;
+
+    letter-spacing: 0.08em;
+
+}
+
+
+.user-aryan {
+
+    color: #a9cfff;
+
+    font-weight: 600;
+
+}
+
+
+.user-manshi {
+
+    color: #ffafd7;
+
+    font-weight: 600;
+
+}
+
+
+.admin-back {
+
+    margin-top: 30px;
+
+    color: #c9b4c4;
+
+    text-decoration: none;
+
+    font-size: 0.9rem;
+
+    transition: 0.3s;
+
+}
+
+
+.admin-back:hover {
+
+    color: #ffafd7;
+
+    transform: translateX(-3px);
+
+}
+
+
+/* Mobile */
+
+@media (max-width: 600px) {
+
+    .activity-row {
+
+        grid-template-columns:
+            1fr 1.2fr 1fr;
+
+        padding: 0 15px;
+
+        font-size: 0.78rem;
+
+    }
+
+}

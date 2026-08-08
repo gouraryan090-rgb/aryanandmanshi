@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Login Activities ❤️</title>
+
+    <link rel="preconnect"
+          href="https://fonts.googleapis.com">
+
+    <link rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Poppins:wght@400;500;600&display=swap"
+          rel="stylesheet">
+
+    <link rel="stylesheet"
+          href="../admin.css">
+
+</head>
+
+
+<body>
+
+    <div class="admin-page">
+
+
+        <!-- Header -->
+
+        <header class="admin-header">
+
+            <div class="admin-symbol">
+                📊
+            </div>
+
+            <h1>
+                Login Activities
+            </h1>
+
+            <p>
+                Website login history
+            </p>
+
+        </header>
+
+
+
+        <!-- Activity Table -->
+
+        <main class="activity-container">
+
+            <div class="activity-table">
+
+                <!-- Table Header -->
+
+                <div class="activity-row activity-header">
+
+                    <div>
+                        Time
+                    </div>
+
+                    <div>
+                        Date
+                    </div>
+
+                    <div>
+                        By
+                    </div>
+
+                </div>
+
+
+                <!-- Database entries will appear here -->
+
+                <div id="activityList"></div>
+
+            </div>
+
+        </main>
+
+
+
+        <!-- Back -->
+
+        <a href="admin.html"
+           class="admin-back">
+
+            ← Back to Admin Panel
+
+        </a>
+
+
+
+        <!-- Footer -->
+
+        <footer class="admin-footer">
+
+            <p>
+                Our Little World ❤️
+            </p>
+
+            <span>
+                Admin access only
+            </span>
+
+        </footer>
+
+
+    </div>
+
+
+
+    <!-- Supabase -->
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <script src="../supabase.js"></script>
+
+
+
+    <!-- Load Login Activities -->
+
+    <script>
+
+        const activityList =
+            document.getElementById("activityList");
+
+
+        async function loadLoginActivities() {
+
+            const { data, error } =
+                await supabaseClient
+                    .from("login_activities")
+                    .select("user_name, login_time")
+                    .order("login_time", {
+                        ascending: false
+                    });
+
+
+            if (error) {
+
+                console.error(
+                    "Failed to load login activities:",
+                    error
+                );
+
+                activityList.innerHTML = `
+                    <div class="activity-row">
+                        <div style="grid-column: 1 / -1;">
+                            ❌ Unable to load login activities
+                        </div>
+                    </div>
+                `;
+
+                return;
+            }
+
+
+            if (!data || data.length === 0) {
+
+                activityList.innerHTML = `
+                    <div class="activity-row">
+                        <div style="grid-column: 1 / -1;">
+                            No login activities yet.
+                        </div>
+                    </div>
+                `;
+
+                return;
+            }
+
+
+            activityList.innerHTML = "";
+
+
+            data.forEach(activity => {
+
+                const date =
+                    new Date(activity.login_time);
+
+
+                const time =
+    date.toLocaleTimeString(
+        "en-IN",
+        {
+            hour: "2-digit",
+            minute: "2-digit",
+            second: "2-digit",
+            hour12: true,
+            timeZone: "Asia/Kolkata"
+        }
+    );
+
+
+                const formattedDate =
+                    date.toLocaleDateString(
+                        "en-IN",
+                        {
+                            day: "2-digit",
+                            month: "short",
+                            year: "numeric",
+                            timeZone: "Asia/Kolkata"
+                        }
+                    );
+
+
+                const isAryan =
+                    activity.user_name === "aryan";
+
+
+                const displayName =
+                    isAryan
+                        ? "💙 Aryan"
+                        : "💗 Manshii";
+
+
+                const userClass =
+                    isAryan
+                        ? "user-aryan"
+                        : "user-manshi";
+
+
+                const row =
+                    document.createElement("div");
+
+
+                row.className =
+                    "activity-row";
+
+
+                row.innerHTML = `
+
+                    <div>
+                        ${time}
+                    </div>
+
+                    <div>
+                        ${formattedDate}
+                    </div>
+
+                    <div class="${userClass}">
+                        ${displayName}
+                    </div>
+
+                `;
+
+
+                activityList.appendChild(row);
+
+            });
+
+        }
+
+
+        loadLoginActivities();
+
+
+    </script>
+
+
+
+    <!-- Admin Protection -->
+
+    <script>
+
+    if (
+        sessionStorage.getItem("adminAuthenticated")
+        !== "true"
+    ) {
+
+        window.location.replace("../index.html");
+
+    }
+
+</script>
+
+
+</body>
+
+</html>

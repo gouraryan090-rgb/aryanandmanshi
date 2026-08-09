@@ -8,247 +8,79 @@
 
     <title>Our Little World ❤️</title>
 
-    <!-- Fonts -->
-
     <link rel="preconnect" href="https://fonts.googleapis.com">
-
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
-
-    <!-- CSS -->
 
     <link rel="stylesheet" href="style.css">
 
 </head>
 
 <body>
-    <a href="#" id="logoutBtn" class="logout-btn">
-    🚪 Logout
-</a>
 
-    <!-- ================= LOADER ================= -->
+    <div id="loader">
 
-<div id="loader">
+        <div class="loader-bg"></div>
 
-    <div class="loader-bg"></div>
+        <div class="loader-content">
 
-    <div class="loader-content">
+            <div id="loaderIcon" class="loader-icon">❤️</div>
 
-        <div id="loaderIcon" class="loader-icon">❤️</div>
+            <h1 class="loader-title">
+                Aryan <span>❤️</span> Manshii
+            </h1>
 
-        <h1 class="loader-title">
-            Aryan <span>❤️</span> Manshii
-        </h1>
+            <p id="loaderText" class="loader-text">
+                Creating Memories...
+            </p>
 
-        <p id="loaderText" class="loader-text">
-            Creating Memories...
-        </p>
+            <div class="loader-progress">
 
-        <div class="loader-progress">
+                <div id="loaderBar" class="loader-bar"></div>
 
-            <div id="loaderBar" class="loader-bar"></div>
+            </div>
 
         </div>
 
     </div>
 
-</div>
-
-<!-- ============== WEBSITE CONTENT ============== -->
-
-    <!-- Floating Hearts -->
-
     <div class="hearts"></div>
 
-    <!-- Background -->
-
     <div class="background"></div>
-
-    <!-- Home -->
 
     <section class="home">
 
         <div class="glass">
 
             <div class="heart">
-
                 ❤️
-
             </div>
 
             <h1>
-
                 Our Little World
-
             </h1>
 
             <h2>
-
                 Aryan × Manshii
-
             </h2>
 
             <p>
-
                 A place where our memories live forever.
-
             </p>
 
-            <button id="enterBtn">
-
-                Enter Our World ❤️
-
-            </button>
+            <a href="dashboard.html" style="text-decoration: none;">
+                <button id="enterBtn">
+                    Enter Our World ❤️
+                </button>
+            </a>
 
         </div>
-
-    </section>
-
-    <!-- Dashboard -->
-
-    <section id="dashboard" class="dashboard">
-
-
-        <h1>
-
-            Our Little World ❤️
-
-        </h1>
-
-        <div class="cards">
-
-            <!-- About Aryan -->
-
-            <a href="pages/aryan.html" class="card">
-
-                <span>🗿</span>
-
-                <h3>About Aryan</h3>
-
-                <p>The idiot who loves Manshi. ❤️</p>
-
-            </a>
-
-            <!-- About Manshii -->
-
-            <a href="pages/manshii.html" class="card">
-
-                <span>👧</span>
-
-                <h3>About Manshi</h3>
-
-                <p>The prettiest chapter of my life. 🌸</p>
-
-            </a>
-
-            <!-- How We Met -->
-
-            <a href="pages/howtheymet.html" class="card">
-
-                <span>💞</span>
-
-                <h3>How They Met</h3>
-
-                <p>Where everything began.</p>
-
-            </a>
-
-            <!-- Gallery -->
-
-            <a href="pages/gallery.html" class="card">
-
-                <span>📸</span>
-
-                <h3>Gallery</h3>
-
-                <p>Every smile captured forever.</p>
-
-            </a>
-
-            <!-- Couple Diary -->
-
-            <a href="pages/diary.html" class="card">
-
-                <span>📖</span>
-
-                <h3>Couple Diary</h3>
-
-                <p>Our little memories.</p>
-
-            </a>
-
-            <!-- His Expectations -->
-
-            <a href="pages/his-expectations.html" class="card">
-
-                <span>💙</span>
-
-                <h3>His Expectations</h3>
-
-                <p>Things I wish for us.</p>
-
-            </a>
-
-            <!-- Her Expectations -->
-
-            <a href="pages/her-expectations.html" class="card">
-
-                <span>💗</span>
-
-                <h3>Her Expectations</h3>
-
-                <p>Your page. Your thoughts. ❤️</p>
-
-                
-
-            </a>
-
-            <a href="pages/her-intentions.html" class="card">
-
-    <span>💋</span>
-
-    <h3>Her Intentions</h3>
-
-    <p>
-        The little things she truly wants from her heart. ❤️
-    </p>
-
-    <a href="#"
-   class="card"
-   onclick="checkAdminPassword(); return false;">
-
-    <span>🧑‍💻</span>
-
-    <h3>Admin</h3>
-
-    <p>Manage the website</p>
-
-</a>
-
-</a>
-
-
-            
-        </div>
-
-        <footer>
-
-            Made with ❤️ by Aryan
-
-        </footer>
 
     </section>
 
     <script src="auth.js"></script>
     <script src="../supabase.js"></script>
     <script src="script.js"></script>
-    <script src="admin.js"></script>
-
-    
-</button>
-
-</audio>
 
 </body>
 

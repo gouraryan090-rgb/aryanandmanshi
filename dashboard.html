@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Dashboard | Our Little World ❤️</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="style.css">
+
+</head>
+
+<body>
+
+    <a href="#" id="logoutBtn" class="logout-btn">
+        🚪 Logout
+    </a>
+
+    <div class="hearts"></div>
+
+    <div class="background"></div>
+
+    <section id="dashboard" class="dashboard" style="display: block;">
+
+        <h1>
+            Our Little World ❤️
+        </h1>
+
+        <div class="cards">
+
+            <a href="pages/aryan.html" class="card">
+                <span>🗿</span>
+                <h3>About Aryan</h3>
+                <p>The idiot who loves Manshi. ❤️</p>
+            </a>
+
+            <a href="pages/manshii.html" class="card">
+                <span>👧</span>
+                <h3>About Manshi</h3>
+                <p>The prettiest chapter of my life. 🌸</p>
+            </a>
+
+            <a href="pages/howtheymet.html" class="card">
+                <span>💞</span>
+                <h3>How They Met</h3>
+                <p>Where everything began.</p>
+            </a>
+
+            <a href="pages/gallery.html" class="card">
+                <span>📸</span>
+                <h3>Gallery</h3>
+                <p>Every smile captured forever.</p>
+            </a>
+
+            <a href="pages/diary.html" class="card">
+                <span>📖</span>
+                <h3>Couple Diary</h3>
+                <p>Our little memories.</p>
+            </a>
+
+            <a href="pages/his-expectations.html" class="card">
+                <span>💙</span>
+                <h3>His Expectations</h3>
+                <p>Things I wish for us.</p>
+            </a>
+
+            <a href="pages/her-expectations.html" class="card">
+                <span>💗</span>
+                <h3>Her Expectations</h3>
+                <p>Your page. Your thoughts. ❤️</p>
+            </a>
+
+            <a href="pages/her-intentions.html" class="card">
+                <span>💋</span>
+                <h3>Her Intentions</h3>
+                <p>The little things she truly wants from her heart. ❤️</p>
+            </a>
+
+            <a href="#" class="card" onclick="checkAdminPassword(); return false;">
+                <span>🧑‍💻</span>
+                <h3>Admin</h3>
+                <p>Manage the website</p>
+            </a>
+
+        </div>
+
+        <footer>
+            Made with ❤️ by Aryan
+        </footer>
+
+    </section>
+
+    <script src="auth.js"></script>
+    <script src="../supabase.js"></script>
+    <script src="script.js"></script>
+    <script src="admin.js"></script>
+
+</body>
+
+</html>

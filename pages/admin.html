@@ -10,7 +10,6 @@
 
     <title>Admin Panel ❤️</title>
 
-    <!-- Google Fonts -->
     <link rel="preconnect"
           href="https://fonts.googleapis.com">
 
@@ -32,8 +31,6 @@
     <div class="admin-page">
 
 
-        <!-- Header -->
-
         <header class="admin-header">
 
             <div class="admin-symbol">
@@ -52,12 +49,8 @@
 
 
 
-        <!-- Admin Options -->
-
         <main class="admin-options">
 
-
-            <!-- Login Activities -->
 
             <a href="login-activities.html"
                class="admin-card">
@@ -85,32 +78,30 @@
             </a>
 
             <a href="media-manager.html" 
-            class="admin-card">
-        <div class="admin-card-icon">
-    📤
-</div>
+               class="admin-card">
+                <div class="admin-card-icon">
+                    📤
+                </div>
 
-<div class="admin-card-content">
+                <div class="admin-card-content">
 
-    <h2>
-        Media Manager
-    </h2>
+                    <h2>
+                        Media Manager
+                    </h2>
 
-    <p>
-        Upload photos and videos
-    </p>
+                    <p>
+                        Upload photos and videos
+                    </p>
 
-</div>
+                </div>
 
-<div class="admin-arrow">
-    →
-</div>
+                <div class="admin-arrow">
+                    →
+                </div>
 
-</a>
+            </a>
 
 
-
-            <!-- Feature Options -->
 
             <a href="#"
                class="admin-card">
@@ -165,8 +156,12 @@
         </main>
 
 
+        <div class="admin-back-container" style="text-align: center; margin: 20px 0;">
+            <a href="../index.html" class="admin-back-btn">
+                ← Back to Home
+            </a>
+        </div>
 
-        <!-- Footer -->
 
         <footer class="admin-footer">
 
@@ -182,10 +177,6 @@
 
 
     </div>
-
-
-
-    <!-- Admin Protection -->
 
     <script>
 
@@ -242,8 +233,6 @@
         </p>
 
 
-        <!-- FEATURE TOGGLE -->
-
         <div class="gift-setting-box">
 
             <div>
@@ -270,8 +259,6 @@
 
         </div>
 
-
-        <!-- MANSHI TIMER -->
 
         <div class="gift-timer-box">
 
@@ -320,8 +307,6 @@
         </div>
 
 
-        <!-- ARYAN TIMER -->
-
         <div class="gift-timer-box">
 
             <div class="gift-timer-title">
@@ -367,123 +352,6 @@
             </button>
 
         </div>
-
-    </div>
-
-</div>
-
-
-<!-- ================= MEDIA MANAGER ================= -->
-
-<div id="mediaManagerModal" class="admin-modal">
-
-    <div class="admin-modal-box media-manager-box">
-
-        <button
-            type="button"
-            class="admin-modal-close"
-            onclick="closeMediaManager()"
-        >
-            &times;
-        </button>
-
-        <div class="media-manager-header">
-
-            <div class="media-manager-icon">
-                📤
-            </div>
-
-            <div>
-                <h2>Media Manager</h2>
-
-                <p>
-                    Upload photos and videos
-                </p>
-            </div>
-
-        </div>
-
-
-        <div class="media-upload-area">
-
-            <input
-                type="file"
-                id="mediaFileInput"
-                accept="image/*,video/mp4,video/webm"
-                hidden
-            >
-
-            <label
-                for="mediaFileInput"
-                class="media-file-label"
-            >
-
-                <span class="upload-cloud">
-                    ☁️
-                </span>
-
-                <strong>
-                    Choose a photo or video
-                </strong>
-
-                <small>
-                    JPG, PNG, WEBP, MP4 or WEBM
-                </small>
-
-            </label>
-
-        </div>
-
-
-        <div
-            id="selectedMediaInfo"
-            class="selected-media-info"
-            style="display:none;"
-        >
-
-            <span id="selectedMediaName"></span>
-
-            <span id="selectedMediaSize"></span>
-
-        </div>
-
-
-        <div
-            id="mediaUploadProgress"
-            class="media-upload-progress"
-            style="display:none;"
-        >
-
-            <div class="progress-track">
-
-                <div
-                    id="mediaProgressBar"
-                    class="progress-bar"
-                ></div>
-
-            </div>
-
-            <span id="mediaProgressText">
-                Uploading...
-            </span>
-
-        </div>
-
-
-        <div
-            id="mediaUploadStatus"
-            class="media-upload-status"
-        ></div>
-
-
-        <button
-            type="button"
-            id="mediaUploadButton"
-            class="media-upload-button"
-            disabled
-        >
-            📤 Upload Media
-        </button>
 
     </div>
 

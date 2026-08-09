@@ -775,3 +775,71 @@ function closeMediaManager() {
     modal.style.display = "none";
 
 }
+
+/* ==========================================
+   WEBSITE MAINTENANCE MODE
+========================================== */
+
+async function loadMaintenanceStatus() {
+
+    const toggle = document.getElementById("maintenanceToggle");
+    const statusText = document.getElementById("maintenanceStatusText");
+
+    if (!toggle || !statusText) return;
+
+    const { data, error } = await supabaseClient
+        .from("site_settings")
+        .select("is_maintenance")
+        .eq("id", 1)
+        .single();
+
+    if (error) {
+        console.error("Maintenance status load error:", error);
+        return;
+    }
+
+    if (data) {
+        toggle.checked = data.is_maintenance === true;
+        statusText.textContent = data.is_maintenance
+            ? "Status: Under Maintenance (OFF)"
+            : "Status: Live (ON)";
+    }
+}
+
+
+async function toggleMaintenanceMode(isON) {
+
+    const toggle = document.getElementById("maintenanceToggle");
+    const statusText = document.getElementById("maintenanceStatusText");
+
+    if (toggle) toggle.disabled = true;
+
+    const { data, error } = await supabaseClient
+        .from("site_settings")
+        .update({
+            is_maintenance: isON,
+            updated_at: new Date().toISOString()
+        })
+        .eq("id", 1)
+        .select()
+        .single();
+
+    if (error) {
+        console.error("Maintenance toggle error:", error);
+        alert("Failed to update Maintenance Mode:\n\n" + error.message);
+        if (toggle) toggle.checked = !isON;
+    } else {
+        if (statusText) {
+            statusText.textContent = isON
+                ? "Status: Under Maintenance (OFF)"
+                : "Status: Live (ON)";
+        }
+    }
+
+    if (toggle) toggle.disabled = false;
+}
+
+// Page load hone par maintenance status load karein
+document.addEventListener("DOMContentLoaded", () => {
+    loadMaintenanceStatus();
+});

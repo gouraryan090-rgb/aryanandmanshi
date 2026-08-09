@@ -102,7 +102,6 @@
             </a>
 
 
-
             <a href="#"
                class="admin-card">
 
@@ -130,27 +129,62 @@
 
             <a href="#" class="admin-card" onclick="openGiftManager(); return false;">
 
-    <div class="admin-card-icon">
-        🎁
-    </div>
+                <div class="admin-card-icon">
+                    🎁
+                </div>
 
-    <div class="admin-card-content">
+                <div class="admin-card-content">
 
-        <h2>
-            Gift Manager
-        </h2>
+                    <h2>
+                        Gift Manager
+                    </h2>
 
-        <p>
-            Control gift access and timers
-        </p>
+                    <p>
+                        Control gift access and timers
+                    </p>
 
-    </div>
+                </div>
 
-    <div class="admin-arrow">
-        →
-    </div>
+                <div class="admin-arrow">
+                    →
+                </div>
 
-</a>
+            </a>
+
+            <div class="admin-card">
+
+                <div class="admin-card-icon">
+                    🛠️
+                </div>
+
+                <div class="admin-card-content">
+
+                    <h2>
+                        Website Maintenance
+                    </h2>
+
+                    <p id="maintenanceStatusText">
+                        Turn website ON / OFF
+                    </p>
+
+                </div>
+
+                <div class="admin-toggle">
+
+                    <label class="gift-switch">
+
+                        <input
+                            type="checkbox"
+                            id="maintenanceToggle"
+                            onchange="toggleMaintenanceMode(this.checked)">
+
+                        <span class="gift-slider"></span>
+
+                    </label>
+
+                </div>
+
+            </div>
 
 
         </main>

@@ -775,3 +775,56 @@ function closeMediaManager() {
     modal.style.display = "none";
 
 }
+
+// Send Love Note to Supabase
+async function sendLoveNote() {
+    const noteText = document.getElementById('loveNoteInput').value.trim();
+    const status = document.getElementById('noteStatus');
+
+    if (!noteText) {
+        alert("Pehle koi message likho!");
+        return;
+    }
+
+    status.textContent = "Sending note... ⏳";
+
+    try {
+        // Pehle purane active notes deactivate kar do
+        await supabaseClient
+            .from('love_notes')
+            .update({ is_active: false })
+            .eq('is_active', true);
+
+        // Naya active note insert karo
+        const { error } = await supabaseClient
+            .from('love_notes')
+            .insert([{ note_text: noteText, is_active: true }]);
+
+        if (error) throw error;
+
+        status.textContent = "✨ Love Note active ho gaya! Manshii ko dashboard par dikhega.";
+        document.getElementById('loveNoteInput').value = '';
+
+    } catch (err) {
+        console.error(err);
+        status.textContent = "❌ Error sending note: " + err.message;
+    }
+}
+
+// Clear Active Note
+async function clearActiveNote() {
+    const status = document.getElementById('noteStatus');
+    status.textContent = "Clearing active notes... ⏳";
+
+    try {
+        const { error } = await supabaseClient
+            .from('love_notes')
+            .update({ is_active: false })
+            .eq('is_active', true);
+
+        if (error) throw error;
+        status.textContent = "✅ Active note clear ho gaya.";
+    } catch (err) {
+        status.textContent = "❌ Error: " + err.message;
+    }
+}

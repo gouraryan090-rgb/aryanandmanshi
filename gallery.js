@@ -1,6 +1,6 @@
 /* ==========================================
    OUR GALLERY ❤️
-   SUPABASE STORAGE VERSION
+   SUPABASE STORAGE VERSION WITH MEDIA MANAGER
 ========================================== */
 
 
@@ -83,9 +83,8 @@ async function loadGallery() {
     try {
 
         console.log(
-            "Loading gallery from Supabase..."
+            "Loading gallery..."
         );
-
 
         const {
             data,
@@ -113,10 +112,6 @@ async function loadGallery() {
 
         if (!data) {
 
-            console.log(
-                "No media found."
-            );
-
             updateCounters();
 
             return;
@@ -124,108 +119,68 @@ async function loadGallery() {
         }
 
 
-        /* ==================================
-           CLEAR OLD GALLERY
-        ================================== */
+        photoGallery.innerHTML =
+            "";
 
-        photoGallery.innerHTML = "";
-
-        videoGallery.innerHTML = "";
-
+        videoGallery.innerHTML =
+            "";
 
         photos = [];
 
         videos = [];
 
 
-        /* ==================================
-           PROCESS FILES
-        ================================== */
+        data.forEach(function (
+            file
+        ) {
 
-        data.forEach(
-            function (file) {
+            if (
+                !file.name ||
+                file.name ===
+                ".emptyfolderplaceholder"
+            ) {
 
-                /*
-                 * Ignore folders
-                 */
-
-                if (!file.name) {
-
-                    return;
-
-                }
-
-
-                const fileName =
-                    file.name.toLowerCase();
-
-
-                /*
-                 * Ignore hidden/system files
-                 */
-
-                if (
-                    fileName === ".emptyfolderplaceholder"
-                ) {
-
-                    return;
-
-                }
-
-
-                /*
-                 * Get public URL
-                 */
-
-                const result =
-                    supabaseClient
-                        .storage
-                        .from("gallery")
-                        .getPublicUrl(
-                            file.name
-                        );
-
-
-                const publicURL =
-                    result.data.publicUrl;
-
-
-                /*
-                 * IMAGE
-                 */
-
-                if (
-                    isImage(fileName)
-                ) {
-
-                    photos.push(
-                        publicURL
-                    );
-
-                }
-
-
-                /*
-                 * VIDEO
-                 */
-
-                else if (
-                    isVideo(fileName)
-                ) {
-
-                    videos.push(
-                        publicURL
-                    );
-
-                }
+                return;
 
             }
-        );
 
 
-        /* ==================================
-           RENDER
-        ================================== */
+            const fileName =
+                file.name.toLowerCase();
+
+            const result =
+                supabaseClient
+                    .storage
+                    .from("gallery")
+                    .getPublicUrl(
+                        file.name
+                    );
+
+            const publicURL =
+                result.data
+                    .publicUrl;
+
+
+            if (
+                isImage(fileName)
+            ) {
+
+                photos.push(
+                    publicURL
+                );
+
+            } else if (
+                isVideo(fileName)
+            ) {
+
+                videos.push(
+                    publicURL
+                );
+
+            }
+
+        });
+
 
         renderPhotos();
 
@@ -233,25 +188,12 @@ async function loadGallery() {
 
         updateCounters();
 
-
-        console.log(
-            "Gallery loaded:",
-            photos.length,
-            "photos,",
-            videos.length,
-            "videos"
-        );
-
-
-    }
-
-    catch (error) {
+    } catch (error) {
 
         console.error(
             "Gallery loading error:",
             error
         );
-
 
         showGalleryError(
             "Unable to load gallery. Please try again."
@@ -263,46 +205,50 @@ async function loadGallery() {
 
 
 /* ==========================================
-   IMAGE CHECK
+   FILE CHECKS
 ========================================== */
 
 function isImage(fileName) {
 
     return (
-
-        fileName.endsWith(".jpg") ||
-
-        fileName.endsWith(".jpeg") ||
-
-        fileName.endsWith(".png") ||
-
-        fileName.endsWith(".webp") ||
-
-        fileName.endsWith(".gif") ||
-
-        fileName.endsWith(".avif")
-
+        fileName.endsWith(
+            ".jpg"
+        ) ||
+        fileName.endsWith(
+            ".jpeg"
+        ) ||
+        fileName.endsWith(
+            ".png"
+        ) ||
+        fileName.endsWith(
+            ".webp"
+        ) ||
+        fileName.endsWith(
+            ".gif"
+        ) ||
+        fileName.endsWith(
+            ".avif"
+        )
     );
 
 }
 
 
-/* ==========================================
-   VIDEO CHECK
-========================================== */
-
 function isVideo(fileName) {
 
     return (
-
-        fileName.endsWith(".mp4") ||
-
-        fileName.endsWith(".webm") ||
-
-        fileName.endsWith(".mov") ||
-
-        fileName.endsWith(".m4v")
-
+        fileName.endsWith(
+            ".mp4"
+        ) ||
+        fileName.endsWith(
+            ".webm"
+        ) ||
+        fileName.endsWith(
+            ".mov"
+        ) ||
+        fileName.endsWith(
+            ".m4v"
+        )
     );
 
 }
@@ -314,92 +260,83 @@ function isVideo(fileName) {
 
 function renderPhotos() {
 
-    photoGallery.innerHTML = "";
+    photoGallery.innerHTML =
+        "";
 
 
     if (photos.length === 0) {
 
         photoGallery.innerHTML =
             `
-            <div class="gallery-empty">
-                📷 No photos uploaded yet.
-            </div>
-            `;
+        <div class="gallery-empty">
+            📷 No photos uploaded yet.
+        </div>
+        `;
 
         return;
 
     }
 
 
-    photos.forEach(
-        function (src, index) {
+    photos.forEach(function (
+        src,
+        index
+    ) {
 
-            const img =
-                document.createElement(
-                    "img"
+        const img =
+            document.createElement(
+                "img"
+            );
+
+        img.src = src;
+
+        img.className =
+            "gallery-item";
+
+        img.alt =
+            "Our memory ❤️";
+
+        img.loading = "lazy";
+
+        img.decoding = "async";
+
+
+        img.addEventListener(
+            "click",
+            function () {
+
+                currentItems =
+                    photos;
+
+                currentIndex =
+                    index;
+
+                currentType =
+                    "image";
+
+                openImage();
+
+            }
+        );
+
+
+        img.addEventListener(
+            "load",
+            function () {
+
+                img.classList.add(
+                    "loaded"
                 );
 
-
-            img.src = src;
-
-            img.className =
-                "gallery-item";
-
-            img.alt =
-                "Our memory ❤️";
-
-            img.loading =
-                "lazy";
-
-            img.decoding =
-                "async";
+            }
+        );
 
 
-            /*
-             * Open lightbox
-             */
+        photoGallery.appendChild(
+            img
+        );
 
-            img.addEventListener(
-                "click",
-                function () {
-
-                    currentItems =
-                        photos;
-
-                    currentIndex =
-                        index;
-
-                    currentType =
-                        "image";
-
-                    openImage();
-
-                }
-            );
-
-
-            /*
-             * Loading effect
-             */
-
-            img.addEventListener(
-                "load",
-                function () {
-
-                    img.classList.add(
-                        "loaded"
-                    );
-
-                }
-            );
-
-
-            photoGallery.appendChild(
-                img
-            );
-
-        }
-    );
+    });
 
 }
 
@@ -410,88 +347,86 @@ function renderPhotos() {
 
 function renderVideos() {
 
-    videoGallery.innerHTML = "";
+    videoGallery.innerHTML =
+        "";
 
 
     if (videos.length === 0) {
 
         videoGallery.innerHTML =
             `
-            <div class="gallery-empty">
-                🎥 No videos uploaded yet.
-            </div>
-            `;
+        <div class="gallery-empty">
+            🎥 No videos uploaded yet.
+        </div>
+        `;
 
         return;
 
     }
 
 
-    videos.forEach(
-        function (src, index) {
+    videos.forEach(function (
+        src,
+        index
+    ) {
 
-            const video =
-                document.createElement(
-                    "video"
-                );
-
-
-            video.src = src;
-
-            video.className =
-                "gallery-item";
-
-            video.muted =
-                true;
-
-            video.playsInline =
-                true;
-
-            video.preload =
-                "metadata";
-
-
-            /*
-             * Open lightbox
-             */
-
-            video.addEventListener(
-                "click",
-                function () {
-
-                    currentItems =
-                        videos;
-
-                    currentIndex =
-                        index;
-
-                    currentType =
-                        "video";
-
-                    openVideo();
-
-                }
+        const video =
+            document.createElement(
+                "video"
             );
 
+        video.src = src;
 
-            videoGallery.appendChild(
-                video
-            );
+        video.className =
+            "gallery-item";
 
-        }
-    );
+        video.muted = true;
+
+        video.playsInline =
+            true;
+
+        video.preload =
+            "metadata";
+
+
+        video.addEventListener(
+            "click",
+            function () {
+
+                currentItems =
+                    videos;
+
+                currentIndex =
+                    index;
+
+                currentType =
+                    "video";
+
+                openVideo();
+
+            }
+        );
+
+
+        videoGallery.appendChild(
+            video
+        );
+
+    });
 
 }
 
 
 /* ==========================================
-   OPEN IMAGE
+   LIGHTBOX CONTROLS
 ========================================== */
 
 function openImage() {
 
     const src =
-        currentItems[currentIndex];
+        currentItems[
+            currentIndex
+        ];
 
 
     lightboxVideo.pause();
@@ -500,14 +435,12 @@ function openImage() {
         "src"
     );
 
-
     lightboxVideo.style.display =
         "none";
 
 
     lightboxImg.style.display =
         "block";
-
 
     lightboxImg.style.opacity =
         "0";
@@ -526,84 +459,64 @@ function openImage() {
         };
 
 
-    lightboxImg.src =
-        src;
+    lightboxImg.src = src;
 
 }
 
 
-/* ==========================================
-   OPEN VIDEO
-========================================== */
-
 function openVideo() {
 
     const src =
-        currentItems[currentIndex];
+        currentItems[
+            currentIndex
+        ];
 
 
     lightboxImg.style.display =
         "none";
 
-
-    lightboxImg.src =
-        "";
+    lightboxImg.src = "";
 
 
     lightboxVideo.style.display =
         "block";
 
-
     lightbox.style.display =
         "flex";
 
 
-    lightboxVideo.src =
-        src;
-
+    lightboxVideo.src = src;
 
     lightboxVideo.load();
 
 
-    lightboxVideo.play()
-        .catch(
-            function () {
+    lightboxVideo
+        .play()
+        .catch(function () {
 
-                console.log(
-                    "Video autoplay blocked."
-                );
+            console.log(
+                "Autoplay prevented."
+            );
 
-            }
-        );
+        });
 
 }
 
-
-/* ==========================================
-   CLOSE LIGHTBOX
-========================================== */
 
 function closeLightbox() {
 
     lightbox.style.display =
         "none";
 
-
-    lightboxImg.src =
-        "";
+    lightboxImg.src = "";
 
 
     lightboxVideo.pause();
 
-    lightboxVideo.src =
-        "";
+    lightboxVideo.src = "";
 
 }
 
-
-/* ==========================================
-   CLOSE BUTTON
-========================================== */
 
 closeBtn.addEventListener(
     "click",
@@ -611,14 +524,11 @@ closeBtn.addEventListener(
 );
 
 
-/* ==========================================
-   NEXT
-========================================== */
-
 function nextMedia() {
 
     if (
-        currentItems.length === 0
+        currentItems.length ===
+        0
     ) {
 
         return;
@@ -640,15 +550,12 @@ function nextMedia() {
 
 
     if (
-        currentType ===
-        "image"
+        currentType === "image"
     ) {
 
         openImage();
 
-    }
-
-    else {
+    } else {
 
         openVideo();
 
@@ -663,14 +570,11 @@ nextBtn.addEventListener(
 );
 
 
-/* ==========================================
-   PREVIOUS
-========================================== */
-
 function previousMedia() {
 
     if (
-        currentItems.length === 0
+        currentItems.length ===
+        0
     ) {
 
         return;
@@ -681,9 +585,7 @@ function previousMedia() {
     currentIndex--;
 
 
-    if (
-        currentIndex < 0
-    ) {
+    if (currentIndex < 0) {
 
         currentIndex =
             currentItems.length - 1;
@@ -692,15 +594,12 @@ function previousMedia() {
 
 
     if (
-        currentType ===
-        "image"
+        currentType === "image"
     ) {
 
         openImage();
 
-    }
-
-    else {
+    } else {
 
         openVideo();
 
@@ -715,10 +614,6 @@ prevBtn.addEventListener(
 );
 
 
-/* ==========================================
-   ESCAPE
-========================================== */
-
 document.addEventListener(
     "keydown",
     function (event) {
@@ -732,20 +627,10 @@ document.addEventListener(
 
         }
 
-    }
-);
-
-
-/* ==========================================
-   KEYBOARD NAVIGATION
-========================================== */
-
-document.addEventListener(
-    "keydown",
-    function (event) {
 
         if (
-            lightbox.style.display !==
+            lightbox.style
+                .display !==
             "flex"
         ) {
 
@@ -777,10 +662,6 @@ document.addEventListener(
 );
 
 
-/* ==========================================
-   CLICK OUTSIDE LIGHTBOX
-========================================== */
-
 lightbox.addEventListener(
     "click",
     function (event) {
@@ -804,12 +685,14 @@ lightbox.addEventListener(
 
 function updateCounters() {
 
-    photoCount.textContent =
-        photos.length;
+    if (photoCount) {
+        photoCount.textContent = photos.length;
+    }
 
 
-    videoCount.textContent =
-        videos.length;
+    if (videoCount) {
+        videoCount.textContent = videos.length;
+    }
 
 }
 
@@ -822,21 +705,163 @@ function showGalleryError(
     message
 ) {
 
-    photoGallery.innerHTML =
-        `
-        <div class="gallery-empty">
-            ❌ ${message}
-        </div>
-        `;
+    if (photoGallery) {
+        photoGallery.innerHTML =
+            `
+            <div class="gallery-empty">
+                ❌ ${message}
+            </div>
+            `;
+    }
 
 
-    videoGallery.innerHTML =
-        `
-        <div class="gallery-empty">
-            ❌ ${message}
-        </div>
-        `;
+    if (videoGallery) {
+        videoGallery.innerHTML =
+            `
+            <div class="gallery-empty">
+                ❌ ${message}
+            </div>
+            `;
+    }
 
+}
+
+
+/* ==========================================
+   MANAGE MEDIA MODAL LOGIC
+========================================== */
+
+function openMediaModal() {
+    const modal = document.getElementById("manageMediaModal");
+    if (modal) {
+        modal.style.display = "flex";
+        renderModalMediaList();
+    }
+}
+
+function closeMediaModal() {
+    const modal = document.getElementById("manageMediaModal");
+    if (modal) {
+        modal.style.display = "none";
+    }
+}
+
+async function renderModalMediaList() {
+    const listContainer = document.getElementById("modalMediaList");
+    if (!listContainer) return;
+
+    listContainer.innerHTML = "<p style='color: #cbd5e1; grid-column: 1/-1;'>Loading media... ⏳</p>";
+
+    try {
+        const { data, error } = await supabaseClient
+            .storage
+            .from("gallery")
+            .list("", { limit: 100 });
+
+        if (error) throw error;
+
+        listContainer.innerHTML = "";
+
+        if (!data || data.length === 0) {
+            listContainer.innerHTML = "<p style='color: #cbd5e1; grid-column: 1/-1;'>No media found.</p>";
+            return;
+        }
+
+        data.forEach((file) => {
+            if (!file.name || file.name === ".emptyfolderplaceholder") return;
+
+            const publicURL = supabaseClient
+                .storage
+                .from("gallery")
+                .getPublicUrl(file.name).data.publicUrl;
+
+            const isVid = isVideo(file.name.toLowerCase());
+
+            const itemWrapper = document.createElement("div");
+            itemWrapper.style.cssText = "position: relative; border-radius: 10px; overflow: hidden; height: 85px; background: #0f172a; border: 1px solid rgba(255,255,255,0.1);";
+
+            if (isVid) {
+                itemWrapper.innerHTML = `<video src="${publicURL}" style="width:100%; height:100%; object-fit:cover;"></video>`;
+            } else {
+                itemWrapper.innerHTML = `<img src="${publicURL}" style="width:100%; height:100%; object-fit:cover;">`;
+            }
+
+            const delBtn = document.createElement("button");
+            delBtn.innerHTML = "🗑️";
+            delBtn.title = "Delete media";
+            delBtn.style.cssText = "position: absolute; top: 4px; right: 4px; background: rgba(239, 68, 68, 0.9); border: none; border-radius: 50%; width: 24px; height: 24px; color: #fff; font-size: 11px; cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 5px rgba(0,0,0,0.4);";
+
+            delBtn.onclick = async () => {
+                if (confirm("Kyu photo/video ko delete karna chahte ho?")) {
+                    await deleteMediaFile(file.name);
+                }
+            };
+
+            itemWrapper.appendChild(delBtn);
+            listContainer.appendChild(itemWrapper);
+        });
+
+    } catch (err) {
+        console.error("Error fetching modal media list:", err);
+        listContainer.innerHTML = "<p style='color: #f87171; grid-column: 1/-1;'>Failed to load media list.</p>";
+    }
+}
+
+async function deleteMediaFile(fileName) {
+    try {
+        const { error } = await supabaseClient
+            .storage
+            .from("gallery")
+            .remove([fileName]);
+
+        if (error) throw error;
+
+        await loadGallery();
+        renderModalMediaList();
+    } catch (err) {
+        alert("Delete failed: " + err.message);
+    }
+}
+
+async function uploadMediaFromModal(event) {
+    const file = event.target.files[0];
+    const statusText = document.getElementById("modalUploadStatus");
+    const uploadBtn = document.getElementById("modalUploadBtn");
+
+    if (!file) return;
+
+    statusText.textContent = "Uploading... ⏳";
+    statusText.style.color = "#ff8eaa";
+    uploadBtn.disabled = true;
+
+    try {
+        const fileExt = file.name.split('.').pop();
+        const fileName = `${Date.now()}_${Math.random().toString(36).substring(2, 7)}.${fileExt}`;
+
+        const { error } = await supabaseClient
+            .storage
+            .from("gallery")
+            .upload(fileName, file);
+
+        if (error) throw error;
+
+        statusText.textContent = "✨ Uploaded successfully! ❤️";
+        statusText.style.color = "#4ade80";
+
+        event.target.value = "";
+        await loadGallery();
+        renderModalMediaList();
+
+        setTimeout(() => {
+            statusText.textContent = "";
+            uploadBtn.disabled = false;
+        }, 2000);
+
+    } catch (err) {
+        statusText.textContent = "❌ Failed: " + err.message;
+        statusText.style.color = "#f87171";
+        uploadBtn.disabled = false;
+    }
 }
 
 

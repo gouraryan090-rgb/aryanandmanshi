@@ -1,6 +1,6 @@
 /* ==========================================
    OUR GALLERY ❤️
-   SUPABASE STORAGE VERSION WITH MEDIA MANAGER
+   SUPABASE STORAGE VERSION WITH CUSTOM MODALS
 ========================================== */
 
 
@@ -52,6 +52,8 @@ let currentItems = [];
 let currentIndex = 0;
 
 let currentType = "image";
+
+let fileToDelete = null; // Store file name temporarily for deletion
 
 
 /* ==========================================
@@ -791,10 +793,9 @@ async function renderModalMediaList() {
             delBtn.title = "Delete media";
             delBtn.style.cssText = "position: absolute; top: 4px; right: 4px; background: rgba(239, 68, 68, 0.9); border: none; border-radius: 50%; width: 24px; height: 24px; color: #fff; font-size: 11px; cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 5px rgba(0,0,0,0.4);";
 
-            delBtn.onclick = async () => {
-                if (confirm("Kyu photo/video ko delete karna chahte ho?")) {
-                    await deleteMediaFile(file.name);
-                }
+            // Trigger Custom Confirmation Modal instead of browser confirm()
+            delBtn.onclick = () => {
+                showDeleteConfirmModal(file.name);
             };
 
             itemWrapper.appendChild(delBtn);
@@ -805,6 +806,44 @@ async function renderModalMediaList() {
         console.error("Error fetching modal media list:", err);
         listContainer.innerHTML = "<p style='color: #f87171; grid-column: 1/-1;'>Failed to load media list.</p>";
     }
+}
+
+
+/* ==========================================
+   CUSTOM DELETE CONFIRMATION LOGIC
+========================================== */
+
+function showDeleteConfirmModal(fileName) {
+    fileToDelete = fileName;
+    const confirmModal = document.getElementById("deleteConfirmModal");
+    if (confirmModal) {
+        confirmModal.style.display = "flex";
+    }
+}
+
+function closeDeleteConfirmModal() {
+    fileToDelete = null;
+    const confirmModal = document.getElementById("deleteConfirmModal");
+    if (confirmModal) {
+        confirmModal.style.display = "none";
+    }
+}
+
+// Bind Delete Action to Modal Button
+const confirmDeleteBtn = document.getElementById("confirmDeleteBtn");
+if (confirmDeleteBtn) {
+    confirmDeleteBtn.onclick = async () => {
+        if (fileToDelete) {
+            confirmDeleteBtn.disabled = true;
+            confirmDeleteBtn.textContent = "Deleting... ⏳";
+            
+            await deleteMediaFile(fileToDelete);
+            
+            confirmDeleteBtn.disabled = false;
+            confirmDeleteBtn.textContent = "Delete";
+            closeDeleteConfirmModal();
+        }
+    };
 }
 
 async function deleteMediaFile(fileName) {
@@ -822,6 +861,11 @@ async function deleteMediaFile(fileName) {
         alert("Delete failed: " + err.message);
     }
 }
+
+
+/* ==========================================
+   UPLOAD MEDIA FROM MODAL
+========================================== */
 
 async function uploadMediaFromModal(event) {
     const file = event.target.files[0];

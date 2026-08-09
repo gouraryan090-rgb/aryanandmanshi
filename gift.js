@@ -835,27 +835,26 @@ function showGiftFeatureError() {
 
             <div class="gift-error-card">
 
-                <div class="gift-error-icon">
-                    🎁
+                <div class="gift-error-badge">
+                    <span class="gift-error-icon">🔒</span>
+                    <span class="gift-error-sparkle">✨</span>
                 </div>
 
-                <div class="gift-error-title">
-                    Gift Unavailable
-                </div>
+                <h3 class="gift-error-title">
+                    Surprise Locked ❤️
+                </h3>
 
-                <div class="gift-error-text">
-                    The Gift Feature is currently
-                    turned off.
+                <p class="gift-error-text">
+                    The Gift feature is currently turned off!
                     <br><br>
-                    Please ask the admin to turn it
-                    on from the Admin Panel.
-                </div>
+                    <span>Ask Aryan to unlock today's gift from the Admin Panel. 🔑</span>
+                </p>
 
                 <button
                     class="gift-error-button"
                     onclick="closeGiftFeatureError()"
                 >
-                    Okay
+                    Got It ❤️
                 </button>
 
             </div>
@@ -874,6 +873,20 @@ function showGiftFeatureError() {
         "flex";
 
 }
+
+
+
+        document.body.appendChild(
+            popup
+        );
+
+    
+
+
+    popup.style.display =
+        "flex";
+
+    
 
 
 function closeGiftFeatureError() {

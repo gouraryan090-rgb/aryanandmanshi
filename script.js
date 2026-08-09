@@ -28,92 +28,6 @@ const enterBtn = document.getElementById("enterBtn");
 const heartsContainer = document.querySelector(".hearts");
 
 /* ==========================================
-        CHECK MAINTENANCE MODE
-========================================== */
-
-async function checkMaintenanceMode() {
-
-    // Admin page ko maintenance screen se bypass karein
-    if (window.location.pathname.includes("admin.html")) return;
-
-    if (typeof supabaseClient === "undefined") return;
-
-    try {
-        const { data, error } = await supabaseClient
-            .from("site_settings")
-            .select("is_maintenance")
-            .eq("id", 1)
-            .single();
-
-        if (data && data.is_maintenance === true) {
-
-            // Loader remove kar do agar visible ho
-            const loader = document.getElementById("loader");
-            if (loader) loader.remove();
-
-            document.body.innerHTML = `
-                <div style="
-                    min-height: 100vh;
-                    display: flex;
-                    flex-direction: column;
-                    justify-content: center;
-                    align-items: center;
-                    background: #0f172a;
-                    color: #ffffff;
-                    font-family: 'Poppins', sans-serif;
-                    text-align: center;
-                    padding: 20px;
-                    box-sizing: border-box;
-                    position: relative;
-                ">
-                    <div style="font-size: 80px; margin-bottom: 20px;">🛠️</div>
-                    <h1 style="font-size: 2.2rem; margin-bottom: 12px; color: #ff6b6b; font-weight: 600;">
-                        Website is Under Maintenance
-                    </h1>
-                    <p style="font-size: 1.05rem; color: #cbd5e1; max-width: 480px; line-height: 1.6; margin-bottom: 30px;">
-                        We are currently updating our little world ❤️.<br>
-                        Please check back again in a few minutes!
-                    </p>
-
-                    <button onclick="goToAdminPanel()" style="
-                        background: rgba(255, 255, 255, 0.1);
-                        border: 1px solid rgba(255, 255, 255, 0.2);
-                        color: #ffb6c1;
-                        padding: 10px 20px;
-                        border-radius: 20px;
-                        font-size: 0.9rem;
-                        cursor: pointer;
-                        transition: all 0.3s ease;
-                        display: flex;
-                        align-items: center;
-                        gap: 8px;
-                    " onmouseover="this.style.background='rgba(255,255,255,0.2)'" onmouseout="this.style.background='rgba(255,255,255,0.1)'">
-                        🧑‍💻 Admin Access
-                    </button>
-                </div>
-            `;
-        }
-    } catch (err) {
-        console.error("Maintenance check error:", err);
-    }
-}
-
-// Admin Panel redirect ya password check function
-function goToAdminPanel() {
-    if (typeof checkAdminPassword === "function") {
-        checkAdminPassword();
-    } else {
-        window.location.href = "pages/admin.html";
-    }
-}
-
-// Maintenance check run karein
-document.addEventListener("DOMContentLoaded", () => {
-    checkMaintenanceMode();
-});
-
-
-/* ==========================================
             ENTER BUTTON
 ========================================== */
 
@@ -163,9 +77,7 @@ function createHeart(){
 
     heart.style.animationDuration=(6+Math.random()*5)+"s";
 
-    if (heartsContainer) {
-        heartsContainer.appendChild(heart);
-    }
+    heartsContainer.appendChild(heart);
 
     setTimeout(()=>{
 
@@ -176,6 +88,36 @@ function createHeart(){
 }
 
 setInterval(createHeart,700);
+
+/* ==========================================
+        CARD HOVER SOUND (Future)
+========================================== */
+
+// Reserved
+
+/* ==========================================
+        PASSWORD (Future)
+========================================== */
+
+// Reserved
+
+/* ==========================================
+        MUSIC (Future)
+========================================== */
+
+// Reserved
+
+/* ==========================================
+        LOADER (Future)
+========================================== */
+
+// Reserved
+
+/* ==========================================
+        CONSOLE MESSAGE ❤️
+========================================== */
+
+console.log("%cWelcome to Our Little World ❤️","color:#ff4d94;font-size:18px;font-weight:bold;");
 
 /* ==========================================
         SCROLL REVEAL
@@ -215,6 +157,7 @@ const loader = document.getElementById("loader");
 
 if (loader) {
 
+    // Loader already shown in this tab?
     if (sessionStorage.getItem("loaderShown")) {
         loader.remove();
     } else {
@@ -249,9 +192,9 @@ if (loader) {
 
             progress += 2.1;
 
-            if (loaderBar) loaderBar.style.width = progress + "%";
+            loaderBar.style.width = progress + "%";
 
-            if (changeCounter % 6 === 0 && loaderIcon) {
+            if (changeCounter % 6 === 0) {
 
                 loaderIcon.style.transform = "scale(0.6)";
                 loaderIcon.style.opacity = "0";
@@ -269,7 +212,7 @@ if (loader) {
 
             }
 
-            if (changeCounter % 8 === 0 && loaderText) {
+            if (changeCounter % 8 === 0) {
 
                 loaderText.style.opacity = "0";
 
@@ -291,13 +234,11 @@ if (loader) {
 
                 setTimeout(() => {
 
-                    if (loader) {
-                        loader.classList.add("loader-hide");
+                    loader.classList.add("loader-hide");
 
-                        setTimeout(() => {
-                            loader.remove();
-                        }, 1000);
-                    }
+                    setTimeout(() => {
+                        loader.remove();
+                    }, 1000);
 
                 }, 500);
 
@@ -313,6 +254,7 @@ if (loader) {
       APPLE PAGE TRANSITION
 =========================== */
 
+// Page Enter Animation
 window.addEventListener("load", () => {
 
     document.body.classList.add("page-enter");
@@ -329,6 +271,7 @@ window.addEventListener("load", () => {
 
 });
 
+// Page Exit Animation
 document.querySelectorAll("a").forEach(link => {
 
     const href = link.getAttribute("href");
@@ -357,7 +300,6 @@ document.querySelectorAll("a").forEach(link => {
     }
 
 });
-
 window.addEventListener("pageshow", () => {
     document.body.classList.remove("page-exit");
     document.body.classList.remove("page-enter");
@@ -379,3 +321,4 @@ if(logoutBtn){
     });
 
 }
+

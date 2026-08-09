@@ -60,6 +60,8 @@ let selectedFile = null;
 
 function formatFileSize(bytes) {
 
+    if (!bytes) return "0 B";
+
     if (bytes < 1024) {
 
         return bytes + " B";
@@ -90,129 +92,138 @@ function formatFileSize(bytes) {
    FILE SELECT
 ========================================== */
 
-mediaFileInput.addEventListener(
-    "change",
-    function () {
+if (mediaFileInput) {
 
-        console.log(
-            "File selected"
-        );
+    mediaFileInput.addEventListener(
+        "change",
+        function () {
 
-
-        const file =
-            mediaFileInput.files[0];
-
-
-        if (!file) {
-
-            return;
-
-        }
-
-
-        selectedFile =
-            file;
-
-
-        mediaFileName.textContent =
-            file.name;
-
-
-        mediaFileSize.textContent =
-            formatFileSize(
-                file.size
+            console.log(
+                "File selected"
             );
 
 
-        selectedMedia.style.display =
-            "flex";
+            const file =
+                mediaFileInput.files[0];
 
 
-        uploadMediaBtn.disabled =
-            false;
+            if (!file) {
+
+                return;
+
+            }
 
 
-        uploadStatus.textContent =
-            "";
+            selectedFile =
+                file;
 
 
-        mediaPreview.innerHTML =
-            "";
+            if (mediaFileName) {
+                mediaFileName.textContent = file.name;
+            }
 
 
-        const previewURL =
-            URL.createObjectURL(
-                file
-            );
+            if (mediaFileSize) {
+                mediaFileSize.textContent = formatFileSize(file.size);
+            }
 
 
-        if (
-            file.type.startsWith(
-                "image/"
-            )
-        ) {
-
-            const img =
-                document.createElement(
-                    "img"
-                );
+            if (selectedMedia) {
+                selectedMedia.style.display = "flex";
+            }
 
 
-            img.src =
-                previewURL;
+            if (uploadMediaBtn) {
+                uploadMediaBtn.disabled = false;
+            }
 
 
-            img.alt =
-                "Selected image";
+            if (uploadStatus) {
+                uploadStatus.textContent = "";
+                uploadStatus.className = "upload-status";
+            }
 
 
-            mediaPreview.appendChild(
-                img
-            );
+            if (mediaPreview) {
+                mediaPreview.innerHTML = "";
+
+
+                const previewURL =
+                    URL.createObjectURL(
+                        file
+                    );
+
+
+                if (
+                    file.type.startsWith(
+                        "image/"
+                    )
+                ) {
+
+                    const img =
+                        document.createElement(
+                            "img"
+                        );
+
+
+                    img.src =
+                        previewURL;
+
+
+                    img.alt =
+                        "Selected image";
+
+
+                    mediaPreview.appendChild(
+                        img
+                    );
+
+                }
+
+
+                else if (
+                    file.type.startsWith(
+                        "video/"
+                    )
+                ) {
+
+                    const video =
+                        document.createElement(
+                            "video"
+                        );
+
+
+                    video.src =
+                        previewURL;
+
+
+                    video.controls =
+                        true;
+
+
+                    video.muted =
+                        true;
+
+
+                    mediaPreview.appendChild(
+                        video
+                    );
+
+                }
+
+
+                else {
+
+                    mediaPreview.textContent =
+                        "📄";
+
+                }
+            }
 
         }
+    );
 
-
-        else if (
-            file.type.startsWith(
-                "video/"
-            )
-        ) {
-
-            const video =
-                document.createElement(
-                    "video"
-                );
-
-
-            video.src =
-                previewURL;
-
-
-            video.controls =
-                true;
-
-
-            video.muted =
-                true;
-
-
-            mediaPreview.appendChild(
-                video
-            );
-
-        }
-
-
-        else {
-
-            mediaPreview.textContent =
-                "📄";
-
-        }
-
-    }
-);
+}
 
 
 /* ==========================================
@@ -228,8 +239,10 @@ async function uploadMedia() {
 
     if (!selectedFile) {
 
-        uploadStatus.textContent =
-            "❌ Please select a file first.";
+        if (uploadStatus) {
+            uploadStatus.textContent =
+                "❌ Please select a file first.";
+        }
 
         return;
 
@@ -241,8 +254,10 @@ async function uploadMedia() {
         "undefined"
     ) {
 
-        uploadStatus.textContent =
-            "❌ Supabase is not connected.";
+        if (uploadStatus) {
+            uploadStatus.textContent =
+                "❌ Supabase is not connected.";
+        }
 
         console.error(
             "supabaseClient is not defined."
@@ -253,24 +268,29 @@ async function uploadMedia() {
     }
 
 
-    uploadMediaBtn.disabled =
-        true;
+    if (uploadMediaBtn) {
+        uploadMediaBtn.disabled = true;
+    }
 
 
-    uploadProgressContainer.style.display =
-        "block";
+    if (uploadProgressContainer) {
+        uploadProgressContainer.style.display = "block";
+    }
 
 
-    uploadProgressBar.style.width =
-        "10%";
+    if (uploadProgressBar) {
+        uploadProgressBar.style.width = "10%";
+    }
 
 
-    uploadProgressText.textContent =
-        "Preparing upload...";
+    if (uploadProgressText) {
+        uploadProgressText.textContent = "Preparing upload...";
+    }
 
 
-    uploadStatus.textContent =
-        "";
+    if (uploadStatus) {
+        uploadStatus.textContent = "";
+    }
 
 
     try {
@@ -298,12 +318,14 @@ async function uploadMedia() {
         );
 
 
-        uploadProgressBar.style.width =
-            "30%";
+        if (uploadProgressBar) {
+            uploadProgressBar.style.width = "30%";
+        }
 
 
-        uploadProgressText.textContent =
-            "Uploading...";
+        if (uploadProgressText) {
+            uploadProgressText.textContent = "Uploading...";
+        }
 
 
         const {
@@ -342,21 +364,24 @@ async function uploadMedia() {
         );
 
 
-        uploadProgressBar.style.width =
-            "100%";
+        if (uploadProgressBar) {
+            uploadProgressBar.style.width = "100%";
+        }
 
 
-        uploadProgressText.textContent =
-            "Upload complete!";
+        if (uploadProgressText) {
+            uploadProgressText.textContent = "Upload complete!";
+        }
 
 
-        uploadStatus.textContent =
-            "✅ Media uploaded successfully!";
+        if (uploadStatus) {
+            uploadStatus.textContent =
+                "✅ Media uploaded successfully!";
 
 
-        uploadStatus.classList.add(
-            "success"
-        );
+            uploadStatus.className =
+                "upload-status success";
+        }
 
 
         /* Refresh media library */
@@ -369,26 +394,32 @@ async function uploadMedia() {
         setTimeout(
             function () {
 
-                mediaFileInput.value =
-                    "";
+                if (mediaFileInput) {
+                    mediaFileInput.value = "";
+                }
 
                 selectedFile =
                     null;
 
-                selectedMedia.style.display =
-                    "none";
+                if (selectedMedia) {
+                    selectedMedia.style.display = "none";
+                }
 
-                mediaPreview.innerHTML =
-                    "";
+                if (mediaPreview) {
+                    mediaPreview.innerHTML = "";
+                }
 
-                uploadMediaBtn.disabled =
-                    true;
+                if (uploadMediaBtn) {
+                    uploadMediaBtn.disabled = true;
+                }
 
-                uploadProgressContainer.style.display =
-                    "none";
+                if (uploadProgressContainer) {
+                    uploadProgressContainer.style.display = "none";
+                }
 
-                uploadProgressBar.style.width =
-                    "0%";
+                if (uploadProgressBar) {
+                    uploadProgressBar.style.width = "0%";
+                }
 
             },
             1200
@@ -405,26 +436,43 @@ async function uploadMedia() {
         );
 
 
-        uploadProgressContainer.style.display =
-            "none";
+        if (uploadProgressContainer) {
+            uploadProgressContainer.style.display = "none";
+        }
 
 
-        uploadProgressBar.style.width =
-            "0%";
+        if (uploadProgressBar) {
+            uploadProgressBar.style.width = "0%";
+        }
 
 
-        uploadStatus.textContent =
-            "❌ Upload failed: " +
-            (
-                error.message ||
-                "Unknown error"
-            );
+        if (uploadStatus) {
+            uploadStatus.textContent =
+                "❌ Upload failed: " +
+                (
+                    error.message ||
+                    "Unknown error"
+                );
 
 
-        uploadMediaBtn.disabled =
-            false;
+            uploadStatus.className =
+                "upload-status error";
+        }
+
+
+        if (uploadMediaBtn) {
+            uploadMediaBtn.disabled = false;
+        }
 
     }
+
+}
+
+
+// Attach Upload Click Event
+if (uploadMediaBtn) {
+
+    uploadMediaBtn.addEventListener("click", uploadMedia);
 
 }
 
@@ -504,6 +552,8 @@ async function loadMediaLibrary() {
         }
 
 
+        let validFilesCount = 0;
+
         data.forEach(
             function (file) {
 
@@ -517,6 +567,7 @@ async function loadMediaLibrary() {
 
                 }
 
+                validFilesCount++;
 
                 createMediaCard(
                     file
@@ -524,6 +575,15 @@ async function loadMediaLibrary() {
 
             }
         );
+
+        if (validFilesCount === 0) {
+            mediaLibrary.innerHTML =
+                `
+                <div class="media-library-empty">
+                    📂 No media uploaded yet.
+                </div>
+                `;
+        }
 
     }
 
@@ -878,13 +938,13 @@ async function deleteMedia(
         card.remove();
 
 
-        uploadStatus.textContent =
-            "🗑️ Media deleted successfully.";
+        if (uploadStatus) {
+            uploadStatus.textContent =
+                "🗑️ Media deleted successfully.";
 
-
-        uploadStatus.classList.add(
-            "success"
-        );
+            uploadStatus.className =
+                "upload-status success";
+        }
 
 
         /*
@@ -892,8 +952,8 @@ async function deleteMedia(
          */
 
         if (
-            mediaLibrary.children.length ===
-            0
+            mediaLibrary &&
+            mediaLibrary.children.length === 0
         ) {
 
             mediaLibrary.innerHTML =
@@ -920,12 +980,17 @@ async function deleteMedia(
             "1";
 
 
-        uploadStatus.textContent =
-            "❌ Delete failed: " +
-            (
-                error.message ||
-                "Unknown error"
-            );
+        if (uploadStatus) {
+            uploadStatus.textContent =
+                "❌ Delete failed: " +
+                (
+                    error.message ||
+                    "Unknown error"
+                );
+
+            uploadStatus.className =
+                "upload-status error";
+        }
 
     }
 
@@ -936,4 +1001,6 @@ async function deleteMedia(
    LOAD ON PAGE OPEN
 ========================================== */
 
-loadMediaLibrary();
+document.addEventListener("DOMContentLoaded", () => {
+    loadMediaLibrary();
+});

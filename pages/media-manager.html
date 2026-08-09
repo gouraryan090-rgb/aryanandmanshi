@@ -5,10 +5,7 @@
 
     <meta charset="UTF-8">
 
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>Media Manager</title>
 
@@ -22,8 +19,6 @@
 <body>
 
     <div class="admin-page">
-
-        <!-- ================= HEADER ================= -->
 
         <div class="admin-header">
 
@@ -42,8 +37,6 @@
         </div>
 
 
-        <!-- ================= MEDIA MANAGER ================= -->
-
         <div class="admin-section">
 
             <div class="admin-section-header">
@@ -59,8 +52,6 @@
             </div>
 
 
-            <!-- Upload Box -->
-
             <div class="media-upload-box">
 
                 <div class="media-upload-icon">
@@ -68,85 +59,39 @@
                 </div>
 
                 <h3>
-                    Upload Photo or Video
+                    Select Photo or Video
                 </h3>
 
-                <p>
-                    Select a file from your device
-                </p>
+                <input type="file" id="mediaFileInput" accept="image/*,video/*" style="display:none;">
 
-
-                <input
-                    type="file"
-                    id="mediaFileInput"
-                    accept="image/*,video/mp4,video/webm"
-                    hidden
-                >
-
-
-                <label
-                    for="mediaFileInput"
-                    class="admin-btn"
-                >
+                <label for="mediaFileInput" class="media-select-btn">
                     📁 Choose File
                 </label>
 
-
-                <!-- Selected File -->
-
-                <div
-                    id="selectedMedia"
-                    class="selected-media"
-                    style="display:none;"
-                >
-
-                    <div
-                        id="mediaPreview"
-                        class="media-preview"
-                    ></div>
+            </div>
 
 
-                    <div class="media-info">
+            <div id="selectedMedia" class="selected-media-box" style="display:none;">
 
-                        <strong id="mediaFileName">
-                            File
-                        </strong>
+                <div id="mediaPreview" class="media-preview-container"></div>
 
-                        <span id="mediaFileSize">
-                            0 MB
-                        </span>
+                <div class="media-details">
 
-                    </div>
+                    <span id="mediaFileName" class="media-filename"></span>
+
+                    <span id="mediaFileSize" class="media-filesize"></span>
 
                 </div>
 
+                <button type="button" id="uploadMediaBtn" class="admin-btn" disabled>
+                    📤 Start Upload
+                </button>
 
-                <!-- Upload Button -->
-
-               <button
-    type="button"
-    id="uploadMediaBtn"
-    class="admin-btn upload-btn"
-    onclick="uploadMedia()"
->
-    📤 Upload Media
-</button>
-
-
-                <!-- Progress -->
-
-                <div
-                    id="uploadProgressContainer"
-                    class="upload-progress-container"
-                    style="display:none;"
-                >
+                <div id="uploadProgressContainer" class="upload-progress-container" style="display:none;">
 
                     <div class="progress-track">
 
-                        <div
-                            id="uploadProgressBar"
-                            class="progress-bar"
-                        ></div>
+                        <div id="uploadProgressBar" class="progress-bar"></div>
 
                     </div>
 
@@ -157,28 +102,39 @@
                 </div>
 
 
-                <!-- Status -->
-
-                <div
-                    id="uploadStatus"
-                    class="upload-status"
-                ></div>
+                <div id="uploadStatus" class="upload-status"></div>
 
             </div>
 
         </div>
 
-        
 
+        <div class="admin-section" style="margin-top: 30px;">
 
-        <!-- ================= BACK ================= -->
+            <div class="admin-section-header">
+
+                <h2>
+                    Uploaded Gallery
+                </h2>
+
+                <p>
+                    Manage and delete existing photos or videos.
+                </p>
+
+            </div>
+
+            <div id="mediaLibrary" class="media-library-grid">
+                <div class="media-library-loading">
+                    🔄 Loading media items...
+                </div>
+            </div>
+
+        </div>
+
 
         <div class="admin-back">
 
-            <a
-                href="admin.html"
-                class="back-btn"
-            >
+            <a href="admin.html" class="back-btn">
                 ← Back to Admin Panel
             </a>
 
@@ -187,8 +143,7 @@
     </div>
 
 
-    <!-- ================= SCRIPTS ================= -->
-     <script src="../auth.js"></script>
+    <script src="../auth.js"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 

@@ -2,29 +2,106 @@
 <html lang="en">
 
 <head>
-
     <meta charset="UTF-8">
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Couple Diary ❤️ | Our Little World</title>
 
-    <title>About Aryan ❤️</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;1,400&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" href="../style.css">
-
+    <link rel="stylesheet" href="../diary.css">
 </head>
 
-<div class="back-home">
+<body>
 
-            <a
-                href="../dashboard.html"
-                class="back-btn"
-            >
-                ⬅ Back Home
+    <a href="#" id="logoutBtn" class="logout-btn">
+        🚪 Logout
+    </a>
+
+    <div class="background"></div>
+    <div class="hearts"></div>
+
+    <div class="diary-container">
+
+        <div class="back-home">
+            <a href="../dashboard.html" class="back-btn">
+                ⬅ Back to Dashboard
             </a>
+        </div>
+
+        <header class="diary-header">
+            <div class="diary-icon">📖</div>
+            <h1>Our Couple Diary</h1>
+            <p>Pick a date & capture our magical moments forever ❤️</p>
+        </header>
+
+        <div class="diary-card date-selector-card">
+            <label for="diaryDate">📅 Select Date:</label>
+            <input type="date" id="diaryDate" class="diary-date-picker">
+            <span id="dateStatusBadge" class="date-status">Loading date...</span>
+        </div>
+
+        <div class="diary-card editor-card">
+            
+            <div class="editor-top-bar">
+                <div class="author-select">
+                    <span>✍️ Written By:</span>
+                    <select id="diaryAuthor">
+                        <option value="Aryan">🗿 Aryan</option>
+                        <option value="Manshii">💗 Manshii</option>
+                    </select>
+                </div>
+                <div id="lastSavedInfo" class="last-saved-info">Not saved yet</div>
+            </div>
+
+            <div class="editor-toolbar">
+                <button type="button" class="tool-btn" onclick="formatDoc('bold')" title="Bold"><b>B</b></button>
+                <button type="button" class="tool-btn" onclick="formatDoc('italic')" title="Italic"><i>I</i></button>
+                <button type="button" class="tool-btn" onclick="formatDoc('underline')" title="Underline"><u>U</u></button>
+                <button type="button" class="tool-btn" onclick="formatDoc('strikeThrough')" title="Strikethrough"><s>S</s></button>
+                
+                <span class="tool-divider"></span>
+
+                <div class="color-picker-wrapper" title="Text Color">
+                    <span class="color-label">🎨 Color:</span>
+                    <input type="color" id="textColorPicker" value="#ff4d94" onchange="formatDoc('foreColor', this.value)">
+                </div>
+
+                <div class="color-picker-wrapper" title="Highlight Color">
+                    <span class="color-label">✨ Highlight:</span>
+                    <input type="color" id="bgColorPicker" value="#6d5dfc" onchange="formatDoc('hiliteColor', this.value)">
+                </div>
+
+                <span class="tool-divider"></span>
+
+                <button type="button" class="tool-btn" onclick="formatDoc('justifyLeft')" title="Align Left">⬅️</button>
+                <button type="button" class="tool-btn" onclick="formatDoc('justifyCenter')" title="Align Center">↔️</button>
+                <button type="button" class="tool-btn" onclick="formatDoc('justifyRight')" title="Align Right">➡️</button>
+                <button type="button" class="tool-btn" onclick="formatDoc('insertUnorderedList')" title="Bullet List">• List</button>
+                <button type="button" class="tool-btn" onclick="formatDoc('removeFormat')" title="Clear Formatting">🧹 Clear</button>
+            </div>
+
+            <input type="text" id="diaryTitle" class="editor-title-input" placeholder="Title for this day (e.g., Movie Date & Ice Cream 🍦)" required>
+
+            <div id="diaryEditor" class="rich-editor" contenteditable="true" placeholder="Type your romantic thoughts, secret memories, or late-night talks here..."></div>
+
+            <div class="editor-footer">
+                <button id="saveDiaryBtn" class="save-diary-btn" onclick="saveDiaryEntry()">
+                    💾 Save Memory ❤️
+                </button>
+            </div>
 
         </div>
-<body>
-    <h2> Coming soon💗</h2>
+
+    </div>
+
+    <script src="../auth.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="../supabase.js"></script>
+    <script src="../diary.js"></script>
+
 </body>
 
-<script src="../auth.js"></script>
+</html>

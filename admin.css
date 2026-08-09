@@ -914,3 +914,450 @@ body {
     }
 
 }
+
+/* ==========================================
+   MEDIA MANAGER
+========================================== */
+
+.media-upload-box {
+
+    max-width: 700px;
+
+    margin: 30px auto;
+
+    padding: 45px 30px;
+
+    text-align: center;
+
+    border-radius: 24px;
+
+    background: rgba(255, 255, 255, 0.07);
+
+    backdrop-filter: blur(18px);
+
+    -webkit-backdrop-filter: blur(18px);
+
+    border: 1px solid rgba(255, 255, 255, 0.12);
+
+    box-shadow:
+        0 20px 50px rgba(0, 0, 0, 0.25);
+
+}
+
+
+/* Upload icon */
+
+.media-upload-icon {
+
+    width: 85px;
+
+    height: 85px;
+
+    margin: 0 auto 20px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border-radius: 50%;
+
+    font-size: 38px;
+
+    background: rgba(255, 77, 148, 0.12);
+
+    border: 1px solid rgba(255, 77, 148, 0.25);
+
+}
+
+
+/* Heading */
+
+.media-upload-box h3 {
+
+    margin: 10px 0;
+
+    font-size: 1.5rem;
+
+    color: white;
+
+}
+
+
+/* Description */
+
+.media-upload-box > p {
+
+    margin-bottom: 25px;
+
+    color: #bdbdbd;
+
+}
+
+
+/* Buttons */
+
+.media-upload-box .admin-btn {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 8px;
+
+    padding: 13px 24px;
+
+    border: none;
+
+    border-radius: 14px;
+
+    cursor: pointer;
+
+    color: white;
+
+    background: linear-gradient(
+        135deg,
+        #ff4d94,
+        #ff6aaa
+    );
+
+    font-size: 0.95rem;
+
+    font-weight: 600;
+
+    text-decoration: none;
+
+    transition: 0.3s ease;
+
+}
+
+
+.media-upload-box .admin-btn:hover {
+
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 10px 25px rgba(
+            255,
+            77,
+            148,
+            0.3
+        );
+
+}
+
+
+/* Disabled upload button */
+
+.media-upload-box
+.upload-btn:disabled {
+
+    opacity: 0.45;
+
+    cursor: not-allowed;
+
+    transform: none;
+
+    box-shadow: none;
+
+}
+
+
+/* ==========================================
+   SELECTED MEDIA
+========================================== */
+
+.selected-media {
+
+    margin-top: 25px;
+
+    padding: 15px;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 18px;
+
+    text-align: left;
+
+    border-radius: 18px;
+
+    background: rgba(
+        255,
+        255,
+        255,
+        0.06
+    );
+
+    border: 1px solid rgba(
+        255,
+        255,
+        255,
+        0.1
+    );
+
+}
+
+
+.media-preview {
+
+    width: 90px;
+
+    height: 90px;
+
+    flex-shrink: 0;
+
+    overflow: hidden;
+
+    border-radius: 14px;
+
+    background: #111;
+
+}
+
+
+.media-preview img,
+
+.media-preview video {
+
+    width: 100%;
+
+    height: 100%;
+
+    object-fit: cover;
+
+}
+
+
+.media-info {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 7px;
+
+    min-width: 0;
+
+}
+
+
+.media-info strong {
+
+    color: white;
+
+    overflow: hidden;
+
+    text-overflow: ellipsis;
+
+    white-space: nowrap;
+
+}
+
+
+.media-info span {
+
+    color: #aaa;
+
+    font-size: 0.85rem;
+
+}
+
+
+/* ==========================================
+   UPLOAD PROGRESS
+========================================== */
+
+.upload-progress-container {
+
+    margin-top: 25px;
+
+}
+
+
+.progress-track {
+
+    width: 100%;
+
+    height: 8px;
+
+    overflow: hidden;
+
+    border-radius: 20px;
+
+    background: rgba(
+        255,
+        255,
+        255,
+        0.1
+    );
+
+}
+
+
+.progress-bar {
+
+    width: 0%;
+
+    height: 100%;
+
+    border-radius: 20px;
+
+    background: linear-gradient(
+        90deg,
+        #ff4d94,
+        #ff8ac2
+    );
+
+    transition: width 0.3s ease;
+
+}
+
+
+#uploadProgressText {
+
+    display: block;
+
+    margin-top: 10px;
+
+    color: #bbb;
+
+    font-size: 0.85rem;
+
+}
+
+
+/* ==========================================
+   STATUS
+========================================== */
+
+.upload-status {
+
+    min-height: 24px;
+
+    margin-top: 20px;
+
+    color: #ff8abf;
+
+    font-size: 0.9rem;
+
+}
+
+
+.upload-status.success {
+
+    color: #7ff0b2;
+
+}
+
+
+/* ==========================================
+   BACK BUTTON
+========================================== */
+
+.admin-back {
+
+    text-align: center;
+
+    margin: 40px 0 60px;
+
+}
+
+
+.admin-back .back-btn {
+
+    display: inline-block;
+
+    padding: 12px 22px;
+
+    border-radius: 14px;
+
+    color: white;
+
+    text-decoration: none;
+
+    background: rgba(
+        255,
+        255,
+        255,
+        0.07
+    );
+
+    border: 1px solid rgba(
+        255,
+        255,
+        255,
+        0.12
+    );
+
+    transition: 0.3s ease;
+
+}
+
+
+.admin-back .back-btn:hover {
+
+    border-color: #ff4d94;
+
+    transform: translateY(-2px);
+
+}
+
+
+/* ==========================================
+   MOBILE
+========================================== */
+
+@media (max-width: 600px) {
+
+    .media-upload-box {
+
+        margin: 20px 10px;
+
+        padding: 35px 18px;
+
+        border-radius: 20px;
+
+    }
+
+
+    .media-upload-icon {
+
+        width: 70px;
+
+        height: 70px;
+
+        font-size: 32px;
+
+    }
+
+
+    .selected-media {
+
+        padding: 12px;
+
+        gap: 12px;
+
+    }
+
+
+    .media-preview {
+
+        width: 70px;
+
+        height: 70px;
+
+    }
+
+
+    .media-info strong {
+
+        max-width: 180px;
+
+    }
+
+}

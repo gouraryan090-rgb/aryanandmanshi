@@ -5,114 +5,190 @@
 
     <meta charset="UTF-8">
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
     <title>Our Gallery ❤️</title>
 
     <link rel="stylesheet" href="../style.css">
 
+    <link rel="stylesheet" href="gallery.css">
+
 </head>
 
+
 <body>
-    <a href="#" id="logoutBtn" class="logout-btn">
-    🚪 Logout
-</a>
 
-<div class="background"></div>
+    <div class="gallery-page">
 
-<div class="hearts"></div>
 
-<section class="gallery-page">
+        <!-- ================= HEADER ================= -->
 
-    <!-- Heading -->
+        <div class="gallery-header reveal">
 
-    <div class="gallery-header reveal">
+            <h1>
+                📸 Our Gallery ❤️
+            </h1>
 
-        <h1>📸 Our Gallery ❤️</h1>
+            <p>
+                Every picture has a story,
+                every video has a memory,
+                and every memory has you. ❤️
+            </p>
 
-        <p>
-            Every picture has a story,
-            every video has a memory,
-            and every memory has you. ❤️
-        </p>
+        </div>
+
+
+        <!-- ================= COUNTER ================= -->
+
+        <div class="gallery-counter">
+
+            <div class="counter-card">
+
+                <h2 id="photoCount">
+                    0
+                </h2>
+
+                <span>
+                    Photos 📸
+                </span>
+
+            </div>
+
+
+            <div class="counter-card">
+
+                <h2 id="videoCount">
+                    0
+                </h2>
+
+                <span>
+                    Videos 🎥
+                </span>
+
+            </div>
+
+
+            <div class="counter-card">
+
+                <h2>
+                    ∞
+                </h2>
+
+                <span>
+                    Memories ❤️
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <!-- ================= PHOTOS ================= -->
+
+        <h2 class="section-title">
+            📷 Photos
+        </h2>
+
+
+        <div
+            id="photoGallery"
+            class="gallery-grid"
+        >
+
+            <!-- Supabase photos will load here -->
+
+        </div>
+
+
+        <!-- ================= VIDEOS ================= -->
+
+        <h2 class="section-title">
+            🎥 Videos
+        </h2>
+
+
+        <div
+            id="videoGallery"
+            class="gallery-grid"
+        >
+
+            <!-- Supabase videos will load here -->
+
+        </div>
+
+
+        <!-- ================= LIGHTBOX ================= -->
+
+        <div
+            id="lightbox"
+            class="lightbox"
+        >
+
+            <span id="closeBtn">
+                &times;
+            </span>
+
+
+            <span id="prevBtn">
+                &#10094;
+            </span>
+
+
+            <span id="nextBtn">
+                &#10095;
+            </span>
+
+
+            <img
+                id="lightboxImg"
+                alt="Gallery image"
+            >
+
+
+            <video
+                id="lightboxVideo"
+                controls
+            ></video>
+
+        </div>
+
+
+        <!-- ================= BACK ================= -->
+
+        <div class="back-home">
+
+            <a
+                href="../index.html"
+                class="back-btn"
+            >
+                ⬅ Back Home
+            </a>
+
+        </div>
+
 
     </div>
 
-    <!-- Counter -->
 
-    <div class="gallery-counter">
+    <!-- ================= SCRIPTS ================= -->
 
-        <div class="counter-card">
+    <!-- Supabase library -->
 
-            <h2 id="photoCount">16</h2>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-            <span>Photos 📸</span>
 
-        </div>
+    <!-- Your Supabase configuration -->
 
-        <div class="counter-card">
+    <script src="../supabase.js"></script>
 
-            <h2 id="videoCount">10</h2>
 
-            <span>Videos 🎥</span>
+    <!-- Gallery JavaScript -->
 
-        </div>
+    <script src="../gallery.js"></script>
 
-        <div class="counter-card">
-
-            <h2>∞</h2>
-
-            <span>Memories ❤️</span>
-
-        </div>
-
-    </div>
-
-    <!-- Photos -->
-
-    <h2 class="section-title">📷 Photos</h2>
-
-    <div id="photoGallery" class="gallery-grid"></div>
-
-    <!-- Videos -->
-
-    <h2 class="section-title">🎥 Videos</h2>
-
-    <div id="videoGallery" class="gallery-grid"></div>
-
-</section>
-
-<!-- Lightbox -->
-
-<div id="lightbox" class="lightbox">
-
-    <span id="closeBtn">&times;</span>
-
-    <span id="prevBtn">&#10094;</span>
-
-    <span id="nextBtn">&#10095;</span>
-
-    <img id="lightboxImg">
-
-    <video id="lightboxVideo" controls></video>
-
-</div>
-
-<div class="back-home">
-
-    <a href="../index.html" class="back-btn">
-
-        ⬅ Back Home
-
-    </a>
-
-</div>
-<script src="../auth.js"></script>
-<script src="../gallery.js"></script>
-
-<button onclick="uploadWidget.open()" class="upload-test-btn">
-    📤 Test Upload
-</button>
 
 </body>
 

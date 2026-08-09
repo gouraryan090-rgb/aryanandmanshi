@@ -1,267 +1,847 @@
 /* ==========================================
-            OUR GALLERY ❤️
+   OUR GALLERY ❤️
+   SUPABASE STORAGE VERSION
 ========================================== */
 
-const photos = [];
 
-// photo1.jpg → photo5.jpg
-for (let i = 1; i <= 5; i++) {
-    photos.push(`../images/photo${i}.jpg`);
-}
+/* ==========================================
+   ELEMENTS
+========================================== */
 
-// photo6.png → photo15.png
-for (let i = 6; i <= 15; i++) {
-    photos.push(`../images/photo${i}.png`);
-}
+const photoGallery =
+    document.getElementById("photoGallery");
 
-// photo16.jpg
-photos.push("../images/photo16.jpg");
+const videoGallery =
+    document.getElementById("videoGallery");
+
+const photoCount =
+    document.getElementById("photoCount");
+
+const videoCount =
+    document.getElementById("videoCount");
+
+const lightbox =
+    document.getElementById("lightbox");
+
+const lightboxImg =
+    document.getElementById("lightboxImg");
+
+const lightboxVideo =
+    document.getElementById("lightboxVideo");
+
+const closeBtn =
+    document.getElementById("closeBtn");
+
+const prevBtn =
+    document.getElementById("prevBtn");
+
+const nextBtn =
+    document.getElementById("nextBtn");
 
 
-const videos = [];
+/* ==========================================
+   VARIABLES
+========================================== */
 
-// vid1.mp4 → vid11.mp4
-for (let i = 1; i <= 11; i++) {
-    videos.push(`../images/vid${i}.mp4`);
-}
+let photos = [];
 
-
-const photoGallery = document.getElementById("photoGallery");
-const videoGallery = document.getElementById("videoGallery");
-
-const lightbox = document.getElementById("lightbox");
-const lightboxImg = document.getElementById("lightboxImg");
-const lightboxVideo = document.getElementById("lightboxVideo");
-
-const closeBtn = document.getElementById("closeBtn");
-const prevBtn = document.getElementById("prevBtn");
-const nextBtn = document.getElementById("nextBtn");
+let videos = [];
 
 let currentItems = [];
+
 let currentIndex = 0;
+
 let currentType = "image";
 
 
 /* ==========================================
-            LOAD PHOTOS
+   SUPABASE CHECK
 ========================================== */
 
-photos.forEach((src, index) => {
+if (
+    typeof supabaseClient ===
+    "undefined"
+) {
 
-    const img = document.createElement("img");
+    console.error(
+        "Supabase client not found."
+    );
 
-    img.src = src;
+    showGalleryError(
+        "Unable to connect to gallery."
+    );
 
-    img.className = "gallery-item";
-
-    img.loading = "lazy";
-
-    img.onclick = () => {
-
-        currentItems = photos;
-
-        currentIndex = index;
-
-        currentType = "image";
-
-        openImage();
-
-    };
-
-    photoGallery.appendChild(img);
-
-});
+}
 
 
 /* ==========================================
-            LOAD VIDEOS
+   LOAD GALLERY
 ========================================== */
 
-videos.forEach((src, index) => {
+async function loadGallery() {
 
-    const video = document.createElement("video");
+    try {
 
-    video.src = src;
+        console.log(
+            "Loading gallery from Supabase..."
+        );
 
-    video.className = "gallery-item";
 
-    video.muted = true;
+        const {
+            data,
+            error
+        } =
+            await supabaseClient
+                .storage
+                .from("gallery")
+                .list("", {
+                    limit: 1000,
+                    offset: 0,
+                    sortBy: {
+                        column: "created_at",
+                        order: "asc"
+                    }
+                });
 
-    video.preload = "metadata";
 
-    video.onclick = () => {
+        if (error) {
 
-        currentItems = videos;
+            throw error;
 
-        currentIndex = index;
+        }
 
-        currentType = "video";
 
-        openVideo();
+        if (!data) {
 
-    };
+            console.log(
+                "No media found."
+            );
 
-    videoGallery.appendChild(video);
+            updateCounters();
 
-});
+            return;
+
+        }
+
+
+        /* ==================================
+           CLEAR OLD GALLERY
+        ================================== */
+
+        photoGallery.innerHTML = "";
+
+        videoGallery.innerHTML = "";
+
+
+        photos = [];
+
+        videos = [];
+
+
+        /* ==================================
+           PROCESS FILES
+        ================================== */
+
+        data.forEach(
+            function (file) {
+
+                /*
+                 * Ignore folders
+                 */
+
+                if (!file.name) {
+
+                    return;
+
+                }
+
+
+                const fileName =
+                    file.name.toLowerCase();
+
+
+                /*
+                 * Ignore hidden/system files
+                 */
+
+                if (
+                    fileName === ".emptyfolderplaceholder"
+                ) {
+
+                    return;
+
+                }
+
+
+                /*
+                 * Get public URL
+                 */
+
+                const result =
+                    supabaseClient
+                        .storage
+                        .from("gallery")
+                        .getPublicUrl(
+                            file.name
+                        );
+
+
+                const publicURL =
+                    result.data.publicUrl;
+
+
+                /*
+                 * IMAGE
+                 */
+
+                if (
+                    isImage(fileName)
+                ) {
+
+                    photos.push(
+                        publicURL
+                    );
+
+                }
+
+
+                /*
+                 * VIDEO
+                 */
+
+                else if (
+                    isVideo(fileName)
+                ) {
+
+                    videos.push(
+                        publicURL
+                    );
+
+                }
+
+            }
+        );
+
+
+        /* ==================================
+           RENDER
+        ================================== */
+
+        renderPhotos();
+
+        renderVideos();
+
+        updateCounters();
+
+
+        console.log(
+            "Gallery loaded:",
+            photos.length,
+            "photos,",
+            videos.length,
+            "videos"
+        );
+
+
+    }
+
+    catch (error) {
+
+        console.error(
+            "Gallery loading error:",
+            error
+        );
+
+
+        showGalleryError(
+            "Unable to load gallery. Please try again."
+        );
+
+    }
+
+}
 
 
 /* ==========================================
-            IMAGE
+   IMAGE CHECK
+========================================== */
+
+function isImage(fileName) {
+
+    return (
+
+        fileName.endsWith(".jpg") ||
+
+        fileName.endsWith(".jpeg") ||
+
+        fileName.endsWith(".png") ||
+
+        fileName.endsWith(".webp") ||
+
+        fileName.endsWith(".gif") ||
+
+        fileName.endsWith(".avif")
+
+    );
+
+}
+
+
+/* ==========================================
+   VIDEO CHECK
+========================================== */
+
+function isVideo(fileName) {
+
+    return (
+
+        fileName.endsWith(".mp4") ||
+
+        fileName.endsWith(".webm") ||
+
+        fileName.endsWith(".mov") ||
+
+        fileName.endsWith(".m4v")
+
+    );
+
+}
+
+
+/* ==========================================
+   RENDER PHOTOS
+========================================== */
+
+function renderPhotos() {
+
+    photoGallery.innerHTML = "";
+
+
+    if (photos.length === 0) {
+
+        photoGallery.innerHTML =
+            `
+            <div class="gallery-empty">
+                📷 No photos uploaded yet.
+            </div>
+            `;
+
+        return;
+
+    }
+
+
+    photos.forEach(
+        function (src, index) {
+
+            const img =
+                document.createElement(
+                    "img"
+                );
+
+
+            img.src = src;
+
+            img.className =
+                "gallery-item";
+
+            img.alt =
+                "Our memory ❤️";
+
+            img.loading =
+                "lazy";
+
+            img.decoding =
+                "async";
+
+
+            /*
+             * Open lightbox
+             */
+
+            img.addEventListener(
+                "click",
+                function () {
+
+                    currentItems =
+                        photos;
+
+                    currentIndex =
+                        index;
+
+                    currentType =
+                        "image";
+
+                    openImage();
+
+                }
+            );
+
+
+            /*
+             * Loading effect
+             */
+
+            img.addEventListener(
+                "load",
+                function () {
+
+                    img.classList.add(
+                        "loaded"
+                    );
+
+                }
+            );
+
+
+            photoGallery.appendChild(
+                img
+            );
+
+        }
+    );
+
+}
+
+
+/* ==========================================
+   RENDER VIDEOS
+========================================== */
+
+function renderVideos() {
+
+    videoGallery.innerHTML = "";
+
+
+    if (videos.length === 0) {
+
+        videoGallery.innerHTML =
+            `
+            <div class="gallery-empty">
+                🎥 No videos uploaded yet.
+            </div>
+            `;
+
+        return;
+
+    }
+
+
+    videos.forEach(
+        function (src, index) {
+
+            const video =
+                document.createElement(
+                    "video"
+                );
+
+
+            video.src = src;
+
+            video.className =
+                "gallery-item";
+
+            video.muted =
+                true;
+
+            video.playsInline =
+                true;
+
+            video.preload =
+                "metadata";
+
+
+            /*
+             * Open lightbox
+             */
+
+            video.addEventListener(
+                "click",
+                function () {
+
+                    currentItems =
+                        videos;
+
+                    currentIndex =
+                        index;
+
+                    currentType =
+                        "video";
+
+                    openVideo();
+
+                }
+            );
+
+
+            videoGallery.appendChild(
+                video
+            );
+
+        }
+    );
+
+}
+
+
+/* ==========================================
+   OPEN IMAGE
 ========================================== */
 
 function openImage() {
 
-    lightboxImg.style.display = "block";
-    lightboxVideo.style.display = "none";
+    const src =
+        currentItems[currentIndex];
 
-    // Hide image until loaded
-    lightboxImg.style.opacity = "0";
 
-    lightboxImg.onload = () => {
+    lightboxVideo.pause();
 
-        lightbox.style.display = "flex";
+    lightboxVideo.removeAttribute(
+        "src"
+    );
 
-        lightboxImg.style.opacity = "1";
 
-    };
+    lightboxVideo.style.display =
+        "none";
 
-    lightboxImg.src = currentItems[currentIndex];
+
+    lightboxImg.style.display =
+        "block";
+
+
+    lightboxImg.style.opacity =
+        "0";
+
+
+    lightbox.style.display =
+        "flex";
+
+
+    lightboxImg.onload =
+        function () {
+
+            lightboxImg.style.opacity =
+                "1";
+
+        };
+
+
+    lightboxImg.src =
+        src;
 
 }
 
 
 /* ==========================================
-            VIDEO
+   OPEN VIDEO
 ========================================== */
 
 function openVideo() {
 
-    lightbox.style.display = "flex";
+    const src =
+        currentItems[currentIndex];
 
-    lightboxImg.style.display = "none";
 
-    lightboxVideo.style.display = "block";
+    lightboxImg.style.display =
+        "none";
 
-    lightboxVideo.src = currentItems[currentIndex];
 
-    lightboxVideo.play();
+    lightboxImg.src =
+        "";
+
+
+    lightboxVideo.style.display =
+        "block";
+
+
+    lightbox.style.display =
+        "flex";
+
+
+    lightboxVideo.src =
+        src;
+
+
+    lightboxVideo.load();
+
+
+    lightboxVideo.play()
+        .catch(
+            function () {
+
+                console.log(
+                    "Video autoplay blocked."
+                );
+
+            }
+        );
 
 }
 
 
 /* ==========================================
-            CLOSE
+   CLOSE LIGHTBOX
 ========================================== */
 
-closeBtn.onclick = () => {
+function closeLightbox() {
 
-    lightbox.style.display = "none";
+    lightbox.style.display =
+        "none";
+
+
+    lightboxImg.src =
+        "";
+
 
     lightboxVideo.pause();
 
-};
+    lightboxVideo.src =
+        "";
+
+}
 
 
 /* ==========================================
-            NEXT
+   CLOSE BUTTON
 ========================================== */
 
-nextBtn.onclick = () => {
+closeBtn.addEventListener(
+    "click",
+    closeLightbox
+);
+
+
+/* ==========================================
+   NEXT
+========================================== */
+
+function nextMedia() {
+
+    if (
+        currentItems.length === 0
+    ) {
+
+        return;
+
+    }
+
 
     currentIndex++;
 
-    if (currentIndex >= currentItems.length) {
+
+    if (
+        currentIndex >=
+        currentItems.length
+    ) {
 
         currentIndex = 0;
 
     }
 
-    if (currentType === "image") {
+
+    if (
+        currentType ===
+        "image"
+    ) {
 
         openImage();
 
-    } else {
+    }
+
+    else {
 
         openVideo();
 
     }
 
-};
+}
+
+
+nextBtn.addEventListener(
+    "click",
+    nextMedia
+);
 
 
 /* ==========================================
-            PREVIOUS
+   PREVIOUS
 ========================================== */
 
-prevBtn.onclick = () => {
+function previousMedia() {
+
+    if (
+        currentItems.length === 0
+    ) {
+
+        return;
+
+    }
+
 
     currentIndex--;
 
-    if (currentIndex < 0) {
 
-        currentIndex = currentItems.length - 1;
+    if (
+        currentIndex < 0
+    ) {
+
+        currentIndex =
+            currentItems.length - 1;
 
     }
 
-    if (currentType === "image") {
+
+    if (
+        currentType ===
+        "image"
+    ) {
 
         openImage();
 
-    } else {
+    }
+
+    else {
 
         openVideo();
 
     }
 
-};
+}
+
+
+prevBtn.addEventListener(
+    "click",
+    previousMedia
+);
 
 
 /* ==========================================
-            ESC CLOSE
+   ESCAPE
 ========================================== */
 
-document.addEventListener("keydown", (e) => {
+document.addEventListener(
+    "keydown",
+    function (event) {
 
-    if (e.key === "Escape") {
+        if (
+            event.key ===
+            "Escape"
+        ) {
 
-        lightbox.style.display = "none";
+            closeLightbox();
 
-        lightboxVideo.pause();
+        }
 
     }
-
-});
+);
 
 
 /* ==========================================
-            KEYBOARD NAVIGATION
+   KEYBOARD NAVIGATION
 ========================================== */
 
-document.addEventListener("keydown", (e) => {
+document.addEventListener(
+    "keydown",
+    function (event) {
 
-    if (lightbox.style.display !== "flex") return;
+        if (
+            lightbox.style.display !==
+            "flex"
+        ) {
 
-    if (e.key === "ArrowRight") {
+            return;
 
-        nextBtn.click();
+        }
+
+
+        if (
+            event.key ===
+            "ArrowRight"
+        ) {
+
+            nextMedia();
+
+        }
+
+
+        if (
+            event.key ===
+            "ArrowLeft"
+        ) {
+
+            previousMedia();
+
+        }
 
     }
-
-    if (e.key === "ArrowLeft") {
-
-        prevBtn.click();
-
-    }
-
-});
+);
 
 
 /* ==========================================
-            COUNTER
+   CLICK OUTSIDE LIGHTBOX
 ========================================== */
 
-document.getElementById("photoCount").innerText = photos.length;
-document.getElementById("videoCount").innerText = videos.length;
+lightbox.addEventListener(
+    "click",
+    function (event) {
 
-console.log("Gallery Loaded ❤️");
+        if (
+            event.target ===
+            lightbox
+        ) {
+
+            closeLightbox();
+
+        }
+
+    }
+);
+
+
+/* ==========================================
+   COUNTERS
+========================================== */
+
+function updateCounters() {
+
+    photoCount.textContent =
+        photos.length;
+
+
+    videoCount.textContent =
+        videos.length;
+
+}
+
+
+/* ==========================================
+   ERROR
+========================================== */
+
+function showGalleryError(
+    message
+) {
+
+    photoGallery.innerHTML =
+        `
+        <div class="gallery-empty">
+            ❌ ${message}
+        </div>
+        `;
+
+
+    videoGallery.innerHTML =
+        `
+        <div class="gallery-empty">
+            ❌ ${message}
+        </div>
+        `;
+
+}
+
+
+/* ==========================================
+   START GALLERY
+========================================== */
+
+loadGallery();

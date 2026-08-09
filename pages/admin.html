@@ -84,6 +84,30 @@
 
             </a>
 
+            <a href="media-manager.html" 
+            class="admin-card">
+        <div class="admin-card-icon">
+    📤
+</div>
+
+<div class="admin-card-content">
+
+    <h2>
+        Media Manager
+    </h2>
+
+    <p>
+        Upload photos and videos
+    </p>
+
+</div>
+
+<div class="admin-arrow">
+    →
+</div>
+
+</a>
+
 
 
             <!-- Feature Options -->
@@ -349,9 +373,127 @@
 </div>
 
 
+<!-- ================= MEDIA MANAGER ================= -->
+
+<div id="mediaManagerModal" class="admin-modal">
+
+    <div class="admin-modal-box media-manager-box">
+
+        <button
+            type="button"
+            class="admin-modal-close"
+            onclick="closeMediaManager()"
+        >
+            &times;
+        </button>
+
+        <div class="media-manager-header">
+
+            <div class="media-manager-icon">
+                📤
+            </div>
+
+            <div>
+                <h2>Media Manager</h2>
+
+                <p>
+                    Upload photos and videos
+                </p>
+            </div>
+
+        </div>
+
+
+        <div class="media-upload-area">
+
+            <input
+                type="file"
+                id="mediaFileInput"
+                accept="image/*,video/mp4,video/webm"
+                hidden
+            >
+
+            <label
+                for="mediaFileInput"
+                class="media-file-label"
+            >
+
+                <span class="upload-cloud">
+                    ☁️
+                </span>
+
+                <strong>
+                    Choose a photo or video
+                </strong>
+
+                <small>
+                    JPG, PNG, WEBP, MP4 or WEBM
+                </small>
+
+            </label>
+
+        </div>
+
+
+        <div
+            id="selectedMediaInfo"
+            class="selected-media-info"
+            style="display:none;"
+        >
+
+            <span id="selectedMediaName"></span>
+
+            <span id="selectedMediaSize"></span>
+
+        </div>
+
+
+        <div
+            id="mediaUploadProgress"
+            class="media-upload-progress"
+            style="display:none;"
+        >
+
+            <div class="progress-track">
+
+                <div
+                    id="mediaProgressBar"
+                    class="progress-bar"
+                ></div>
+
+            </div>
+
+            <span id="mediaProgressText">
+                Uploading...
+            </span>
+
+        </div>
+
+
+        <div
+            id="mediaUploadStatus"
+            class="media-upload-status"
+        ></div>
+
+
+        <button
+            type="button"
+            id="mediaUploadButton"
+            class="media-upload-button"
+            disabled
+        >
+            📤 Upload Media
+        </button>
+
+    </div>
+
+</div>
+
+
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="../supabase.js"></script>
 <script src="../admin.js"></script>
+
 
 </body>
 

@@ -733,3 +733,45 @@ async function resetGiftTimer(
         null
     );
 }
+
+/* ==========================================
+   MEDIA MANAGER
+========================================== */
+
+function openMediaManager(event) {
+
+    if (event) {
+        event.preventDefault();
+    }
+
+    const modal =
+        document.getElementById(
+            "mediaManagerModal"
+        );
+
+    if (!modal) {
+        console.error(
+            "Media Manager modal not found."
+        );
+
+        return;
+    }
+
+    modal.style.display = "flex";
+}
+
+
+function closeMediaManager() {
+
+    const modal =
+        document.getElementById(
+            "mediaManagerModal"
+        );
+
+    if (!modal) {
+        return;
+    }
+
+    modal.style.display = "none";
+
+}

@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Media Manager</title>
+
+    <link rel="stylesheet" href="../style.css">
+
+    <link rel="stylesheet" href="../admin.css">
+
+</head>
+
+
+<body>
+
+    <div class="admin-page">
+
+        <!-- ================= HEADER ================= -->
+
+        <div class="admin-header">
+
+            <div class="admin-header-icon">
+                📤
+            </div>
+
+            <h1>
+                Media Manager
+            </h1>
+
+            <p>
+                Upload and manage website photos and videos
+            </p>
+
+        </div>
+
+
+        <!-- ================= MEDIA MANAGER ================= -->
+
+        <div class="admin-section">
+
+            <div class="admin-section-header">
+
+                <h2>
+                    Upload Media
+                </h2>
+
+                <p>
+                    Add photos or videos to the website gallery.
+                </p>
+
+            </div>
+
+
+            <!-- Upload Box -->
+
+            <div class="media-upload-box">
+
+                <div class="media-upload-icon">
+                    ☁️
+                </div>
+
+                <h3>
+                    Upload Photo or Video
+                </h3>
+
+                <p>
+                    Select a file from your device
+                </p>
+
+
+                <input
+                    type="file"
+                    id="mediaFileInput"
+                    accept="image/*,video/mp4,video/webm"
+                    hidden
+                >
+
+
+                <label
+                    for="mediaFileInput"
+                    class="admin-btn"
+                >
+                    📁 Choose File
+                </label>
+
+
+                <!-- Selected File -->
+
+                <div
+                    id="selectedMedia"
+                    class="selected-media"
+                    style="display:none;"
+                >
+
+                    <div
+                        id="mediaPreview"
+                        class="media-preview"
+                    ></div>
+
+
+                    <div class="media-info">
+
+                        <strong id="mediaFileName">
+                            File
+                        </strong>
+
+                        <span id="mediaFileSize">
+                            0 MB
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Upload Button -->
+
+               <button
+    type="button"
+    id="uploadMediaBtn"
+    class="admin-btn upload-btn"
+    onclick="uploadMedia()"
+>
+    📤 Upload Media
+</button>
+
+
+                <!-- Progress -->
+
+                <div
+                    id="uploadProgressContainer"
+                    class="upload-progress-container"
+                    style="display:none;"
+                >
+
+                    <div class="progress-track">
+
+                        <div
+                            id="uploadProgressBar"
+                            class="progress-bar"
+                        ></div>
+
+                    </div>
+
+                    <span id="uploadProgressText">
+                        Uploading...
+                    </span>
+
+                </div>
+
+
+                <!-- Status -->
+
+                <div
+                    id="uploadStatus"
+                    class="upload-status"
+                ></div>
+
+            </div>
+
+        </div>
+
+        
+
+
+        <!-- ================= BACK ================= -->
+
+        <div class="admin-back">
+
+            <a
+                href="admin.html"
+                class="back-btn"
+            >
+                ← Back to Admin Panel
+            </a>
+
+        </div>
+
+    </div>
+
+
+    <!-- ================= SCRIPTS ================= -->
+     <script src="../auth.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <script src="../supabase.js"></script>
+
+    <script src="../admin.js"></script>
+
+    <script src="../media-manager.js"></script>
+
+
+</body>
+
+</html>

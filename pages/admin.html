@@ -2,110 +2,366 @@
 <html lang="en">
 
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
     <title>Admin Panel ❤️</title>
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="preconnect"
+          href="https://fonts.googleapis.com">
 
-    <link rel="stylesheet" href="../admin.css">
+    <link rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Poppins:wght@400;500;600&display=swap"
+          rel="stylesheet">
+
+    <link rel="stylesheet"
+          href="../admin.css">
+
 </head>
+
 
 <body>
 
     <div class="admin-page">
 
+
         <header class="admin-header">
-            <div class="admin-symbol">⚙️</div>
-            <h1>Admin Panel</h1>
-            <p>Welcome back, Aryan ❤️</p>
+
+            <div class="admin-symbol">
+                ⚙️
+            </div>
+
+            <h1>
+                Admin Panel
+            </h1>
+
+            <p>
+                Welcome back, Aryan ❤️
+            </p>
+
         </header>
+
+
 
         <main class="admin-options">
 
-            <a href="login-activities.html" class="admin-card">
-                <div class="admin-card-icon">🔐</div>
-                <div class="admin-card-title">Login Activity</div>
-                <div class="admin-card-desc">Check logins & device activity</div>
+
+            <a href="login-activities.html"
+               class="admin-card">
+
+                <div class="admin-card-icon">
+                    📊
+                </div>
+
+                <div class="admin-card-content">
+
+                    <h2>
+                        Login Activities
+                    </h2>
+
+                    <p>
+                        View website login history
+                    </p>
+
+                </div>
+
+                <div class="admin-arrow">
+                    →
+                </div>
+
             </a>
 
-            <div class="admin-card love-note-admin-card" style="grid-column: 1 / -1; cursor: default;">
-                <div class="admin-card-icon">💌</div>
-                <div class="admin-card-title">Send Sweet Notification / Love Note</div>
-                <div class="admin-card-desc">Manshii ke liye ek pyara sa popup message bhejo:</div>
-                
-                <div style="margin-top: 15px; width: 100%;">
-                    <textarea id="loveNoteInput" rows="3" placeholder="Type message (e.g., I love you so much! Call me when free ❤️)" style="width: 100%; padding: 12px; border-radius: 12px; border: 1px solid rgba(255, 255, 255, 0.2); background: rgba(15, 23, 42, 0.6); color: #fff; font-family: 'Poppins', sans-serif; resize: vertical; outline: none;"></textarea>
-                    
-                    <div style="display: flex; gap: 10px; margin-top: 12px; flex-wrap: wrap;">
-                        <button id="sendNoteBtn" onclick="sendLoveNote()" style="padding: 10px 20px; border: none; border-radius: 12px; background: linear-gradient(135deg, #ff4d94, #c66a9d); color: #fff; font-weight: 600; cursor: pointer;">
-                            🚀 Send Notification
-                        </button>
-                        <button id="clearNoteBtn" onclick="clearActiveNote()" style="padding: 10px 20px; border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 12px; background: rgba(255, 255, 255, 0.1); color: #fff; font-weight: 500; cursor: pointer;">
-                            ❌ Clear Active Note
-                        </button>
-                    </div>
-                    <span id="noteStatus" style="font-size: 0.85rem; color: #ff8eaa; margin-top: 10px; display: block;"></span>
+            <a href="media-manager.html" 
+               class="admin-card">
+                <div class="admin-card-icon">
+                    📤
                 </div>
-            </div>
 
-            <div class="admin-card gift-toggle-card">
-                <div class="admin-card-icon">🎁</div>
-                <div class="admin-card-title">Gift Feature</div>
-                <div class="admin-card-desc">Enable or disable daily gift</div>
+                <div class="admin-card-content">
 
-                <div class="toggle-container" style="margin-top:15px;">
-                    <label class="switch">
-                        <input type="checkbox" id="giftToggle">
-                        <span class="slider"></span>
-                    </label>
-                    <span id="toggleLabel" style="margin-left:10px; font-weight:500;">
-                        Loading...
-                    </span>
+                    <h2>
+                        Media Manager
+                    </h2>
+
+                    <p>
+                        Upload photos and videos
+                    </p>
+
                 </div>
-            </div>
 
-            <div class="admin-card gift-timer-card">
-                <div class="admin-card-icon">⏳</div>
-                <div class="admin-card-title">Gift Timers</div>
-                <div class="admin-card-desc">Adjust or reset gift cooldowns</div>
-
-                <div class="gift-timers-wrapper" style="margin-top:15px;">
-                    <div class="gift-timer-box">
-                        <div class="gift-timer-title">💗 Manshi's Gift</div>
-                        <div id="manshiTimerDisplay" class="gift-timer-display">Loading...</div>
-                        <div class="gift-timer-controls">
-                            <button onclick="changeGiftTimer('manshi', -60)">−1h</button>
-                            <button onclick="changeGiftTimer('manshi', 60)">+1h</button>
-                            <button onclick="changeGiftTimer('manshi', -10)">−10m</button>
-                            <button onclick="changeGiftTimer('manshi', 10)">+10m</button>
-                        </div>
-                        <button class="gift-reset-btn" onclick="resetGiftTimer('manshi')">Reset Timer</button>
-                    </div>
-
-                    <div class="gift-timer-box">
-                        <div class="gift-timer-title">💙 Aryan's Gift</div>
-                        <div id="aryanTimerDisplay" class="gift-timer-display">Loading...</div>
-                        <div class="gift-timer-controls">
-                            <button onclick="changeGiftTimer('aryan', -60)">−1h</button>
-                            <button onclick="changeGiftTimer('aryan', 60)">+1h</button>
-                            <button onclick="changeGiftTimer('aryan', -10)">−10m</button>
-                            <button onclick="changeGiftTimer('aryan', 10)">+10m</button>
-                        </div>
-                        <button class="gift-reset-btn" onclick="resetGiftTimer('aryan')">Reset Timer</button>
-                    </div>
+                <div class="admin-arrow">
+                    →
                 </div>
-            </div>
 
+            </a>
+
+
+
+            <a href="#"
+               class="admin-card">
+
+                <div class="admin-card-icon">
+                    ⚙️
+                </div>
+
+                <div class="admin-card-content">
+
+                    <h2>
+                        Feature Options
+                    </h2>
+
+                    <p>
+                        Manage website features
+                    </p>
+
+                </div>
+
+                <div class="admin-arrow">
+                    →
+                </div>
+
+            </a>
+
+            <a href="#" class="admin-card" onclick="openGiftManager(); return false;">
+
+                <div class="admin-card-icon">
+                    🎁
+                </div>
+
+                <div class="admin-card-content">
+
+                    <h2>
+                        Gift Manager
+                    </h2>
+
+                    <p>
+                        Control gift access and timers
+                    </p>
+
+                </div>
+
+                <div class="admin-arrow">
+                    →
+                </div>
+
+            </a>
+
+           
         </main>
 
+
+        <div class="admin-back-container" style="text-align: center; margin: 20px 0;">
+            <a href="../index.html" class="admin-back-btn">
+                ← Back to Home
+            </a>
+        </div>
+
+
+        <footer class="admin-footer">
+
+            <p>
+                Our Little World ❤️
+            </p>
+
+            <span>
+                Admin access only
+            </span>
+
+        </footer>
+
+
     </div>
+
+    <script>
+
+        const currentUser =
+            sessionStorage.getItem("currentUser");
+
+
+        if (currentUser !== "aryan") {
+
+            window.location.replace("../index.html");
+
+        }
+
+    </script>
+
+    <script>
+
+        if (
+            sessionStorage.getItem("adminAuthenticated")
+            !== "true"
+        ) {
+
+            window.location.replace("../index.html");
+
+        }
+
+    </script>
+
+    <div
+        id="giftManagerModal"
+        class="gift-manager-overlay"
+        style="display:none;">
+
+        <div class="gift-manager-modal">
+
+            <button
+                class="gift-manager-close"
+                onclick="closeGiftManager()">
+
+                ×
+
+            </button>
+
+
+            <div class="gift-manager-icon">
+                🎁
+            </div>
+
+            <h2>Gift Manager</h2>
+
+            <p class="gift-manager-subtitle">
+                Manage your gift features and timers
+            </p>
+
+
+            <div class="gift-setting-box">
+
+                <div>
+
+                    <h3>Gift Feature</h3>
+
+                    <p>
+                        Enable or disable gift access
+                    </p>
+
+                </div>
+
+
+                <label class="gift-switch">
+
+                    <input
+                        type="checkbox"
+                        id="giftFeatureToggle"
+                        onchange="toggleGiftFeature()">
+
+                    <span class="gift-slider"></span>
+
+                </label>
+
+            </div>
+
+
+            <div class="gift-timer-box">
+
+                <div class="gift-timer-title">
+                    💗 Manshi's Gift
+                </div>
+
+                <div
+                    id="manshiTimerDisplay"
+                    class="gift-timer-display">
+
+                    Loading...
+
+                </div>
+
+
+                <div class="gift-timer-controls">
+
+                    <button onclick="changeGiftTimer('manshi', -60)">
+                        −1h
+                    </button>
+
+                    <button onclick="changeGiftTimer('manshi', 60)">
+                        +1h
+                    </button>
+
+                    <button onclick="changeGiftTimer('manshi', -10)">
+                        −10m
+                    </button>
+
+                    <button onclick="changeGiftTimer('manshi', 10)">
+                        +10m
+                    </button>
+
+                </div>
+
+
+                <button
+                    class="gift-reset-btn"
+                    onclick="resetGiftTimer('manshi')">
+
+                    Reset Timer
+
+                </button>
+
+            </div>
+
+
+            <div class="gift-timer-box">
+
+                <div class="gift-timer-title">
+                    💙 Aryan's Gift
+                </div>
+
+                <div
+                    id="aryanTimerDisplay"
+                    class="gift-timer-display">
+
+                    Loading...
+
+                </div>
+
+
+                <div class="gift-timer-controls">
+
+                    <button onclick="changeGiftTimer('aryan', -60)">
+                        −1h
+                    </button>
+
+                    <button onclick="changeGiftTimer('aryan', 60)">
+                        +1h
+                    </button>
+
+                    <button onclick="changeGiftTimer('aryan', -10)">
+                        −10m
+                    </button>
+
+                    <button onclick="changeGiftTimer('aryan', 10)">
+                        +10m
+                    </button>
+
+                </div>
+
+
+                <button
+                    class="gift-reset-btn"
+                    onclick="resetGiftTimer('aryan')">
+
+                    Reset Timer
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="../supabase.js"></script>
     <script src="../admin.js"></script>
+
+
 </body>
 
 </html>

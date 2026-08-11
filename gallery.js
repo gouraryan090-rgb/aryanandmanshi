@@ -1,6 +1,6 @@
 /* ==========================================
    OUR GALLERY ❤️
-   SUPABASE STORAGE VERSION WITH CUSTOM MODALS
+   SUPABASE STORAGE VERSION WITH CUSTOM MODALS + DOWNLOAD/SHARE/ZOOM
 ========================================== */
 
 
@@ -8,35 +8,17 @@
    ELEMENTS
 ========================================== */
 
-const photoGallery =
-    document.getElementById("photoGallery");
+const photoGallery = document.getElementById("photoGallery");
+const videoGallery = document.getElementById("videoGallery");
+const photoCount = document.getElementById("photoCount");
+const videoCount = document.getElementById("videoCount");
 
-const videoGallery =
-    document.getElementById("videoGallery");
-
-const photoCount =
-    document.getElementById("photoCount");
-
-const videoCount =
-    document.getElementById("videoCount");
-
-const lightbox =
-    document.getElementById("lightbox");
-
-const lightboxImg =
-    document.getElementById("lightboxImg");
-
-const lightboxVideo =
-    document.getElementById("lightboxVideo");
-
-const closeBtn =
-    document.getElementById("closeBtn");
-
-const prevBtn =
-    document.getElementById("prevBtn");
-
-const nextBtn =
-    document.getElementById("nextBtn");
+const lightbox = document.getElementById("lightbox");
+const lightboxImg = document.getElementById("lightboxImg");
+const lightboxVideo = document.getElementById("lightboxVideo");
+const closeBtn = document.getElementById("closeBtn");
+const prevBtn = document.getElementById("prevBtn");
+const nextBtn = document.getElementById("nextBtn");
 
 
 /* ==========================================
@@ -44,35 +26,29 @@ const nextBtn =
 ========================================== */
 
 let photos = [];
-
 let videos = [];
-
 let currentItems = [];
-
 let currentIndex = 0;
-
 let currentType = "image";
-
 let fileToDelete = null; // Store file name temporarily for deletion
+
+// Zoom & Drag Variables
+let scale = 1;
+let pointX = 0;
+let pointY = 0;
+let startX = 0;
+let startY = 0;
+let isDragging = false;
+let initialDistance = 0;
 
 
 /* ==========================================
    SUPABASE CHECK
 ========================================== */
 
-if (
-    typeof supabaseClient ===
-    "undefined"
-) {
-
-    console.error(
-        "Supabase client not found."
-    );
-
-    showGalleryError(
-        "Unable to connect to gallery."
-    );
-
+if (typeof supabaseClient === "undefined") {
+    console.error("Supabase client not found.");
+    showGalleryError("Unable to connect to gallery.");
 }
 
 
@@ -81,128 +57,55 @@ if (
 ========================================== */
 
 async function loadGallery() {
-
     try {
+        console.log("Loading gallery...");
 
-        console.log(
-            "Loading gallery..."
-        );
+        const { data, error } = await supabaseClient
+            .storage
+            .from("gallery")
+            .list("", {
+                limit: 1000,
+                offset: 0,
+                sortBy: {
+                    column: "created_at",
+                    order: "asc"
+                }
+            });
 
-        const {
-            data,
-            error
-        } =
-            await supabaseClient
-                .storage
-                .from("gallery")
-                .list("", {
-                    limit: 1000,
-                    offset: 0,
-                    sortBy: {
-                        column: "created_at",
-                        order: "asc"
-                    }
-                });
-
-
-        if (error) {
-
-            throw error;
-
-        }
-
+        if (error) throw error;
 
         if (!data) {
-
             updateCounters();
-
             return;
-
         }
 
-
-        photoGallery.innerHTML =
-            "";
-
-        videoGallery.innerHTML =
-            "";
-
+        photoGallery.innerHTML = "";
+        videoGallery.innerHTML = "";
         photos = [];
-
         videos = [];
 
+        data.forEach(function (file) {
+            if (!file.name || file.name === ".emptyfolderplaceholder") return;
 
-        data.forEach(function (
-            file
-        ) {
+            const fileName = file.name.toLowerCase();
+            const result = supabaseClient.storage.from("gallery").getPublicUrl(file.name);
+            const publicURL = result.data.publicUrl;
 
-            if (
-                !file.name ||
-                file.name ===
-                ".emptyfolderplaceholder"
-            ) {
-
-                return;
-
+            if (isImage(fileName)) {
+                photos.push(publicURL);
+            } else if (isVideo(fileName)) {
+                videos.push(publicURL);
             }
-
-
-            const fileName =
-                file.name.toLowerCase();
-
-            const result =
-                supabaseClient
-                    .storage
-                    .from("gallery")
-                    .getPublicUrl(
-                        file.name
-                    );
-
-            const publicURL =
-                result.data
-                    .publicUrl;
-
-
-            if (
-                isImage(fileName)
-            ) {
-
-                photos.push(
-                    publicURL
-                );
-
-            } else if (
-                isVideo(fileName)
-            ) {
-
-                videos.push(
-                    publicURL
-                );
-
-            }
-
         });
 
-
         renderPhotos();
-
         renderVideos();
-
         updateCounters();
 
     } catch (error) {
-
-        console.error(
-            "Gallery loading error:",
-            error
-        );
-
-        showGalleryError(
-            "Unable to load gallery. Please try again."
-        );
-
+        console.error("Gallery loading error:", error);
+        showGalleryError("Unable to load gallery. Please try again.");
     }
-
 }
 
 
@@ -211,48 +114,23 @@ async function loadGallery() {
 ========================================== */
 
 function isImage(fileName) {
-
     return (
-        fileName.endsWith(
-            ".jpg"
-        ) ||
-        fileName.endsWith(
-            ".jpeg"
-        ) ||
-        fileName.endsWith(
-            ".png"
-        ) ||
-        fileName.endsWith(
-            ".webp"
-        ) ||
-        fileName.endsWith(
-            ".gif"
-        ) ||
-        fileName.endsWith(
-            ".avif"
-        )
+        fileName.endsWith(".jpg") ||
+        fileName.endsWith(".jpeg") ||
+        fileName.endsWith(".png") ||
+        fileName.endsWith(".webp") ||
+        fileName.endsWith(".gif") ||
+        fileName.endsWith(".avif")
     );
-
 }
 
-
 function isVideo(fileName) {
-
     return (
-        fileName.endsWith(
-            ".mp4"
-        ) ||
-        fileName.endsWith(
-            ".webm"
-        ) ||
-        fileName.endsWith(
-            ".mov"
-        ) ||
-        fileName.endsWith(
-            ".m4v"
-        )
+        fileName.endsWith(".mp4") ||
+        fileName.endsWith(".webm") ||
+        fileName.endsWith(".mov") ||
+        fileName.endsWith(".m4v")
     );
-
 }
 
 
@@ -261,85 +139,38 @@ function isVideo(fileName) {
 ========================================== */
 
 function renderPhotos() {
-
-    photoGallery.innerHTML =
-        "";
-
+    photoGallery.innerHTML = "";
 
     if (photos.length === 0) {
-
-        photoGallery.innerHTML =
-            `
+        photoGallery.innerHTML = `
         <div class="gallery-empty">
             📷 No photos uploaded yet.
         </div>
         `;
-
         return;
-
     }
 
-
-    photos.forEach(function (
-        src,
-        index
-    ) {
-
-        const img =
-            document.createElement(
-                "img"
-            );
-
+    photos.forEach(function (src, index) {
+        const img = document.createElement("img");
         img.src = src;
-
-        img.className =
-            "gallery-item";
-
-        img.alt =
-            "Our memory ❤️";
-
+        img.className = "gallery-item";
+        img.alt = "Our memory ❤️";
         img.loading = "lazy";
-
         img.decoding = "async";
 
+        img.addEventListener("click", function () {
+            currentItems = photos;
+            currentIndex = index;
+            currentType = "image";
+            openImage();
+        });
 
-        img.addEventListener(
-            "click",
-            function () {
+        img.addEventListener("load", function () {
+            img.classList.add("loaded");
+        });
 
-                currentItems =
-                    photos;
-
-                currentIndex =
-                    index;
-
-                currentType =
-                    "image";
-
-                openImage();
-
-            }
-        );
-
-
-        img.addEventListener(
-            "load",
-            function () {
-
-                img.classList.add(
-                    "loaded"
-                );
-
-            }
-        );
-
-
-        photoGallery.appendChild(
-            img
-        );
-
+        photoGallery.appendChild(img);
     });
-
 }
 
 
@@ -348,337 +179,341 @@ function renderPhotos() {
 ========================================== */
 
 function renderVideos() {
-
-    videoGallery.innerHTML =
-        "";
-
+    videoGallery.innerHTML = "";
 
     if (videos.length === 0) {
-
-        videoGallery.innerHTML =
-            `
+        videoGallery.innerHTML = `
         <div class="gallery-empty">
             🎥 No videos uploaded yet.
         </div>
         `;
-
         return;
-
     }
 
-
-    videos.forEach(function (
-        src,
-        index
-    ) {
-
-        const video =
-            document.createElement(
-                "video"
-            );
-
+    videos.forEach(function (src, index) {
+        const video = document.createElement("video");
         video.src = src;
-
-        video.className =
-            "gallery-item";
-
+        video.className = "gallery-item";
         video.muted = true;
+        video.playsInline = true;
+        video.preload = "metadata";
 
-        video.playsInline =
-            true;
+        video.addEventListener("click", function () {
+            currentItems = videos;
+            currentIndex = index;
+            currentType = "video";
+            openVideo();
+        });
 
-        video.preload =
-            "metadata";
-
-
-        video.addEventListener(
-            "click",
-            function () {
-
-                currentItems =
-                    videos;
-
-                currentIndex =
-                    index;
-
-                currentType =
-                    "video";
-
-                openVideo();
-
-            }
-        );
-
-
-        videoGallery.appendChild(
-            video
-        );
-
+        videoGallery.appendChild(video);
     });
-
 }
 
 
 /* ==========================================
-   LIGHTBOX CONTROLS
+   LIGHTBOX CONTROLS WITH ZOOM & PAN RESET
 ========================================== */
 
+function resetZoom() {
+    scale = 1;
+    pointX = 0;
+    pointY = 0;
+    if (lightboxImg) {
+        lightboxImg.style.transform = `translate(0px, 0px) scale(1)`;
+        lightboxImg.style.cursor = "grab";
+    }
+}
+
+function updateTransform() {
+    if (lightboxImg) {
+        lightboxImg.style.transform = `translate(${pointX}px, ${pointY}px) scale(${scale})`;
+    }
+}
+
 function openImage() {
-
-    const src =
-        currentItems[
-            currentIndex
-        ];
-
+    const src = currentItems[currentIndex];
 
     lightboxVideo.pause();
+    lightboxVideo.removeAttribute("src");
+    lightboxVideo.style.display = "none";
 
-    lightboxVideo.removeAttribute(
-        "src"
-    );
+    resetZoom();
 
-    lightboxVideo.style.display =
-        "none";
+    lightboxImg.style.display = "block";
+    lightboxImg.style.opacity = "0";
 
+    lightbox.style.display = "flex";
 
-    lightboxImg.style.display =
-        "block";
-
-    lightboxImg.style.opacity =
-        "0";
-
-
-    lightbox.style.display =
-        "flex";
-
-
-    lightboxImg.onload =
-        function () {
-
-            lightboxImg.style.opacity =
-                "1";
-
-        };
-
+    lightboxImg.onload = function () {
+        lightboxImg.style.opacity = "1";
+    };
 
     lightboxImg.src = src;
-
 }
-
 
 function openVideo() {
+    const src = currentItems[currentIndex];
 
-    const src =
-        currentItems[
-            currentIndex
-        ];
-
-
-    lightboxImg.style.display =
-        "none";
-
+    lightboxImg.style.display = "none";
     lightboxImg.src = "";
 
-
-    lightboxVideo.style.display =
-        "block";
-
-    lightbox.style.display =
-        "flex";
-
+    lightboxVideo.style.display = "block";
+    lightbox.style.display = "flex";
 
     lightboxVideo.src = src;
-
     lightboxVideo.load();
 
-
-    lightboxVideo
-        .play()
-        .catch(function () {
-
-            console.log(
-                "Autoplay prevented."
-            );
-
-        });
-
+    lightboxVideo.play().catch(function () {
+        console.log("Autoplay prevented.");
+    });
 }
-
 
 function closeLightbox() {
-
-    lightbox.style.display =
-        "none";
-
+    lightbox.style.display = "none";
     lightboxImg.src = "";
 
-
     lightboxVideo.pause();
-
     lightboxVideo.src = "";
-
+    resetZoom();
 }
 
-
-closeBtn.addEventListener(
-    "click",
-    closeLightbox
-);
-
+if (closeBtn) closeBtn.addEventListener("click", closeLightbox);
 
 function nextMedia() {
-
-    if (
-        currentItems.length ===
-        0
-    ) {
-
-        return;
-
-    }
-
+    if (currentItems.length === 0) return;
 
     currentIndex++;
-
-
-    if (
-        currentIndex >=
-        currentItems.length
-    ) {
-
+    if (currentIndex >= currentItems.length) {
         currentIndex = 0;
-
     }
 
-
-    if (
-        currentType === "image"
-    ) {
-
+    if (currentType === "image") {
         openImage();
-
     } else {
-
         openVideo();
-
     }
-
 }
 
-
-nextBtn.addEventListener(
-    "click",
-    nextMedia
-);
-
+if (nextBtn) nextBtn.addEventListener("click", nextMedia);
 
 function previousMedia() {
-
-    if (
-        currentItems.length ===
-        0
-    ) {
-
-        return;
-
-    }
-
+    if (currentItems.length === 0) return;
 
     currentIndex--;
-
-
     if (currentIndex < 0) {
-
-        currentIndex =
-            currentItems.length - 1;
-
+        currentIndex = currentItems.length - 1;
     }
 
-
-    if (
-        currentType === "image"
-    ) {
-
+    if (currentType === "image") {
         openImage();
-
     } else {
-
         openVideo();
-
     }
+}
 
+if (prevBtn) prevBtn.addEventListener("click", previousMedia);
+
+document.addEventListener("keydown", function (event) {
+    if (event.key === "Escape") closeLightbox();
+    if (lightbox.style.display !== "flex") return;
+    if (event.key === "ArrowRight") nextMedia();
+    if (event.key === "ArrowLeft") previousMedia();
+});
+
+if (lightbox) {
+    lightbox.addEventListener("click", function (event) {
+        if (event.target === lightbox) closeLightbox();
+    });
 }
 
 
-prevBtn.addEventListener(
-    "click",
-    previousMedia
-);
+/* ==========================================
+   ZOOM & DRAG LOGIC (MOUSE + TOUCH)
+========================================== */
 
-
-document.addEventListener(
-    "keydown",
-    function (event) {
-
-        if (
-            event.key ===
-            "Escape"
-        ) {
-
-            closeLightbox();
-
+if (lightboxImg) {
+    lightboxImg.addEventListener("wheel", function (e) {
+        e.preventDefault();
+        const delta = e.deltaY < 0 ? 0.25 : -0.25;
+        scale = Math.min(Math.max(1, scale + delta), 4);
+        if (scale === 1) {
+            pointX = 0;
+            pointY = 0;
         }
+        updateTransform();
+    }, { passive: false });
+
+    lightboxImg.addEventListener("mousedown", function (e) {
+        if (scale <= 1) return;
+        isDragging = true;
+        startX = e.clientX - pointX;
+        startY = e.clientY - pointY;
+        lightboxImg.style.cursor = "grabbing";
+    });
+
+    window.addEventListener("mousemove", function (e) {
+        if (!isDragging) return;
+        pointX = e.clientX - startX;
+        pointY = e.clientY - startY;
+        updateTransform();
+    });
+
+    window.addEventListener("mouseup", function () {
+        isDragging = false;
+        if (lightboxImg) lightboxImg.style.cursor = "grab";
+    });
+
+    lightboxImg.addEventListener("touchstart", function (e) {
+        if (e.touches.length === 1 && scale > 1) {
+            isDragging = true;
+            startX = e.touches[0].clientX - pointX;
+            startY = e.touches[0].clientY - pointY;
+        } else if (e.touches.length === 2) {
+            isDragging = false;
+            initialDistance = Math.hypot(
+                e.touches[0].clientX - e.touches[1].clientX,
+                e.touches[0].clientY - e.touches[1].clientY
+            );
+        }
+    }, { passive: true });
+
+    lightboxImg.addEventListener("touchmove", function (e) {
+        if (e.touches.length === 1 && isDragging) {
+            e.preventDefault();
+            pointX = e.touches[0].clientX - startX;
+            pointY = e.touches[0].clientY - startY;
+            updateTransform();
+        } else if (e.touches.length === 2) {
+            e.preventDefault();
+            const currentDistance = Math.hypot(
+                e.touches[0].clientX - e.touches[1].clientX,
+                e.touches[0].clientY - e.touches[1].clientY
+            );
+            const factor = currentDistance / initialDistance;
+            scale = Math.min(Math.max(1, scale * factor), 4);
+            initialDistance = currentDistance;
+            if (scale === 1) {
+                pointX = 0;
+                pointY = 0;
+            }
+            updateTransform();
+        }
+    }, { passive: false });
+
+    lightboxImg.addEventListener("touchend", function (e) {
+        if (e.touches.length < 1) {
+            isDragging = false;
+        }
+    });
+}
 
 
-        if (
-            lightbox.style
-                .display !==
-            "flex"
-        ) {
+/* ==========================================
+   DOWNLOAD & SHARE LOGIC
+========================================== */
 
+// 1. Download Media File
+async function downloadCurrentMedia() {
+    if (!currentItems || currentItems.length === 0) return;
+    const url = currentItems[currentIndex];
+    const dlBtn = document.getElementById("downloadBtn");
+
+    if (dlBtn) dlBtn.textContent = "⏳ Downloading...";
+
+    try {
+        const response = await fetch(url);
+        const blob = await response.blob();
+        const blobUrl = URL.createObjectURL(blob);
+
+        const ext = currentType === "image" ? "jpg" : "mp4";
+        const filename = `gallery_memory_${Date.now()}.${ext}`;
+
+        const a = document.createElement("a");
+        a.href = blobUrl;
+        a.download = filename;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+
+        setTimeout(() => URL.revokeObjectURL(blobUrl), 10000);
+
+    } catch (err) {
+        console.error("Download failed, opening direct link:", err);
+        window.open(url, "_blank");
+    } finally {
+        if (dlBtn) dlBtn.textContent = "⬇️ Download";
+    }
+}
+
+// 2. Share Media File (Native Mobile Share for WhatsApp, Drive, Insta, etc.)
+async function shareCurrentMedia() {
+    if (!currentItems || currentItems.length === 0) return;
+    const url = currentItems[currentIndex];
+
+    if (navigator.share) {
+        try {
+            const response = await fetch(url);
+            const blob = await response.blob();
+            const ext = currentType === "image" ? "jpg" : "mp4";
+            const file = new File([blob], `memory.${ext}`, { type: blob.type });
+
+            if (navigator.canShare && navigator.canShare({ files: [file] })) {
+                await navigator.share({
+                    title: "Our Memory ❤️",
+                    text: "Check out this memory from our gallery! ❤️",
+                    files: [file]
+                });
+                return;
+            } else {
+                await navigator.share({
+                    title: "Our Memory ❤️",
+                    text: "Check out this memory from our gallery! ❤️",
+                    url: url
+                });
+                return;
+            }
+        } catch (err) {
+            if (err.name !== "AbortError") {
+                console.log("Web share fallback:", err);
+                openCustomShareModal();
+            }
             return;
-
         }
-
-
-        if (
-            event.key ===
-            "ArrowRight"
-        ) {
-
-            nextMedia();
-
-        }
-
-
-        if (
-            event.key ===
-            "ArrowLeft"
-        ) {
-
-            previousMedia();
-
-        }
-
     }
-);
 
+    openCustomShareModal();
+}
 
-lightbox.addEventListener(
-    "click",
-    function (event) {
+function openCustomShareModal() {
+    const modal = document.getElementById("customShareModal");
+    if (modal) modal.style.display = "flex";
+}
 
-        if (
-            event.target ===
-            lightbox
-        ) {
+function closeShareModal() {
+    const modal = document.getElementById("customShareModal");
+    const status = document.getElementById("shareStatus");
+    if (modal) modal.style.display = "none";
+    if (status) status.textContent = "";
+}
 
-            closeLightbox();
+function shareToWhatsApp() {
+    const url = currentItems[currentIndex];
+    const text = encodeURIComponent(`Check out this memory from our gallery! ❤️\n${url}`);
+    window.open(`https://api.whatsapp.com/send?text=${text}`, "_blank");
+    closeShareModal();
+}
 
-        }
+function copyMediaLink() {
+    const url = currentItems[currentIndex];
+    const status = document.getElementById("shareStatus");
 
-    }
-);
+    navigator.clipboard.writeText(url).then(() => {
+        if (status) status.textContent = "✅ Link copied to clipboard!";
+        setTimeout(closeShareModal, 1500);
+    }).catch(() => {
+        if (status) status.textContent = "❌ Failed to copy link.";
+    });
+}
 
 
 /* ==========================================
@@ -686,16 +521,13 @@ lightbox.addEventListener(
 ========================================== */
 
 function updateCounters() {
-
     if (photoCount) {
         photoCount.textContent = photos.length;
     }
 
-
     if (videoCount) {
         videoCount.textContent = videos.length;
     }
-
 }
 
 
@@ -703,29 +535,22 @@ function updateCounters() {
    ERROR
 ========================================== */
 
-function showGalleryError(
-    message
-) {
-
+function showGalleryError(message) {
     if (photoGallery) {
-        photoGallery.innerHTML =
-            `
+        photoGallery.innerHTML = `
             <div class="gallery-empty">
                 ❌ ${message}
             </div>
             `;
     }
-
 
     if (videoGallery) {
-        videoGallery.innerHTML =
-            `
+        videoGallery.innerHTML = `
             <div class="gallery-empty">
                 ❌ ${message}
             </div>
             `;
     }
-
 }
 
 
@@ -793,7 +618,6 @@ async function renderModalMediaList() {
             delBtn.title = "Delete media";
             delBtn.style.cssText = "position: absolute; top: 4px; right: 4px; background: rgba(239, 68, 68, 0.9); border: none; border-radius: 50%; width: 24px; height: 24px; color: #fff; font-size: 11px; cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 5px rgba(0,0,0,0.4);";
 
-            // Trigger Custom Confirmation Modal instead of browser confirm()
             delBtn.onclick = () => {
                 showDeleteConfirmModal(file.name);
             };
@@ -829,16 +653,15 @@ function closeDeleteConfirmModal() {
     }
 }
 
-// Bind Delete Action to Modal Button
 const confirmDeleteBtn = document.getElementById("confirmDeleteBtn");
 if (confirmDeleteBtn) {
     confirmDeleteBtn.onclick = async () => {
         if (fileToDelete) {
             confirmDeleteBtn.disabled = true;
             confirmDeleteBtn.textContent = "Deleting... ⏳";
-            
+
             await deleteMediaFile(fileToDelete);
-            
+
             confirmDeleteBtn.disabled = false;
             confirmDeleteBtn.textContent = "Delete";
             closeDeleteConfirmModal();

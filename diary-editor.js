@@ -2,30 +2,33 @@ let selectedPhotoFile = null;
 let selectedAudioFile = null;
 let currentPhotoUrl = "";
 let currentAudioUrl = "";
+let targetDate = "";
 
-// Text formatting toolbar function
+// Live Recording Variables
+let mediaRecorder = null;
+let audioChunks = [];
+
 function formatDoc(cmd, value = null) {
     document.execCommand(cmd, false, value);
 }
 
-// Initialize on DOM Ready
 document.addEventListener("DOMContentLoaded", () => {
-    const dateInput = document.getElementById("diaryDate");
-    
-    // Set default date to today
-    const today = new Date().toISOString().split("T")[0];
-    dateInput.value = today;
+    const urlParams = new URLSearchParams(window.location.search);
+    targetDate = urlParams.get("date");
 
-    // Load entry for today
-    loadDiaryEntry(today);
+    if (!targetDate) {
+        alert("No date selected! Redirecting back...");
+        window.location.href = "diary.html";
+        return;
+    }
 
-    // Event listener for date change
-    dateInput.addEventListener("change", (e) => {
-        loadDiaryEntry(e.target.value);
-    });
+    document.getElementById("selectedDateBadge").innerText = `📅 Date: ${targetDate}`;
+    document.getElementById("editorPageTitle").innerText = `Memory for ${targetDate}`;
+
+    loadExistingEntry(targetDate);
 });
 
-// Preview selected Photo
+// Photo Functions
 function previewDiaryPhoto(event) {
     const file = event.target.files[0];
     if (file) {
@@ -39,7 +42,6 @@ function previewDiaryPhoto(event) {
     }
 }
 
-// Remove Photo Preview
 function removeDiaryPhoto() {
     selectedPhotoFile = null;
     currentPhotoUrl = "";
@@ -48,7 +50,7 @@ function removeDiaryPhoto() {
     document.getElementById("photoPreviewContainer").style.display = "none";
 }
 
-// Preview selected Audio
+// Audio Upload Function
 function previewDiaryAudio(event) {
     const file = event.target.files[0];
     if (file) {
@@ -62,31 +64,64 @@ function previewDiaryAudio(event) {
     }
 }
 
-// Remove Audio Preview
+// Live Voice Recording Functions
+async function startRecording() {
+    try {
+        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+        mediaRecorder = new MediaRecorder(stream);
+        audioChunks = [];
+
+        mediaRecorder.ondataavailable = (event) => {
+            if (event.data.size > 0) {
+                audioChunks.push(event.data);
+            }
+        };
+
+        mediaRecorder.onstop = () => {
+            const audioBlob = new Blob(audioChunks, { type: 'audio/webm' });
+            selectedAudioFile = new File([audioBlob], `recorded_voice_${Date.now()}.webm`, { type: 'audio/webm' });
+
+            const audioUrl = URL.createObjectURL(audioBlob);
+            document.getElementById("diaryAudioPreview").src = audioUrl;
+            document.getElementById("audioPreviewContainer").style.display = "block";
+        };
+
+        mediaRecorder.start();
+        document.getElementById("startRecBtn").style.display = "none";
+        document.getElementById("stopRecBtn").style.display = "inline-block";
+        document.getElementById("recordingStatus").style.display = "inline";
+    } catch (err) {
+        alert("Microphone access denied or not supported on this browser!");
+        console.error(err);
+    }
+}
+
+function stopRecording() {
+    if (mediaRecorder && mediaRecorder.state !== "inactive") {
+        mediaRecorder.stop();
+        mediaRecorder.stream.getTracks().forEach(track => track.stop());
+    }
+    document.getElementById("startRecBtn").style.display = "inline-block";
+    document.getElementById("stopRecBtn").style.display = "none";
+    document.getElementById("recordingStatus").style.display = "none";
+}
+
 function removeDiaryAudio() {
     selectedAudioFile = null;
     currentAudioUrl = "";
-    document.getElementById("diaryAudioInput").value = "";
+    const audioInput = document.getElementById("diaryAudioInput");
+    if (audioInput) audioInput.value = "";
     document.getElementById("diaryAudioPreview").src = "";
     document.getElementById("audioPreviewContainer").style.display = "none";
 }
 
-// Load Diary Entry by Date
-async function loadDiaryEntry(selectedDate) {
-    const statusBadge = document.getElementById("dateStatusBadge");
-    statusBadge.innerText = "🔄 Loading...";
-
-    // Reset fields
-    document.getElementById("diaryTitle").value = "";
-    document.getElementById("diaryEditor").innerHTML = "";
-    removeDiaryPhoto();
-    removeDiaryAudio();
-
+// Fetch Existing Entry
+async function loadExistingEntry(dateVal) {
     try {
         const { data, error } = await supabaseClient
             .from("couple_diary")
             .select("*")
-            .eq("entry_date", selectedDate)
+            .eq("entry_date", dateVal)
             .maybeSingle();
 
         if (error) throw error;
@@ -96,42 +131,32 @@ async function loadDiaryEntry(selectedDate) {
             document.getElementById("diaryEditor").innerHTML = data.content || "";
             if (data.author) document.getElementById("diaryAuthor").value = data.author;
 
-            // Load saved Photo
             if (data.photo_url) {
                 currentPhotoUrl = data.photo_url;
                 document.getElementById("diaryPhotoPreview").src = data.photo_url;
                 document.getElementById("photoPreviewContainer").style.display = "block";
             }
 
-            // Load saved Audio
             if (data.audio_url) {
                 currentAudioUrl = data.audio_url;
                 document.getElementById("diaryAudioPreview").src = data.audio_url;
                 document.getElementById("audioPreviewContainer").style.display = "block";
             }
-
-            statusBadge.innerText = "✨ Memory Found";
-            document.getElementById("lastSavedInfo").innerText = `Last saved: ${new Date(data.updated_at).toLocaleTimeString()}`;
-        } else {
-            statusBadge.innerText = "📝 New Memory Page";
-            document.getElementById("lastSavedInfo").innerText = "Not saved yet";
         }
     } catch (err) {
         console.error("Error loading entry:", err);
-        statusBadge.innerText = "❌ Error Loading";
     }
 }
 
-// Save Diary Entry
+// Save Entry to Supabase
 async function saveDiaryEntry() {
     const saveBtn = document.getElementById("saveDiaryBtn");
-    const dateVal = document.getElementById("diaryDate").value;
     const authorVal = document.getElementById("diaryAuthor").value;
     const titleVal = document.getElementById("diaryTitle").value.trim();
     const contentVal = document.getElementById("diaryEditor").innerHTML.trim();
 
-    if (!dateVal || !titleVal || !contentVal) {
-        alert("Please enter a title and diary content! ❤️");
+    if (!titleVal || !contentVal) {
+        alert("Please write a title and content for this memory! ❤️");
         return;
     }
 
@@ -139,10 +164,11 @@ async function saveDiaryEntry() {
     saveBtn.innerText = "⏳ Saving Memory...";
 
     try {
-        // Upload Photo if new file is chosen
+        // Upload Photo if new file selected
         if (selectedPhotoFile) {
-            const fileName = `photo_${dateVal}_${Date.now()}.${selectedPhotoFile.name.split('.').pop()}`;
-            const { data, error } = await supabaseClient.storage
+            const ext = selectedPhotoFile.name.split('.').pop();
+            const fileName = `photo_${targetDate}_${Date.now()}.${ext}`;
+            const { error } = await supabaseClient.storage
                 .from("gallery")
                 .upload(fileName, selectedPhotoFile);
 
@@ -155,10 +181,11 @@ async function saveDiaryEntry() {
             currentPhotoUrl = publicUrlData.publicUrl;
         }
 
-        // Upload Audio if new file is chosen
+        // Upload Audio (File or Live Recording) if available
         if (selectedAudioFile) {
-            const fileName = `audio_${dateVal}_${Date.now()}.${selectedAudioFile.name.split('.').pop()}`;
-            const { data, error } = await supabaseClient.storage
+            const ext = selectedAudioFile.name.split('.').pop();
+            const fileName = `audio_${targetDate}_${Date.now()}.${ext}`;
+            const { error } = await supabaseClient.storage
                 .from("gallery")
                 .upload(fileName, selectedAudioFile);
 
@@ -171,11 +198,11 @@ async function saveDiaryEntry() {
             currentAudioUrl = publicUrlData.publicUrl;
         }
 
-        // Upsert record into Supabase
+        // Upsert into Supabase Table
         const { error: dbError } = await supabaseClient
             .from("couple_diary")
             .upsert({
-                entry_date: dateVal,
+                entry_date: targetDate,
                 title: titleVal,
                 author: authorVal,
                 content: contentVal,
@@ -186,15 +213,14 @@ async function saveDiaryEntry() {
 
         if (dbError) throw dbError;
 
-        alert("Memory Saved Successfully! ❤️");
-        document.getElementById("lastSavedInfo").innerText = `Saved on ${new Date().toLocaleTimeString()}`;
-        document.getElementById("dateStatusBadge").innerText = "✨ Memory Saved";
+        alert("Memory Saved Successfully! ❤️ Redirecting to Diary List...");
+        window.location.href = "diary.html";
 
     } catch (err) {
-        console.error("Error saving diary entry:", err);
-        alert("Failed to save memory. Check Supabase connection and console for details.");
+        console.error("Error saving memory:", err);
+        alert("Failed to save memory. Please check your storage & table permissions.");
     } finally {
         saveBtn.disabled = false;
-        saveBtn.innerText = "💾 Save Memory ❤️";
+        saveBtn.innerText = "💾 Save Memory & Return ❤️";
     }
 }

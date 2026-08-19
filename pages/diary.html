@@ -16,9 +16,7 @@
 
 <body>
 
-    <a href="#" id="logoutBtn" class="logout-btn">
-        🚪 Logout
-    </a>
+    <a href="#" id="logoutBtn" class="logout-btn">🚪 Logout</a>
 
     <div class="background"></div>
     <div class="hearts"></div>
@@ -26,81 +24,40 @@
     <div class="diary-container">
 
         <div class="back-home">
-            <a href="../dashboard.html" class="back-btn">
-                ⬅ Back to Dashboard
-            </a>
+            <a href="../dashboard.html" class="back-btn">⬅ Back to Dashboard</a>
         </div>
 
         <header class="diary-header">
             <div class="diary-icon">📖</div>
             <h1>Our Couple Diary</h1>
-            <p>Pick a date & capture our magical moments forever ❤️</p>
+            <p>Pick a date to write or revisit our magical moments forever ❤️</p>
         </header>
 
+        <!-- Date Selection Card -->
         <div class="diary-card date-selector-card">
-            <label for="diaryDate">📅 Select Date:</label>
-            <input type="date" id="diaryDate" class="diary-date-picker">
-            <span id="dateStatusBadge" class="date-status">Loading date...</span>
-        </div>
-
-        <div class="diary-card editor-card">
-            
-            <div class="editor-top-bar">
-                <div class="author-select">
-                    <span>✍️ Written By:</span>
-                    <select id="diaryAuthor">
-                        <option value="Aryan">🗿 Aryan</option>
-                        <option value="Manshii">💗 Manshii</option>
-                    </select>
-                </div>
-                <div id="lastSavedInfo" class="last-saved-info">Not saved yet</div>
-            </div>
-
-            <div class="editor-toolbar">
-                <button type="button" class="tool-btn" onclick="formatDoc('bold')" title="Bold"><b>B</b></button>
-                <button type="button" class="tool-btn" onclick="formatDoc('italic')" title="Italic"><i>I</i></button>
-                <button type="button" class="tool-btn" onclick="formatDoc('underline')" title="Underline"><u>U</u></button>
-                <button type="button" class="tool-btn" onclick="formatDoc('strikeThrough')" title="Strikethrough"><s>S</s></button>
-                
-                <span class="tool-divider"></span>
-
-                <div class="color-picker-wrapper" title="Text Color">
-                    <span class="color-label">🎨 Color:</span>
-                    <input type="color" id="textColorPicker" value="#ff4d94" onchange="formatDoc('foreColor', this.value)">
-                </div>
-
-                <div class="color-picker-wrapper" title="Highlight Color">
-                    <span class="color-label">✨ Highlight:</span>
-                    <input type="color" id="bgColorPicker" value="#6d5dfc" onchange="formatDoc('hiliteColor', this.value)">
-                </div>
-
-                <span class="tool-divider"></span>
-
-                <button type="button" class="tool-btn" onclick="formatDoc('justifyLeft')" title="Align Left">⬅️</button>
-                <button type="button" class="tool-btn" onclick="formatDoc('justifyCenter')" title="Align Center">↔️</button>
-                <button type="button" class="tool-btn" onclick="formatDoc('justifyRight')" title="Align Right">➡️</button>
-                <button type="button" class="tool-btn" onclick="formatDoc('insertUnorderedList')" title="Bullet List">• List</button>
-                <button type="button" class="tool-btn" onclick="formatDoc('removeFormat')" title="Clear Formatting">🧹 Clear</button>
-            </div>
-
-            <input type="text" id="diaryTitle" class="editor-title-input" placeholder="Title for this day (e.g., Movie Date & Ice Cream 🍦)" required>
-
-            <div id="diaryEditor" class="rich-editor" contenteditable="true" placeholder="Type your romantic thoughts, secret memories, or late-night talks here..."></div>
-
-            <div class="editor-footer">
-                <button id="saveDiaryBtn" class="save-diary-btn" onclick="saveDiaryEntry()">
-                    💾 Save Memory ❤️
+            <h2>📅 Select Memory Date</h2>
+            <div class="date-input-group">
+                <input type="date" id="diaryDate" class="diary-date-picker">
+                <button type="button" class="open-editor-btn" onclick="goToEditor()">
+                    ✍️ Open Diary Page
                 </button>
             </div>
+        </div>
 
+        <!-- Saved Entries List -->
+        <div class="diary-card entries-list-card">
+            <h2>✨ Saved Memories</h2>
+            <div id="memoriesGrid" class="memories-grid">
+                <div class="loading-text">🔄 Loading memories...</div>
+            </div>
         </div>
 
     </div>
 
-    <script src="../auth.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="../supabase.js"></script>
-    <script src="../diary.js"></script>
+    <script src="../auth.js"></script>
+    <script src="../diary-list.js"></script>
 
 </body>
 

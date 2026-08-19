@@ -1,0 +1,182 @@
+/* ==========================================
+      HOW THEY MET PAGE STYLES
+========================================== */
+
+/* Page Layout */
+.about-page {
+    width: min(850px, 92%);
+    margin: 40px auto 80px;
+    position: relative;
+    z-index: 10;
+    text-align: center;
+}
+
+/* Story Image Styling */
+.story-image {
+    width: 140px;
+    height: 140px;
+    object-fit: cover;
+    border-radius: 50%;
+    margin: 20px auto 15px;
+    display: block;
+    border: 3px solid rgba(255, 77, 148, 0.4);
+    box-shadow: 0 0 25px rgba(255, 77, 148, 0.3), 0 10px 30px rgba(0, 0, 0, 0.5);
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.story-image:hover {
+    transform: scale(1.08) rotate(3deg);
+    border-color: rgba(255, 77, 148, 0.8);
+}
+
+/* Profile Card & Header */
+.profile-card {
+    text-align: center;
+    margin-bottom: 35px;
+}
+
+.profile-card h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.2rem, 5vw, 3.2rem);
+    color: #ffffff;
+    margin: 10px 0;
+    text-shadow: 0 0 20px rgba(255, 77, 148, 0.3);
+}
+
+.profile-card .tagline {
+    color: #cbd5e1;
+    font-size: 1rem;
+    font-style: italic;
+    max-width: 550px;
+    margin: 0 auto;
+    line-height: 1.6;
+}
+
+/* Content Grid & Info Cards */
+.info-grid {
+    margin: 30px 0 45px;
+}
+
+.info-card {
+    background: rgba(30, 41, 59, 0.7);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 28px;
+    padding: 35px 30px;
+    text-align: left;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4), 0 0 30px rgba(255, 77, 148, 0.1);
+    transition: transform 0.35s ease, border-color 0.35s ease;
+}
+
+.info-card:hover {
+    transform: translateY(-5px);
+    border-color: rgba(255, 77, 148, 0.35);
+}
+
+.info-card h2 {
+    font-family: 'Playfair Display', serif;
+    color: #ff8eaa;
+    font-size: 1.8rem;
+    margin-bottom: 20px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.info-card p {
+    color: #e2e8f0;
+    font-size: 1rem;
+    line-height: 1.85;
+    letter-spacing: 0.3px;
+}
+
+/* Logout Button */
+.logout-btn {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 10px 20px;
+    border-radius: 25px;
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    color: #ffffff;
+    text-decoration: none;
+    font-size: 0.88rem;
+    font-weight: 500;
+    z-index: 1000;
+    transition: all 0.3s ease;
+}
+
+.logout-btn:hover {
+    background: rgba(239, 68, 68, 0.2);
+    border-color: rgba(239, 68, 68, 0.5);
+    color: #f87171;
+}
+
+/* Navigation Back Button */
+.back-btn {
+    display: inline-block;
+    padding: 12px 32px;
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 30px;
+    color: #ffffff;
+    text-decoration: none;
+    font-size: 0.95rem;
+    font-weight: 500;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+    transition: all 0.35s ease;
+}
+
+.back-btn:hover {
+    background: rgba(255, 77, 148, 0.2);
+    border-color: rgba(255, 77, 148, 0.4);
+    color: #ff8eaa;
+    transform: translateY(-3px);
+}
+
+/* Floating Hearts Elements */
+.floating-heart {
+    position: fixed;
+    bottom: -20px;
+    font-size: 20px;
+    pointer-events: none;
+    z-index: 1;
+    animation: floatUp 6s linear forwards;
+    opacity: 0.7;
+}
+
+@keyframes floatUp {
+    0% {
+        transform: translateY(0) scale(0.8) rotate(0deg);
+        opacity: 0;
+    }
+    20% {
+        opacity: 0.8;
+    }
+    100% {
+        transform: translateY(-105vh) scale(1.2) rotate(360deg);
+        opacity: 0;
+    }
+}
+
+/* Responsive Styles */
+@media (max-width: 600px) {
+    .about-page {
+        margin: 20px auto 60px;
+    }
+    .info-card {
+        padding: 25px 20px;
+    }
+    .info-card h2 {
+        font-size: 1.5rem;
+    }
+    .story-image {
+        width: 120px;
+        height: 120px;
+    }
+}

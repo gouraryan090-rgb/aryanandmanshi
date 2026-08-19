@@ -1,0 +1,203 @@
+/* ==========================================
+      HIS EXPECTATIONS PAGE STYLES (ARYAN MATCHED)
+========================================== */
+
+/* Body & Background Match with Aryan Theme */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Poppins', sans-serif;
+    background-color: #0f172a;
+    background: 
+        radial-gradient(circle at 20% 20%, rgba(255, 77, 148, 0.2), transparent 45%),
+        radial-gradient(circle at 80% 80%, rgba(147, 51, 234, 0.15), transparent 45%),
+        linear-gradient(135deg, #0f172a, #1f1127, #0b1222);
+    background-attachment: fixed;
+    color: #ffffff;
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+/* Page Layout */
+.about-page {
+    width: min(850px, 92%);
+    margin: 40px auto 80px;
+    position: relative;
+    z-index: 10;
+    text-align: center;
+}
+
+/* Story Image Styling */
+.story-image {
+    width: 140px;
+    height: 140px;
+    object-fit: cover;
+    border-radius: 50%;
+    margin: 30px auto 10px;
+    display: block;
+    border: 3px solid rgba(255, 77, 148, 0.4);
+    box-shadow: 0 0 25px rgba(255, 77, 148, 0.35), 0 10px 30px rgba(0, 0, 0, 0.5);
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.story-image:hover {
+    transform: scale(1.08) rotate(3deg);
+    border-color: rgba(255, 77, 148, 0.8);
+}
+
+/* Profile Card & Header */
+.profile-card {
+    text-align: center;
+    margin-bottom: 35px;
+}
+
+.profile-card h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.2rem, 5vw, 3.2rem);
+    color: #ffffff;
+    margin: 10px 0;
+    text-shadow: 0 0 25px rgba(255, 77, 148, 0.35);
+}
+
+.profile-card .tagline {
+    color: #cbd5e1;
+    font-size: 1rem;
+    font-style: italic;
+    max-width: 550px;
+    margin: 0 auto;
+    line-height: 1.6;
+}
+
+/* Content Grid & Info Cards */
+.info-grid {
+    margin: 30px 0 45px;
+}
+
+.info-card {
+    background: rgba(30, 17, 39, 0.75);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 28px;
+    padding: 35px 30px;
+    text-align: left;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5), 0 0 30px rgba(255, 77, 148, 0.15);
+    transition: transform 0.35s ease, border-color 0.35s ease;
+}
+
+.info-card:hover {
+    transform: translateY(-5px);
+    border-color: rgba(255, 77, 148, 0.35);
+}
+
+.info-card h2 {
+    font-family: 'Playfair Display', serif;
+    color: #ff8eaa;
+    font-size: 1.8rem;
+    margin-bottom: 20px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.info-card p {
+    color: #cbd5e1;
+    font-size: 1rem;
+    line-height: 1.85;
+    letter-spacing: 0.3px;
+}
+
+/* Logout Button */
+.logout-btn {
+    position: fixed;
+    top: 20px;
+    right: 25px;
+    padding: 10px 20px;
+    border-radius: 30px;
+    background: rgba(255, 255, 255, 0.06);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    color: #ffffff;
+    text-decoration: none;
+    font-size: 0.88rem;
+    font-weight: 500;
+    z-index: 1000;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s ease;
+}
+
+.logout-btn:hover {
+    background: rgba(255, 77, 148, 0.18);
+    border-color: rgba(255, 77, 148, 0.35);
+    color: #ff8eaa;
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(255, 77, 148, 0.25);
+}
+
+/* Navigation Back Button (Aryan Gradient Button) */
+.back-btn {
+    display: inline-block;
+    padding: 14px 32px;
+    border-radius: 50px;
+    background: linear-gradient(135deg, #e0528e, #9333ea);
+    color: #ffffff;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.95rem;
+    box-shadow: 0 10px 25px rgba(224, 82, 142, 0.35);
+    transition: all 0.35s ease;
+}
+
+.back-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 15px 35px rgba(255, 77, 148, 0.5);
+    color: #ffffff;
+}
+
+/* Floating Hearts Elements */
+.floating-heart {
+    position: fixed;
+    bottom: -20px;
+    font-size: 20px;
+    pointer-events: none;
+    z-index: 1;
+    animation: floatUp 6s linear forwards;
+    color: rgba(255, 142, 170, 0.25);
+}
+
+@keyframes floatUp {
+    0% {
+        transform: translateY(0) scale(0.8) rotate(0deg);
+        opacity: 0;
+    }
+    20% {
+        opacity: 0.8;
+    }
+    100% {
+        transform: translateY(-105vh) scale(1.2) rotate(360deg);
+        opacity: 0;
+    }
+}
+
+/* Responsive Styles */
+@media (max-width: 600px) {
+    .about-page {
+        margin: 20px auto 60px;
+    }
+    .info-card {
+        padding: 25px 20px;
+    }
+    .info-card h2 {
+        font-size: 1.5rem;
+    }
+    .story-image {
+        width: 120px;
+        height: 120px;
+    }
+    .logout-btn {
+        top: 15px;
+        right: 15px;
+        padding: 8px 16px;
+        font-size: 0.82rem;
+    }
+}

@@ -12,7 +12,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
 
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="dashboard.css">
+    <link rel="stylesheet" href="admin.css">
 
 </head>
 
@@ -82,6 +83,7 @@
                 <p>The little things she truly wants from her heart. ❤️</p>
             </a>
 
+            <!-- Admin Card: Direct Function Call -->
             <a href="#" class="card" onclick="checkAdminPassword(); return false;">
                 <span>🧑‍💻</span>
                 <h3>Admin</h3>
@@ -96,9 +98,10 @@
 
     </section>
 
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
     <script src="auth.js"></script>
-    <script src="../supabase.js"></script>
-    <script src="script.js"></script>
+    <script src="supabase.js"></script>
+    <script src="dashboard.js"></script>
     <script src="admin.js"></script>
 
 </body>

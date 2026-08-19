@@ -1,0 +1,257 @@
+/* ==========================================================
+                INDEX / HOME PAGE STYLES
+========================================================== */
+
+/* Page Setup & Base Dark Theme */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Poppins', sans-serif;
+    background: #0f172a;
+    color: #ffffff;
+    min-height: 100vh;
+    overflow: hidden;
+}
+
+/* Background Gradients */
+.background {
+    position: fixed;
+    inset: 0;
+    z-index: -3;
+    background: 
+        radial-gradient(circle at 20% 20%, rgba(255, 120, 190, 0.15), transparent 40%),
+        radial-gradient(circle at 80% 80%, rgba(109, 93, 252, 0.15), transparent 40%),
+        linear-gradient(135deg, #0f172a, #121c35, #0b1222);
+}
+
+/* Floating Hearts Layer */
+.hearts {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: -2;
+    overflow: hidden;
+}
+
+.floating-heart {
+    position: absolute;
+    color: rgba(255, 170, 215, 0.2);
+    font-size: 20px;
+    animation: floatUp 6s linear infinite;
+}
+
+@keyframes floatUp {
+    0% {
+        transform: translateY(100vh) scale(0.6) rotate(0deg);
+        opacity: 0;
+    }
+    20% {
+        opacity: 0.8;
+    }
+    100% {
+        transform: translateY(-10vh) scale(1.2) rotate(360deg);
+        opacity: 0;
+    }
+}
+
+/* Premium Loader Screen */
+#loader {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 99999;
+    background: #0f172a;
+    transition: opacity 0.8s ease, visibility 0.8s ease;
+}
+
+.loader-bg {
+    position: absolute;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.08) 2px, transparent 2px);
+    background-size: 40px 40px;
+    animation: bgRotate 30s linear infinite;
+    opacity: 0.4;
+}
+
+@keyframes bgRotate {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+.loader-content {
+    position: relative;
+    width: 320px;
+    max-width: 85%;
+    padding: 35px 25px;
+    border-radius: 24px;
+    text-align: center;
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5), 0 0 30px rgba(255, 120, 190, 0.1);
+}
+
+.loader-icon {
+    font-size: 55px;
+    margin-bottom: 15px;
+    animation: heartbeat 1.2s infinite ease-in-out;
+}
+
+@keyframes heartbeat {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.25); }
+}
+
+.loader-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 24px;
+    color: #ffffff;
+    margin-bottom: 12px;
+}
+
+.loader-title span {
+    color: #ffafd7;
+    display: inline-block;
+}
+
+.loader-text {
+    font-size: 14px;
+    color: #cfc5d2;
+    margin-bottom: 25px;
+    letter-spacing: 0.5px;
+}
+
+.loader-progress {
+    width: 100%;
+    height: 6px;
+    border-radius: 100px;
+    background: rgba(255, 255, 255, 0.1);
+    overflow: hidden;
+}
+
+.loader-bar {
+    width: 0%;
+    height: 100%;
+    border-radius: 100px;
+    background: linear-gradient(90deg, #c66a9d, #ffafd7);
+    transition: width 0.3s ease;
+}
+
+.loader-hide {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+/* Home Section & Dark Glass Container */
+.home {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.glass {
+    position: relative;
+    width: 100%;
+    max-width: 600px;
+    padding: 50px 35px;
+    text-align: center;
+    border-radius: 28px;
+    background: rgba(255, 255, 255, 0.04);
+    backdrop-filter: blur(25px);
+    -webkit-backdrop-filter: blur(25px);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.45), inset 0 0 15px rgba(255, 255, 255, 0.03);
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+}
+
+.glass:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 35px 70px rgba(0, 0, 0, 0.5), 0 0 30px rgba(255, 120, 190, 0.15);
+}
+
+.glass .heart {
+    font-size: 60px;
+    margin-bottom: 15px;
+    display: inline-block;
+    animation: heartbeat 1.6s infinite ease-in-out;
+    filter: drop-shadow(0 0 12px rgba(255, 120, 190, 0.4));
+}
+
+.glass h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 3rem;
+    margin-bottom: 10px;
+    color: #ffffff;
+    letter-spacing: 0.5px;
+}
+
+.glass h2 {
+    color: #ffafd7;
+    font-size: 1.3rem;
+    font-weight: 500;
+    margin-bottom: 20px;
+    letter-spacing: 1px;
+}
+
+.glass p {
+    color: #cfc5d2;
+    font-size: 1rem;
+    line-height: 1.7;
+    margin-bottom: 35px;
+}
+
+/* Glow Enter Button */
+#enterBtn {
+    position: relative;
+    border: none;
+    outline: none;
+    padding: 16px 42px;
+    border-radius: 50px;
+    cursor: pointer;
+    background: linear-gradient(135deg, #c66a9d, #8c5078);
+    color: #ffffff;
+    font-family: 'Poppins', sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    box-shadow: 0 10px 25px rgba(198, 106, 157, 0.3);
+    transition: all 0.35s ease;
+    overflow: hidden;
+}
+
+#enterBtn:hover {
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 0 15px 35px rgba(255, 120, 190, 0.45);
+    background: linear-gradient(135deg, #d872ad, #9a5884);
+}
+
+#enterBtn:active {
+    transform: translateY(0) scale(0.98);
+}
+
+/* Mobile Responsive */
+@media (max-width: 600px) {
+    .glass {
+        padding: 40px 22px;
+    }
+    .glass h1 {
+        font-size: 2.2rem;
+    }
+    .glass h2 {
+        font-size: 1.1rem;
+    }
+    #enterBtn {
+        width: 100%;
+        padding: 15px 20px;
+    }
+}

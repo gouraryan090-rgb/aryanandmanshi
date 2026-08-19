@@ -10,6 +10,28 @@
 
     <title>Admin Panel ❤️</title>
 
+    <!-- SECURITY CHECK: Subse upar load hoga taaki Bina Auth Page Load hi Na Ho -->
+    <script>
+        function checkAuth() {
+            const currentUser = sessionStorage.getItem("currentUser");
+            const adminAuth = sessionStorage.getItem("adminAuthenticated");
+
+            if (currentUser !== "aryan" || adminAuth !== "true") {
+                window.location.replace("../index.html");
+            }
+        }
+
+        // Fresh Load Par Check
+        checkAuth();
+
+        // Browser Back/Forward Button Cache Bypass Check
+        window.addEventListener("pageshow", function (event) {
+            if (event.persisted) {
+                checkAuth();
+            }
+        });
+    </script>
+
     <link rel="preconnect"
           href="https://fonts.googleapis.com">
 
@@ -21,7 +43,8 @@
           rel="stylesheet">
 
     <link rel="stylesheet"
-          href="../admin.css">
+          href="admin files/admin.css">
+
 
 </head>
 
@@ -157,7 +180,7 @@
 
 
         <div class="admin-back-container" style="text-align: center; margin: 20px 0;">
-            <a href="../index.html" class="admin-back-btn">
+            <a href="../dashboard.html" class="admin-back-btn">
                 ← Back to Home
             </a>
         </div>
@@ -177,33 +200,6 @@
 
 
     </div>
-
-    <script>
-
-        const currentUser =
-            sessionStorage.getItem("currentUser");
-
-
-        if (currentUser !== "aryan") {
-
-            window.location.replace("../index.html");
-
-        }
-
-    </script>
-
-    <script>
-
-        if (
-            sessionStorage.getItem("adminAuthenticated")
-            !== "true"
-        ) {
-
-            window.location.replace("../index.html");
-
-        }
-
-    </script>
 
     <div
         id="giftManagerModal"
@@ -359,7 +355,7 @@
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="../supabase.js"></script>
-    <script src="../admin.js"></script>
+    <script src="admin files/admin.js"></script>
 
 
 </body>

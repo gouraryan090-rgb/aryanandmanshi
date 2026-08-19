@@ -1,0 +1,202 @@
+/* ==========================================================
+                DASHBOARD PAGE STYLES
+========================================================== */
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Poppins', sans-serif;
+    background: #0f172a;
+    color: #ffffff;
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+/* Background Gradients (Aryan Matched) */
+.background {
+    position: fixed;
+    inset: 0;
+    z-index: -3;
+    background: 
+        radial-gradient(circle at 20% 20%, rgba(255, 77, 148, 0.2), transparent 45%),
+        radial-gradient(circle at 80% 80%, rgba(147, 51, 234, 0.15), transparent 45%),
+        linear-gradient(135deg, #0f172a, #1f1127, #0b1222);
+}
+
+/* Floating Hearts Container */
+.hearts {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: -2;
+    overflow: hidden;
+}
+
+.floating-heart {
+    position: absolute;
+    color: rgba(255, 142, 170, 0.25);
+    font-size: 20px;
+    animation: floatUp 6s linear infinite;
+}
+
+@keyframes floatUp {
+    0% {
+        transform: translateY(105vh) scale(0.6) rotate(0deg);
+        opacity: 0;
+    }
+    20% {
+        opacity: 0.8;
+    }
+    100% {
+        transform: translateY(-10vh) scale(1.2) rotate(360deg);
+        opacity: 0;
+    }
+}
+
+/* Logout Button */
+.logout-btn {
+    position: fixed;
+    top: 20px;
+    right: 25px;
+    z-index: 100;
+    padding: 10px 22px;
+    border-radius: 30px;
+    background: rgba(255, 255, 255, 0.06);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    color: #ffffff;
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 500;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s ease;
+}
+
+.logout-btn:hover {
+    background: rgba(255, 77, 148, 0.18);
+    border-color: rgba(255, 77, 148, 0.35);
+    color: #ff8eaa;
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(255, 77, 148, 0.25);
+}
+
+/* Main Dashboard Section */
+.dashboard {
+    width: 100%;
+    min-height: 100vh;
+    padding: 70px 25px 40px;
+    box-sizing: border-box;
+}
+
+.dashboard h1 {
+    text-align: center;
+    font-family: 'Playfair Display', serif;
+    font-size: 3.2rem;
+    margin-bottom: 50px;
+    color: #ffffff;
+    text-shadow: 0 0 25px rgba(255, 77, 148, 0.35);
+}
+
+/* Cards Grid */
+.cards {
+    width: 100%;
+    max-width: 1150px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 25px;
+}
+
+/* Individual Glass Card */
+.card {
+    position: relative;
+    text-decoration: none;
+    color: #ffffff;
+    background: rgba(255, 255, 255, 0.045);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 22px;
+    padding: 32px 25px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+    transition: all 0.35s ease;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: linear-gradient(90deg, #e0528e, #9333ea);
+    transform: scaleX(0);
+    transition: transform 0.4s ease;
+}
+
+.card:hover {
+    transform: translateY(-8px);
+    border-color: rgba(255, 77, 148, 0.35);
+    box-shadow: 0 20px 45px rgba(0, 0, 0, 0.4), 0 0 30px rgba(255, 77, 148, 0.2);
+}
+
+.card:hover::before {
+    transform: scaleX(1);
+}
+
+.card span {
+    font-size: 2.8rem;
+    display: block;
+    margin-bottom: 15px;
+    transition: transform 0.35s ease;
+}
+
+.card:hover span {
+    transform: scale(1.18) rotate(5deg);
+}
+
+.card h3 {
+    font-size: 1.35rem;
+    margin-bottom: 10px;
+    font-weight: 600;
+    color: #ffffff;
+}
+
+.card p {
+    color: #cbd5e1;
+    line-height: 1.6;
+    font-size: 0.95rem;
+    margin: 0;
+}
+
+/* Footer */
+footer {
+    text-align: center;
+    margin-top: 60px;
+    padding: 20px 0;
+    color: #cbd5e1;
+    font-size: 0.95rem;
+    opacity: 0.8;
+    letter-spacing: 0.8px;
+}
+
+/* Responsive Scaling */
+@media (max-width: 768px) {
+    .dashboard {
+        padding: 80px 18px 30px;
+    }
+    .dashboard h1 {
+        font-size: 2.3rem;
+        margin-bottom: 35px;
+    }
+    .logout-btn {
+        top: 15px;
+        right: 15px;
+        padding: 8px 16px;
+        font-size: 0.82rem;
+    }
+}

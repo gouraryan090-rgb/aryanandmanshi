@@ -88,7 +88,7 @@ async function loadDiaryEntry(selectedDate) {
 
     try {
         const { data, error } = await supabaseClient
-            .from("couple_diary")
+            .from("diary_entries")
             .select("*")
             .eq("entry_date", selectedDate)
             .maybeSingle();

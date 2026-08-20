@@ -124,7 +124,7 @@ function removeDiaryAudio() {
 async function loadExistingEntry(dateVal) {
     try {
         const { data, error } = await supabaseClient
-            .from("couple_diary")
+            .from("diary_entries")
             .select("*")
             .eq("entry_date", dateVal)
             .maybeSingle();

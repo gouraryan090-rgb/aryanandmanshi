@@ -348,6 +348,30 @@
 
             </div>
 
+            <!-- NAYA FEATURE: Custom Gift Rewards Add/Delete Box -->
+            <div class="gift-timer-box" style="margin-top: 20px; text-align: left;">
+                <div class="gift-timer-title" style="margin-bottom: 10px;">
+                    🎁 Manage Gift Rewards
+                </div>
+
+                <div style="display: flex; gap: 8px; margin-bottom: 12px;">
+                    <select id="giftRecipientSelect" style="padding: 8px; border-radius: 6px; background: rgba(255, 255, 255, 0.1); color: #fff; border: 1px solid rgba(255,255,255,0.2); outline: none;">
+                        <option value="manshi" style="background: #222;">Manshi</option>
+                        <option value="aryan" style="background: #222;">Aryan</option>
+                    </select>
+
+                    <input type="text" id="newGiftTextInput" placeholder="e.g. Say luvv uhh x5" style="flex: 1; padding: 8px 12px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.2); background: rgba(255,255,255,0.05); color: #fff; outline: none;">
+
+                    <button onclick="addNewGift()" style="padding: 8px 12px; border-radius: 6px; border: none; background: #ff4b72; color: #fff; font-weight: 600; cursor: pointer;">
+                        Add
+                    </button>
+                </div>
+
+                <div id="giftsListContainer" style="max-height: 150px; overflow-y: auto; background: rgba(0,0,0,0.2); padding: 8px; border-radius: 6px;">
+                    Loading gifts...
+                </div>
+            </div>
+
         </div>
 
     </div>
@@ -355,7 +379,7 @@
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="../supabase.js"></script>
-    <script src="admin files/admin.js"></script>
+    <script src="../admin.js"></script>
 
 
 </body>

@@ -317,7 +317,6 @@ let giftSettings = null;
 /* ==========================================
           OPEN GIFT MANAGER
 ========================================== */
-
 async function openGiftManager() {
 
     const modal =
@@ -331,8 +330,8 @@ async function openGiftManager() {
     modal.style.display = "flex";
 
     await loadGiftSettings();
+    await loadGiftsList(); // Modal khulte hi list load karega
 }
-
 
 /* ==========================================
           CLOSE GIFT MANAGER
@@ -776,3 +775,80 @@ function closeMediaManager() {
 
 }
 
+
+// 1. Database se sabhi gifts fetch karke dikhana
+async function loadGiftsList() {
+    const container = document.getElementById('giftsListContainer');
+    if (!container) return;
+
+    try {
+        const { data, error } = await supabaseClient
+            .from('gifts')
+            .select('*')
+            .order('created_at', { ascending: false });
+
+        if (error) throw error;
+
+        if (!data || data.length === 0) {
+            container.innerHTML = '<p style="font-size:0.85rem; color:#aaa; margin:0;">No gifts added yet.</p>';
+            return;
+        }
+
+        container.innerHTML = data.map(g => `
+            <div style="display:flex; justify-content: space-between; align-items:center; background:rgba(255,255,255,0.05); margin-bottom:6px; padding:6px 10px; border-radius:6px;">
+                <span style="font-size:0.85rem; color:#fff;">
+                    <b>${g.recipient === 'manshi' ? '💗 Manshi' : '🗿 Aryan'}:</b> ${g.gift_text}
+                </span>
+                <button onclick="deleteGift(${g.id})" style="background:none; border:none; color:#ff4d4d; cursor:pointer; font-weight:bold; margin-left:10px;">🗑️</button>
+            </div>
+        `).join('');
+
+    } catch (err) {
+        console.error('Error loading gifts:', err);
+    }
+}
+
+// 2. Naya Gift add karna
+async function addNewGift() {
+    const recipient = document.getElementById('giftRecipientSelect').value;
+    const textInput = document.getElementById('newGiftTextInput');
+    const giftText = textInput.value.trim();
+
+    if (!giftText) {
+        alert("Please enter a gift text!");
+        return;
+    }
+
+    try {
+        const { error } = await supabaseClient
+            .from('gifts')
+            .insert([{ recipient: recipient, gift_text: giftText }]);
+
+        if (error) throw error;
+
+        textInput.value = '';
+        loadGiftsList(); // List refresh
+    } catch (err) {
+        console.error('Error adding gift:', err);
+        alert('Failed to add gift.');
+    }
+}
+
+// 3. Gift delete karna
+async function deleteGift(giftId) {
+    if (!confirm("Are you sure you want to delete this gift?")) return;
+
+    try {
+        const { error } = await supabaseClient
+            .from('gifts')
+            .delete()
+            .eq('id', giftId);
+
+        if (error) throw error;
+
+        loadGiftsList(); // List refresh
+    } catch (err) {
+        console.error('Error deleting gift:', err);
+        alert('Failed to delete gift.');
+    }
+}

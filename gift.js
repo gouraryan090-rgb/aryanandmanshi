@@ -62,91 +62,7 @@ const lastGift =
         REWARDS
 ---------------------------- */
 
-const aryanRewards = [
-
-    {
-        emoji: "❤️",
-        title: "Luvv Uhh ×3",
-        desc:
-            "Manshii has to say 'Luvv Uhh' 3 times to Aryan."
-    },
-
-    {
-        emoji: "🎤",
-        title: "Voice Note",
-        desc:
-            "Manshii has to send one cute voice note."
-    },
-
-    {
-        emoji: "🌷",
-        title: "One Wish",
-        desc:
-            "Manshii has to fulfill one reasonable wish of Aryan."
-    },
-
-    {
-        emoji: "💌",
-        title: "Cute Paragraph",
-        desc:
-            "Manshii has to write a cute paragraph for Aryan."
-    },
-
-    {
-        emoji: "👑",
-        title: "Jackpot",
-        desc:
-            "Aryan gets to choose one reasonable task."
-    }
-
-];
-
-
-const manshiRewards = [
-
-    {
-        emoji: "📸",
-        title: "Aryan's Picture",
-        desc:
-            "Aryan has to send his picture without emoji."
-    },
-
-    {
-        emoji: "❤️",
-        title: "I Luvv Uhh ×5",
-        desc:
-            "Aryan has to say 'I Luvv Uhh' 5 times in chat."
-    },
-
-    {
-        emoji: "🌷",
-        title: "One Wish",
-        desc:
-            "Aryan has to fulfill one reasonable wish."
-    },
-
-    {
-        emoji: "💌",
-        title: "Cute Paragraph",
-        desc:
-            "Aryan has to write a heartfelt paragraph."
-    },
-
-    {
-        emoji: "👑",
-        title: "Jackpot",
-        desc:
-            "Manshii gets to choose one reasonable task."
-    }
-
-];
-
-
-const rewards =
-    currentUser === "aryan"
-        ? aryanRewards
-        : manshiRewards;
-
+let rewards = [];
 
 /* ----------------------------
         HEADER
@@ -794,11 +710,18 @@ async function initializeGift() {
     }
 
 
-    /*
+   /*
      * Existing reward history
      */
 
     loadSavedGift();
+
+
+    /*
+     * Fetch Dynamic Gifts from Database
+     */
+
+    await loadDatabaseRewards();
 
 
     /*
@@ -904,4 +827,42 @@ function closeGiftFeatureError() {
 
     }
 
+}
+
+
+/* ==========================================
+          LOAD DATABASE REWARDS
+========================================== */
+
+async function loadDatabaseRewards() {
+    try {
+        const { data, error } = await supabaseClient
+            .from("gifts")
+            .select("*")
+            .eq("recipient", currentUser);
+
+        if (error) throw error;
+
+        if (data && data.length > 0) {
+            rewards = data.map(g => ({
+                emoji: "🎁",
+                title: g.gift_text,
+                desc: `Special gift for ${currentUser === "aryan" ? "Aryan" : "Manshii"}! ❤️`
+            }));
+        } else {
+            // Fallback reward agar DB me koi gift na ho
+            rewards = [{
+                emoji: "💖",
+                title: "Special Surprise",
+                desc: "No gift text found in Admin Panel."
+            }];
+        }
+    } catch (err) {
+        console.error("Error loading DB rewards:", err);
+        rewards = [{
+            emoji: "🎁",
+            title: "Special Gift",
+            desc: "A surprise waiting for you!"
+        }];
+    }
 }

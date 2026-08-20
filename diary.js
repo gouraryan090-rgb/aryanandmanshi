@@ -6,9 +6,12 @@ let currentAudioUrl = "";
 // Text formatting toolbar function (UPDATED FIX)
 function formatDoc(cmd, value = null) {
     const editor = document.getElementById("diaryEditor");
-    if (editor) {
-        editor.focus();
-    }
+    if (!editor) return;
+
+    // Editor ko focus karo
+    editor.focus();
+
+    // Command execute karo
     document.execCommand(cmd, false, value);
 }
 

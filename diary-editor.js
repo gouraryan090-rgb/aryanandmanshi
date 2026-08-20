@@ -247,3 +247,52 @@ async function saveDiaryEntry() {
         saveBtn.innerText = "💾 Save Memory & Return ❤️";
     }
 }
+
+/* ==========================================
+     IMAGE LIGHTBOX, DOWNLOAD & SHARE
+========================================== */
+document.addEventListener("click", function (e) {
+    if (e.target.tagName === "IMG" && !e.target.classList.contains("image-modal-content")) {
+        const imgSrc = e.target.src;
+
+        const modal = document.createElement("div");
+        modal.className = "image-modal-overlay";
+        modal.innerHTML = `
+            <span class="modal-close-btn">&times;</span>
+            <img src="${imgSrc}" class="image-modal-content" />
+            <div class="image-modal-actions">
+                <button class="modal-btn" id="downloadImgBtn">📥 Download</button>
+                <button class="modal-btn" id="shareImgBtn">📤 Share</button>
+            </div>
+        `;
+
+        document.body.appendChild(modal);
+
+        // Close Modal Event
+        modal.querySelector(".modal-close-btn").onclick = () => modal.remove();
+        modal.onclick = (event) => { if (event.target === modal) modal.remove(); };
+
+        // Download Action
+        modal.querySelector("#downloadImgBtn").onclick = () => {
+            const a = document.createElement("a");
+            a.href = imgSrc;
+            a.download = "diary-memory.jpg";
+            a.click();
+        };
+
+        // Web Share API Action
+        modal.querySelector("#shareImgBtn").onclick = async () => {
+            if (navigator.share) {
+                try {
+                    await navigator.share({
+                        title: 'Diary Memory',
+                        url: imgSrc
+                    });
+                } catch (err) { console.log('Share canceled'); }
+            } else {
+                navigator.clipboard.writeText(imgSrc);
+                alert("Image link copied to clipboard!");
+            }
+        };
+    }
+});

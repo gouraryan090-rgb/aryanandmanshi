@@ -8,7 +8,12 @@ let targetDate = "";
 let mediaRecorder = null;
 let audioChunks = [];
 
+// Text formatting toolbar function (UPDATED FIX)
 function formatDoc(cmd, value = null) {
+    const editor = document.getElementById("diaryEditor");
+    if (editor) {
+        editor.focus();
+    }
     document.execCommand(cmd, false, value);
 }
 

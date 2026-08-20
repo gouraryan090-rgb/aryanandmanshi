@@ -3,8 +3,12 @@ let selectedAudioFile = null;
 let currentPhotoUrl = "";
 let currentAudioUrl = "";
 
-// Text formatting toolbar function
+// Text formatting toolbar function (UPDATED FIX)
 function formatDoc(cmd, value = null) {
+    const editor = document.getElementById("diaryEditor");
+    if (editor) {
+        editor.focus();
+    }
     document.execCommand(cmd, false, value);
 }
 

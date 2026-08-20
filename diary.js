@@ -3,33 +3,31 @@ let selectedAudioFile = null;
 let currentPhotoUrl = "";
 let currentAudioUrl = "";
 
-// Text formatting toolbar function (UPDATED FIX)
+// Text formatting toolbar function
 function formatDoc(cmd, value = null) {
     const editor = document.getElementById("diaryEditor");
     if (!editor) return;
 
-    // Editor ko focus karo
     editor.focus();
-
-    // Command execute karo
     document.execCommand(cmd, false, value);
 }
 
 // Initialize on DOM Ready
 document.addEventListener("DOMContentLoaded", () => {
     const dateInput = document.getElementById("diaryDate");
-    
-    // Set default date to today
-    const today = new Date().toISOString().split("T")[0];
-    dateInput.value = today;
+    if (dateInput) {
+        // Set default date to today
+        const today = new Date().toISOString().split("T")[0];
+        dateInput.value = today;
 
-    // Load entry for today
-    loadDiaryEntry(today);
+        // Load entry for today
+        loadDiaryEntry(today);
 
-    // Event listener for date change
-    dateInput.addEventListener("change", (e) => {
-        loadDiaryEntry(e.target.value);
-    });
+        // Event listener for date change
+        dateInput.addEventListener("change", (e) => {
+            loadDiaryEntry(e.target.value);
+        });
+    }
 });
 
 // Preview selected Photo
@@ -50,7 +48,8 @@ function previewDiaryPhoto(event) {
 function removeDiaryPhoto() {
     selectedPhotoFile = null;
     currentPhotoUrl = "";
-    document.getElementById("diaryPhotoInput").value = "";
+    const photoInput = document.getElementById("diaryPhotoInput");
+    if (photoInput) photoInput.value = "";
     document.getElementById("diaryPhotoPreview").src = "";
     document.getElementById("photoPreviewContainer").style.display = "none";
 }
@@ -73,19 +72,23 @@ function previewDiaryAudio(event) {
 function removeDiaryAudio() {
     selectedAudioFile = null;
     currentAudioUrl = "";
-    document.getElementById("diaryAudioInput").value = "";
+    const audioInput = document.getElementById("diaryAudioInput");
+    if (audioInput) audioInput.value = "";
     document.getElementById("diaryAudioPreview").src = "";
     document.getElementById("audioPreviewContainer").style.display = "none";
 }
 
-// Load Diary Entry by Date
+// Load Diary Entry by Date (Fixed Table Name)
 async function loadDiaryEntry(selectedDate) {
     const statusBadge = document.getElementById("dateStatusBadge");
-    statusBadge.innerText = "🔄 Loading...";
+    if (statusBadge) statusBadge.innerText = "🔄 Loading...";
 
     // Reset fields
-    document.getElementById("diaryTitle").value = "";
-    document.getElementById("diaryEditor").innerHTML = "";
+    const titleInput = document.getElementById("diaryTitle");
+    const editorInput = document.getElementById("diaryEditor");
+    if (titleInput) titleInput.value = "";
+    if (editorInput) editorInput.innerHTML = "";
+    
     removeDiaryPhoto();
     removeDiaryAudio();
 
@@ -99,9 +102,12 @@ async function loadDiaryEntry(selectedDate) {
         if (error) throw error;
 
         if (data) {
-            document.getElementById("diaryTitle").value = data.title || "";
-            document.getElementById("diaryEditor").innerHTML = data.content || "";
-            if (data.author) document.getElementById("diaryAuthor").value = data.author;
+            if (titleInput) titleInput.value = data.title || "";
+            if (editorInput) editorInput.innerHTML = data.content || "";
+            if (data.author) {
+                const authorSelect = document.getElementById("diaryAuthor");
+                if (authorSelect) authorSelect.value = data.author;
+            }
 
             // Load saved Photo
             if (data.photo_url) {
@@ -117,19 +123,21 @@ async function loadDiaryEntry(selectedDate) {
                 document.getElementById("audioPreviewContainer").style.display = "block";
             }
 
-            statusBadge.innerText = "✨ Memory Found";
-            document.getElementById("lastSavedInfo").innerText = `Last saved: ${new Date(data.updated_at).toLocaleTimeString()}`;
+            if (statusBadge) statusBadge.innerText = "✨ Memory Found";
+            const lastSavedInfo = document.getElementById("lastSavedInfo");
+            if (lastSavedInfo) lastSavedInfo.innerText = `Last saved: ${new Date(data.updated_at).toLocaleTimeString()}`;
         } else {
-            statusBadge.innerText = "📝 New Memory Page";
-            document.getElementById("lastSavedInfo").innerText = "Not saved yet";
+            if (statusBadge) statusBadge.innerText = "📝 New Memory Page";
+            const lastSavedInfo = document.getElementById("lastSavedInfo");
+            if (lastSavedInfo) lastSavedInfo.innerText = "Not saved yet";
         }
     } catch (err) {
         console.error("Error loading entry:", err);
-        statusBadge.innerText = "❌ Error Loading";
+        if (statusBadge) statusBadge.innerText = "❌ Error Loading";
     }
 }
 
-// Save Diary Entry
+// Save Diary Entry (Fixed Table Name)
 async function saveDiaryEntry() {
     const saveBtn = document.getElementById("saveDiaryBtn");
     const dateVal = document.getElementById("diaryDate").value;
@@ -149,7 +157,7 @@ async function saveDiaryEntry() {
         // Upload Photo if new file is chosen
         if (selectedPhotoFile) {
             const fileName = `photo_${dateVal}_${Date.now()}.${selectedPhotoFile.name.split('.').pop()}`;
-            const { data, error } = await supabaseClient.storage
+            const { error } = await supabaseClient.storage
                 .from("gallery")
                 .upload(fileName, selectedPhotoFile);
 
@@ -165,7 +173,7 @@ async function saveDiaryEntry() {
         // Upload Audio if new file is chosen
         if (selectedAudioFile) {
             const fileName = `audio_${dateVal}_${Date.now()}.${selectedAudioFile.name.split('.').pop()}`;
-            const { data, error } = await supabaseClient.storage
+            const { error } = await supabaseClient.storage
                 .from("gallery")
                 .upload(fileName, selectedAudioFile);
 
@@ -178,9 +186,9 @@ async function saveDiaryEntry() {
             currentAudioUrl = publicUrlData.publicUrl;
         }
 
-        // Upsert record into Supabase
+        // Upsert record into Supabase Table 'diary_entries'
         const { error: dbError } = await supabaseClient
-            .from("couple_diary")
+            .from("diary_entries")
             .upsert({
                 entry_date: dateVal,
                 title: titleVal,
@@ -194,8 +202,10 @@ async function saveDiaryEntry() {
         if (dbError) throw dbError;
 
         alert("Memory Saved Successfully! ❤️");
-        document.getElementById("lastSavedInfo").innerText = `Saved on ${new Date().toLocaleTimeString()}`;
-        document.getElementById("dateStatusBadge").innerText = "✨ Memory Saved";
+        const lastSavedInfo = document.getElementById("lastSavedInfo");
+        const statusBadge = document.getElementById("dateStatusBadge");
+        if (lastSavedInfo) lastSavedInfo.innerText = `Saved on ${new Date().toLocaleTimeString()}`;
+        if (statusBadge) statusBadge.innerText = "✨ Memory Saved";
 
     } catch (err) {
         console.error("Error saving diary entry:", err);

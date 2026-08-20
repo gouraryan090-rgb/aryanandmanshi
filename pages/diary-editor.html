@@ -45,11 +45,13 @@
                 <div id="selectedDateBadge" class="selected-date-badge">📅 Date: Loading...</div>
             </div>
 
+            <!-- Dynamic Toolbar Buttons with Data Attributes -->
             <div class="editor-toolbar">
-                <button type="button" class="tool-btn" onclick="formatDoc('bold')" title="Bold"><b>B</b></button>
-                <button type="button" class="tool-btn" onclick="formatDoc('italic')" title="Italic"><i>I</i></button>
-                <button type="button" class="tool-btn" onclick="formatDoc('underline')" title="Underline"><u>U</u></button>
-                <button type="button" class="tool-btn" onclick="formatDoc('strikeThrough')" title="Strikethrough"><s>S</s></button>
+                <button type="button" class="tool-btn" data-cmd="bold" title="Bold"><b>B</b></button>
+                <button type="button" class="tool-btn" data-cmd="italic" title="Italic"><i>I</i></button>
+                <button type="button" class="tool-btn" data-cmd="underline" title="Underline"><u>U</u></button>
+                <button type="button" class="tool-btn" data-cmd="strikeThrough" title="Strikethrough"><s>S</s></button>
+                
                 <span class="tool-divider"></span>
 
                 <div class="color-picker-wrapper" title="Text Color">
@@ -64,11 +66,11 @@
 
                 <span class="tool-divider"></span>
 
-                <button type="button" class="tool-btn" onclick="formatDoc('justifyLeft')" title="Align Left">⬅️</button>
-                <button type="button" class="tool-btn" onclick="formatDoc('justifyCenter')" title="Align Center">↔️</button>
-                <button type="button" class="tool-btn" onclick="formatDoc('justifyRight')" title="Align Right">➡️</button>
-                <button type="button" class="tool-btn" onclick="formatDoc('insertUnorderedList')" title="Bullet List">• List</button>
-                <button type="button" class="tool-btn" onclick="formatDoc('removeFormat')" title="Clear Formatting">🧹 Clear</button>
+                <button type="button" class="tool-btn" data-cmd="justifyLeft" title="Align Left">⬅️</button>
+                <button type="button" class="tool-btn" data-cmd="justifyCenter" title="Align Center">↔️</button>
+                <button type="button" class="tool-btn" data-cmd="justifyRight" title="Align Right">➡️</button>
+                <button type="button" class="tool-btn" data-cmd="insertUnorderedList" title="Bullet List">• List</button>
+                <button type="button" class="tool-btn" data-cmd="removeFormat" title="Clear Formatting">🧹 Clear</button>
             </div>
 
             <input type="text" id="diaryTitle" class="editor-title-input" placeholder="Title for this day (e.g., Long Drive & Coffee ☕)" required>

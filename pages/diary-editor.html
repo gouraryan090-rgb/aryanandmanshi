@@ -85,7 +85,7 @@
                     <!-- Photo Attachment -->
                     <div class="attachment-box">
                         <label for="diaryPhotoInput">📸 Add Photo Memory:</label>
-                        <input type="file" id="diaryPhotoInput" accept="image/*" onchange="previewDiaryPhoto(event)">
+                        <input type="file" id="diaryPhotoInput" accept="image/*" capture="environment" onchange="previewDiaryPhoto(event)">
                         <div id="photoPreviewContainer" class="preview-container" style="display:none;">
                             <img id="diaryPhotoPreview" src="" alt="Photo Memory">
                             <button type="button" onclick="removeDiaryPhoto()" class="remove-media-btn">❌ Remove Photo</button>

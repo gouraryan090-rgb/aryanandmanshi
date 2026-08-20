@@ -666,3 +666,35 @@ body {
     color: #fff;
     cursor: pointer;
 }
+
+
+/* ==========================================
+     MOBILE FILE INPUT TOUCH & CLICK FIX
+========================================== */
+
+/* File Input Container Touch Area Fix */
+.attachment-box label {
+    display: block !important;
+    cursor: pointer !important;
+    pointer-events: auto !important;
+    margin-bottom: 8px !important;
+    font-weight: 500 !important;
+}
+
+.attachment-box input[type="file"] {
+    position: relative !important;
+    z-index: 99 !important;
+    pointer-events: auto !important;
+    opacity: 1 !important;
+    display: block !important;
+    width: 100% !important;
+    min-height: 44px !important; /* Mobile friendly minimum touch target */
+    box-sizing: border-box !important;
+}
+
+/* Fix overlay blocks on mobile */
+.attachment-box, 
+.media-attachments-section {
+    position: relative !important;
+    z-index: 10 !important;
+}

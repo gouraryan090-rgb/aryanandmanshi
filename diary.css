@@ -590,33 +590,28 @@ body {
 }
 
 /* ==========================================================
-      MOBILE RESPONSIVE IMAGE & PREVIEW FIX
+      STRICT PHONE IMAGE SIZE FIX (CHHOTI SIZE)
 ========================================================== */
 
 @media (max-width: 600px) {
+    /* Editor & Preview Image Container */
     .rich-editor img,
     .attachment-box img,
     .diary-card img,
     .memory-summary-card img,
     #photoPreview,
     .diary-image-preview {
-        width: 100% !important;
-        max-width: 100% !important;   /* Mobile screen ke andar perfectly fit hoga */
-        height: auto !important;       /* Aspect ratio automatic lock rahega */
-        max-height: 220px !important;  /* Phone Screen par zyada jagah nahi gherega */
-        object-fit: cover !important;
-        margin: 8px 0 !important;
+        width: 180px !important;       /* Mobile par width bilkul fixed rahegi */
+        height: 140px !important;      /* Fixed compact height */
+        object-fit: cover !important;   /* Crop perfectly clear dikhega */
+        margin: 10px auto !important;   /* Center align kar dega */
+        display: block !important;
         border-radius: 12px !important;
     }
 
-    /* Media attachment container responsive tweak */
-    .attachments-grid {
-        grid-template-columns: 1fr !important;
-        gap: 12px !important;
-    }
-    
+    /* Container ko bhi overflowing se rokne ke liye */
     .attachment-box {
-        width: 100% !important;
-        box-sizing: border-box !important;
+        align-items: center !important;
+        text-align: center !important;
     }
 }

@@ -77,24 +77,21 @@
 
             <div id="diaryEditor" class="rich-editor" contenteditable="true" placeholder="Type your romantic thoughts, secret memories, or late-night talks here..."></div>
 
-            <!-- Media Attachments Section -->
+            <!-- Media Attachments Section (Multiple Files Support) -->
             <div class="media-attachments-section">
                 <h3>📎 Memory Attachments</h3>
                 
                 <div class="attachments-grid">
-                    <!-- Photo Attachment -->
+                    <!-- Photo Attachment (Multiple) -->
                     <div class="attachment-box">
-                        <label for="diaryPhotoInput">📸 Add Photo Memory:</label>
-                        <input type="file" id="diaryPhotoInput" accept="image/*" capture="environment" onchange="previewDiaryPhoto(event)">
-                        <div id="photoPreviewContainer" class="preview-container" style="display:none;">
-                            <img id="diaryPhotoPreview" src="" alt="Photo Memory">
-                            <button type="button" onclick="removeDiaryPhoto()" class="remove-media-btn">❌ Remove Photo</button>
-                        </div>
+                        <label for="diaryPhotoInput">📸 Add Photos (Multiple):</label>
+                        <input type="file" id="diaryPhotoInput" accept="image/*" multiple onchange="handleMultiplePhotos(event)">
+                        <div id="photosGalleryPreview" class="preview-gallery-container" style="display:flex; flex-wrap:wrap; gap:10px; margin-top:12px;"></div>
                     </div>
 
-                    <!-- Voice Note / Audio Attachment (Live Record + File Upload) -->
+                    <!-- Voice Note / Audio Attachment (Multiple) -->
                     <div class="attachment-box">
-                        <label>🎙️ Add Voice Note / Audio:</label>
+                        <label>🎙️ Add Voice Notes / Audio:</label>
                         
                         <!-- Option 1: Live Voice Recorder -->
                         <div class="audio-recording-controls">
@@ -105,14 +102,11 @@
 
                         <div style="text-align: center; color: #a1a1aa; font-size: 0.8rem; margin: 6px 0;">-- OR --</div>
 
-                        <!-- Option 2: Upload File -->
-                        <input type="file" id="diaryAudioInput" accept="audio/*" onchange="previewDiaryAudio(event)">
+                        <!-- Option 2: Upload Files (Multiple) -->
+                        <input type="file" id="diaryAudioInput" accept="audio/*" multiple onchange="handleMultipleAudios(event)">
 
-                        <!-- Preview Player -->
-                        <div id="audioPreviewContainer" class="preview-container" style="display:none;">
-                            <audio id="diaryAudioPreview" controls style="width: 100%;"></audio>
-                            <button type="button" onclick="removeDiaryAudio()" class="remove-media-btn">❌ Remove Audio</button>
-                        </div>
+                        <!-- Preview Player Container -->
+                        <div id="audiosListPreview" class="preview-audio-container" style="display:flex; flex-direction:column; gap:8px; margin-top:12px;"></div>
                     </div>
                 </div>
             </div>

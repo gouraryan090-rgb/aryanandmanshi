@@ -1,7 +1,6 @@
-let selectedPhotoFile = null;
-let selectedAudioFile = null;
-let currentPhotoUrl = "";
-let currentAudioUrl = "";
+// Multiple Attachments Arrays & State
+let selectedPhotos = [];
+let selectedAudios = [];
 let targetDate = "";
 
 let mediaRecorder = null;
@@ -76,40 +75,72 @@ function updateToolbarState() {
     });
 }
 
-// Media Preview & Recording Handlers
-function previewDiaryPhoto(event) {
-    const file = event.target.files[0];
-    if (file) {
-        selectedPhotoFile = file;
-        const reader = new FileReader();
-        reader.onload = function (e) {
-            document.getElementById("diaryPhotoPreview").src = e.target.result;
-            document.getElementById("photoPreviewContainer").style.display = "block";
-        };
-        reader.readAsDataURL(file);
-    }
+/* ==========================================
+     MULTIPLE PHOTOS HANDLERS
+========================================== */
+function handleMultiplePhotos(event) {
+    const files = Array.from(event.target.files);
+    files.forEach(file => {
+        selectedPhotos.push(file);
+    });
+    renderPhotosPreview();
 }
 
-function removeDiaryPhoto() {
-    selectedPhotoFile = null;
-    currentPhotoUrl = "";
-    const input = document.getElementById("diaryPhotoInput");
-    if (input) input.value = "";
-    document.getElementById("diaryPhotoPreview").src = "";
-    document.getElementById("photoPreviewContainer").style.display = "none";
+function renderPhotosPreview() {
+    const container = document.getElementById("photosGalleryPreview");
+    if (!container) return;
+    container.innerHTML = "";
+
+    selectedPhotos.forEach((file, index) => {
+        const src = typeof file === "string" ? file : URL.createObjectURL(file);
+        
+        const wrapper = document.createElement("div");
+        wrapper.style.cssText = "position:relative; display:inline-block;";
+        wrapper.innerHTML = `
+            <img src="${src}" style="width:80px; height:80px; object-fit:cover; border-radius:8px; border:1px solid #ff8eaa;">
+            <button type="button" onclick="removePhoto(${index})" style="position:absolute; top:-5px; right:-5px; background:red; color:white; border:none; border-radius:50%; width:20px; height:20px; cursor:pointer; font-size:10px;">✕</button>
+        `;
+        container.appendChild(wrapper);
+    });
 }
 
-function previewDiaryAudio(event) {
-    const file = event.target.files[0];
-    if (file) {
-        selectedAudioFile = file;
-        const reader = new FileReader();
-        reader.onload = function (e) {
-            document.getElementById("diaryAudioPreview").src = e.target.result;
-            document.getElementById("audioPreviewContainer").style.display = "block";
-        };
-        reader.readAsDataURL(file);
-    }
+function removePhoto(index) {
+    selectedPhotos.splice(index, 1);
+    renderPhotosPreview();
+}
+
+/* ==========================================
+     MULTIPLE AUDIOS & RECORDING HANDLERS
+========================================== */
+function handleMultipleAudios(event) {
+    const files = Array.from(event.target.files);
+    files.forEach(file => {
+        selectedAudios.push(file);
+    });
+    renderAudiosPreview();
+}
+
+function renderAudiosPreview() {
+    const container = document.getElementById("audiosListPreview");
+    if (!container) return;
+    container.innerHTML = "";
+
+    selectedAudios.forEach((file, index) => {
+        const src = typeof file === "string" ? file : URL.createObjectURL(file);
+        
+        const wrapper = document.createElement("div");
+        wrapper.style.cssText = "display:flex; align-items:center; gap:8px; background:rgba(0,0,0,0.3); padding:5px 10px; border-radius:8px;";
+        wrapper.innerHTML = `
+            <audio controls src="${src}" style="height:30px; max-width:200px;"></audio>
+            <button type="button" onclick="removeAudio(${index})" style="background:red; color:white; border:none; border-radius:6px; padding:3px 8px; cursor:pointer; font-size:12px;">✕</button>
+        `;
+        container.appendChild(wrapper);
+    });
+}
+
+function removeAudio(index) {
+    selectedAudios.splice(index, 1);
+    renderAudiosPreview();
 }
 
 async function startRecording() {
@@ -124,9 +155,9 @@ async function startRecording() {
 
         mediaRecorder.onstop = () => {
             const audioBlob = new Blob(audioChunks, { type: 'audio/webm' });
-            selectedAudioFile = new File([audioBlob], `recorded_voice_${Date.now()}.webm`, { type: 'audio/webm' });
-            document.getElementById("diaryAudioPreview").src = URL.createObjectURL(audioBlob);
-            document.getElementById("audioPreviewContainer").style.display = "block";
+            const recordedFile = new File([audioBlob], `recorded_voice_${Date.now()}.webm`, { type: 'audio/webm' });
+            selectedAudios.push(recordedFile);
+            renderAudiosPreview();
         };
 
         mediaRecorder.start();
@@ -148,15 +179,9 @@ function stopRecording() {
     document.getElementById("recordingStatus").style.display = "none";
 }
 
-function removeDiaryAudio() {
-    selectedAudioFile = null;
-    currentAudioUrl = "";
-    const audioInput = document.getElementById("diaryAudioInput");
-    if (audioInput) audioInput.value = "";
-    document.getElementById("diaryAudioPreview").src = "";
-    document.getElementById("audioPreviewContainer").style.display = "none";
-}
-
+/* ==========================================
+     LOAD & SAVE DATA HANDLERS
+========================================== */
 async function loadExistingEntry(dateVal) {
     try {
         const { data, error } = await supabaseClient
@@ -173,15 +198,21 @@ async function loadExistingEntry(dateVal) {
             if (data.author) document.getElementById("diaryAuthor").value = data.author;
 
             if (data.photo_url) {
-                currentPhotoUrl = data.photo_url;
-                document.getElementById("diaryPhotoPreview").src = data.photo_url;
-                document.getElementById("photoPreviewContainer").style.display = "block";
+                try {
+                    selectedPhotos = JSON.parse(data.photo_url);
+                } catch(e) {
+                    selectedPhotos = [data.photo_url];
+                }
+                renderPhotosPreview();
             }
 
             if (data.audio_url) {
-                currentAudioUrl = data.audio_url;
-                document.getElementById("diaryAudioPreview").src = data.audio_url;
-                document.getElementById("audioPreviewContainer").style.display = "block";
+                try {
+                    selectedAudios = JSON.parse(data.audio_url);
+                } catch(e) {
+                    selectedAudios = [data.audio_url];
+                }
+                renderAudiosPreview();
             }
         }
     } catch (err) {
@@ -204,23 +235,27 @@ async function saveDiaryEntry() {
     saveBtn.innerText = "⏳ Saving Memory...";
 
     try {
-        if (selectedPhotoFile) {
-            const ext = selectedPhotoFile.name.split('.').pop();
-            const fileName = `photo_${targetDate}_${Date.now()}.${ext}`;
-            const { error } = await supabaseClient.storage.from("gallery").upload(fileName, selectedPhotoFile);
+        // Upload All Photos
+        const uploadedPhotoUrls = await Promise.all(selectedPhotos.map(async (file) => {
+            if (typeof file === "string") return file;
+            const ext = file.name.split('.').pop();
+            const fileName = `photo_${targetDate}_${Date.now()}_${Math.random().toString(36).substring(7)}.${ext}`;
+            const { error } = await supabaseClient.storage.from("gallery").upload(fileName, file);
             if (error) throw error;
             const { data: publicUrlData } = supabaseClient.storage.from("gallery").getPublicUrl(fileName);
-            currentPhotoUrl = publicUrlData.publicUrl;
-        }
+            return publicUrlData.publicUrl;
+        }));
 
-        if (selectedAudioFile) {
-            const ext = selectedAudioFile.name.split('.').pop();
-            const fileName = `audio_${targetDate}_${Date.now()}.${ext}`;
-            const { error } = await supabaseClient.storage.from("gallery").upload(fileName, selectedAudioFile);
+        // Upload All Audios
+        const uploadedAudioUrls = await Promise.all(selectedAudios.map(async (file) => {
+            if (typeof file === "string") return file;
+            const ext = file.name.split('.').pop();
+            const fileName = `audio_${targetDate}_${Date.now()}_${Math.random().toString(36).substring(7)}.${ext}`;
+            const { error } = await supabaseClient.storage.from("gallery").upload(fileName, file);
             if (error) throw error;
             const { data: publicUrlData } = supabaseClient.storage.from("gallery").getPublicUrl(fileName);
-            currentAudioUrl = publicUrlData.publicUrl;
-        }
+            return publicUrlData.publicUrl;
+        }));
 
         const { error: dbError } = await supabaseClient
             .from("diary_entries")
@@ -229,8 +264,8 @@ async function saveDiaryEntry() {
                 title: titleVal,
                 author: authorVal,
                 content: contentVal,
-                photo_url: currentPhotoUrl,
-                audio_url: currentAudioUrl,
+                photo_url: JSON.stringify(uploadedPhotoUrls),
+                audio_url: JSON.stringify(uploadedAudioUrls),
                 updated_at: new Date()
             }, { onConflict: "entry_date" });
 

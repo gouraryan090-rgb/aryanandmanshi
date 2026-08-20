@@ -566,3 +566,57 @@ body {
     background: rgba(255, 77, 148, 0.5);
     color: #ffffff;
 }
+
+/* ==========================================================
+      FIXED IMAGE LAYOUT & PREVIEW STYLING
+========================================================== */
+
+/* Editor & Diary Entries me Rendered Images */
+.rich-editor img,
+.attachment-box img,
+.diary-card img,
+.memory-summary-card img,
+#photoPreview,
+.diary-image-preview {
+    width: 100% !important;
+    max-width: 380px !important;     /* Container ke bahar nahi jaayegi */
+    max-height: 260px !important;    /* Fixed height limit */
+    object-fit: cover !important;     /* Aspect ratio maintaining smooth crop */
+    border-radius: 14px !important;
+    border: 1px solid rgba(255, 255, 255, 0.15) !important;
+    margin: 12px 0 !important;
+    display: block !important;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3) !important;
+}
+
+/* ==========================================================
+      MOBILE RESPONSIVE IMAGE & PREVIEW FIX
+========================================================== */
+
+@media (max-width: 600px) {
+    .rich-editor img,
+    .attachment-box img,
+    .diary-card img,
+    .memory-summary-card img,
+    #photoPreview,
+    .diary-image-preview {
+        width: 100% !important;
+        max-width: 100% !important;   /* Mobile screen ke andar perfectly fit hoga */
+        height: auto !important;       /* Aspect ratio automatic lock rahega */
+        max-height: 220px !important;  /* Phone Screen par zyada jagah nahi gherega */
+        object-fit: cover !important;
+        margin: 8px 0 !important;
+        border-radius: 12px !important;
+    }
+
+    /* Media attachment container responsive tweak */
+    .attachments-grid {
+        grid-template-columns: 1fr !important;
+        gap: 12px !important;
+    }
+    
+    .attachment-box {
+        width: 100% !important;
+        box-sizing: border-box !important;
+    }
+}
